@@ -1,0 +1,34 @@
+
+
+
+
+
+.form-select{
+    max-width: 180px;
+}
+
+.galeria-eventos{
+    width: 90%;
+    padding-top: 70px;
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}
+.evento{
+    padding: 5px;
+}
+.link-evento{
+    width: 100px;
+    height: 300px;
+    font-weight: bolder;
+    color: #fff;
+    text-decoration: none;
+}
+
+.img-evento{
+    width: 100%;
+    height: 270px;
+}
