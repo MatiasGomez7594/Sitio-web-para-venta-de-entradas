@@ -4,11 +4,10 @@
 
 
 .form-select{
-    max-width: 180px;
+    max-width: 150px;
 }
 
 .galeria-eventos{
-    width: 90%;
     padding-top: 70px;
     margin: auto;
     display: flex;
@@ -17,18 +16,55 @@
     justify-content: space-evenly;
     flex-wrap: wrap;
 }
-.evento{
-    padding: 5px;
+.galeria-eventos a{
+    min-width: 250px;
 }
-.link-evento{
-    width: 100px;
-    height: 300px;
-    font-weight: bolder;
-    color: #fff;
+
+.card {
+    height: 100%;
+}
+.card-img-top {
+    object-fit: cover; /* Asegura que la imagen se ajuste */
+    height: 300px; /* Altura fija para todas las imágenes */
+}
+.card-body {
+  height: 180px; /* Altura fija para el cuerpo */
+}
+
+.oculto{
+    display: none!important;
+}
+
+.container-preguntas-frecuentes{
+    text-align: center;
+}
+.preguntasLink{
     text-decoration: none;
 }
 
-.img-evento{
-    width: 100%;
-    height: 270px;
+.edicionDeshabilitada{
+    background-color: transparent!important;
+    border: none!important;
+    outline: none!important; /* Elimina el contorno azul */
+    box-shadow: none!important; /* Elimina cualquier sombra aplicada */
+    /*uso esto para deshabilitar un input desde css*/
+    cursor: not-allowed;
+    pointer-events:none;
+
 }
+.deshabilitado{
+    cursor: not-allowed;
+    pointer-events:none;
+    background-color: #ddd!important;
+}
+.contenidoPregunta{
+    width: 100%;
+    height: 100px; /* Altura inicial */
+    overflow: hidden; /* Oculta el desbordamiento */
+    resize: none; /* Desactiva el cambio de tamaño manual */
+    text-align: left!important;
+    justify-content: left!important;
+}
+
+
+
