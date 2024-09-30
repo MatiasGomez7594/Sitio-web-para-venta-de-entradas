@@ -104,7 +104,23 @@ function ValidarFormularioContacto(){
 }
     
 
+function ValidarInicioSesion(){
+    let errorCampos = document.getElementById("errorCampos")
+    let email = document.getElementById("email").value
+    let nombre = document.getElementById("nombre").value
 
+    if(!email || !nombre ){
+        errorCampos.classList.remove("oculto")
+    }else{
+        errorCampos.classList.add("oculto")
+        if(ValidarNombre(nombre) == true && ValidarEmail(email) == true){
+            ReiniciarFormulario()
+
+        }
+
+    }
+
+}
 
 function EliminarAdmin(opcion,idAdmin){
 

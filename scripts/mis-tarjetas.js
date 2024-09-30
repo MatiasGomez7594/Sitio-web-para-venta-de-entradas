@@ -1,6 +1,6 @@
-
 const form = document.getElementById("nuevaTarjeta"); 
 const resultado = document.getElementById('resultado');
+const tablaTarjetas = document.getElementById('tablaTarjetas');
 
 form.addEventListener('submit', function (event) {
     event.preventDefault(); // Evitar el envío del formulario para realizar validaciones
@@ -11,7 +11,7 @@ form.addEventListener('submit', function (event) {
     const apellidoTitular = document.getElementById('apellidoTitular').value;
     const fechaEmision = document.getElementById('fecha1').value;
     const fechaVencimiento = document.getElementById('fecha2').value;
-    const ccv = document.querySelector('input[placeholder="CCV"]').value;
+    const ccv = document.getElementById('ccv').value;
     const tipoTarjeta = document.getElementById('tipoTarjeta').value; // Obtener tipo de tarjeta
 
     // Limpiar el resultado anterior
@@ -65,7 +65,31 @@ form.addEventListener('submit', function (event) {
         <div class="alert alert-success" role="alert">
             <strong>¡Éxito!</strong> La tarjeta ha sido añadida exitosamente.
         </div>`;
-    }
 
+        // Agregar la tarjeta a la tabla
+        const nuevaFila = document.createElement('tr');
+        nuevaFila.innerHTML = `
+            <td>${nombreTitular} ${apellidoTitular}</td>
+            <td>${numeroTarjeta}</td>
+            <td>${fechaEmision}</td>
+            <td>${fechaVencimiento}</td>
+            <td>${ccv}</td>
+            <td>${tipoTarjeta.charAt(0).toUpperCase() + tipoTarjeta.slice(1)}</td>
+            <td><button type="button" class="btn btn-danger eliminar">Eliminar</button></td>
+        `;
+        tablaTarjetas.querySelector('tbody').appendChild(nuevaFila);
+        
+        // Limpiar el formulario
+        form.reset();
+    }
 });
+
+// Evento para eliminar tarjeta
+tablaTarjetas.addEventListener('click', function(event) {
+    if (event.target.classList.contains('eliminar')) {
+        const fila = event.target.closest('tr');
+        fila.classList.add('d-none'); // Ocultar la fila eliminada
+    }
+});
+
 

@@ -1,25 +1,25 @@
-.star-rating {
+.califEstrella {
     display: inline-block;
     direction: rtl;
     font-size: 1.5rem;
 }
 
-.star-rating input {
+.califEstrella input {
     display: none;
 }
 
-.star-rating label {
+.califEstrella label {
     color: lightgray; 
     cursor: pointer;
 }
 
 /* Efecto de hover */
-.star-rating label:hover,
-.star-rating label:hover ~ label {
+.califEstrella label:hover,
+.califEstrella label:hover ~ label {
     color: gold; 
 }
 
 
-.star-rating input:checked ~ label {
+.califEstrella input:checked ~ label {
     color: gold;
 }

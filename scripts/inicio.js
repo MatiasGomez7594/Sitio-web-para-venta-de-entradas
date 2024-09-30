@@ -2,7 +2,10 @@ const selectProvincia = document.getElementById('buscarProv');
 const selectCiudad = document.getElementById('buscarCiudad');
 const selectPrecio = document.getElementById('buscarPrecio');
 const selectFecha = document.getElementById('buscarFecha');
+const selectCategoria = document.getElementById('buscarCategoria');
 const eventos = Array.from(document.querySelectorAll('.galeria-eventos a')); // Convertimos NodeList a Array
+const inputBuscarEvento = document.getElementById("buscarEvent");
+const botonBuscarEvento = document.getElementById("botonBuscar");
 
 // Ciudades predefinidas
 const ciudadesPredefinidas = ["CABA", "Merlo", "Córdoba", "Rosario"];
@@ -13,13 +16,15 @@ function filtrarEventos() {
   const ciudadSeleccionada = selectCiudad.value;
   const filtroPrecio = selectPrecio.value;
   const filtroFecha = selectFecha.value;
+  const categoriaSeleccionada = selectCategoria.value;
 
   eventos.forEach(evento => {
     const provinciaEvento = evento.getAttribute('data-provincia');
     const ciudadEvento = evento.getAttribute('data-ciudad');
     const precioEvento = parseFloat(evento.getAttribute('data-precio')); 
     const fechaEvento = new Date(evento.getAttribute('data-fecha'));
-
+    const categoriaEvento = evento.getAttribute('data-categoria');
+    
     let mostrarEvento = true;
 
     // Filtrar por provincia
@@ -27,6 +32,10 @@ function filtrarEventos() {
       mostrarEvento = false;
     }
 
+    if (categoriaSeleccionada !== 'Buscar por categoría' && categoriaEvento !== categoriaSeleccionada) {
+      mostrarEvento = false;
+    }
+    
     // Filtrar por ciudad
     if (ciudadSeleccionada === 'Otra') {
       if (ciudadesPredefinidas.includes(ciudadEvento)) {
@@ -67,10 +76,27 @@ function filtrarEventos() {
   eventos.forEach(evento => galeria.appendChild(evento));
 }
 
+function buscarEventoPorNombre() {
+  const textoBusqueda = inputBuscarEvento.value.toLowerCase(); // Convertimos el texto a minúsculas para comparar sin distinción de mayúsculas/minúsculas
+
+  eventos.forEach(evento => {
+    const nombreEvento = evento.getAttribute('data-nombre').toLowerCase(); // Obtener el nombre del evento en minúsculas
+
+    // Mostrar u ocultar el evento si el nombre contiene el texto de búsqueda
+    if (nombreEvento.includes(textoBusqueda)) {
+      evento.classList.remove('d-none'); // Mostrar el evento
+    } else {
+      evento.classList.add('d-none'); // Ocultar el evento
+    }
+  });
+}
 // Añadir eventos de cambio a los selects
 selectProvincia.addEventListener('change', filtrarEventos);
 selectCiudad.addEventListener('change', filtrarEventos);
 selectPrecio.addEventListener('change', filtrarEventos);
 selectFecha.addEventListener('change', filtrarEventos);
+selectCategoria.addEventListener('change', filtrarEventos);
 
+// Añadir el evento click al botón de buscar
+botonBuscarEvento.addEventListener('click', buscarEventoPorNombre);
   
