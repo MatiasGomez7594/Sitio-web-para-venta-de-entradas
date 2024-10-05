@@ -3,7 +3,7 @@
 
 
 
-.form-select{
+.form-select,#buscarEvent{
     max-width: 120px;
 }
 
