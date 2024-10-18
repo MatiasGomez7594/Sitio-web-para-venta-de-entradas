@@ -51,7 +51,3 @@ textInput.addEventListener('input', () => {
 });
 
 
-function Eliminar(){
-
-    console.log("eliminado!!!")
-}

@@ -13,8 +13,8 @@ document.getElementById('listadoPreguntas').addEventListener('click', function(e
 document.getElementById('listadoPreguntas').addEventListener('click', function(event) {
   if (event.target.classList.contains('editarPregunta')) {
     let pregunta = event.target.closest('#pregunta');
-   const tituloPregunta = pregunta.querySelector('input');
-   const contenidoPregunta = pregunta.querySelector('textarea');
+    let tituloPregunta = pregunta.querySelector('input');
+   let contenidoPregunta = pregunta.querySelector('textarea');
     let errorPregunta = pregunta.querySelector("#errorPregunta")
     if( tituloPregunta.value && contenidoPregunta.value){
       errorPregunta.classList.add("oculto")

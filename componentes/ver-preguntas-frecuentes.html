@@ -7,7 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/783263774b.js" crossorigin="anonymous"></script>  
-<script src="../scripts/script.js"></script>  
+<script src="../scripts/preguntas.js" defer></script>  
 <title>Mis entradas</title>
 </head>
 <body>
@@ -40,7 +40,7 @@
       </nav>
     <form class="w-75 mx-auto " id="listadoPreguntas">
       <h1>Estas son la preguntas frecuentes que has cargado</h1>
-      <div class="mb-3 row" id="pregunta1">
+      <div class="mb-3 row" id="pregunta">
         <div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -51,18 +51,18 @@
                 ¿Está seguro que desea eliminar el elemento?
                 </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="Eliminar('pregunta1')">Aceptar</button>
+                <button type="button" class="btn btn-secondary eliminarPregunta" data-bs-dismiss="modal">Aceptar</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
               </div>
             </div>
           </div>
         </div>
         <div class="container col-lg-12">
-          <div id="errorpregunta1" class="form-text text-danger oculto">Complete todos los campos.</div>
+          <div id="errorPregunta" class="form-text text-danger oculto">Complete todos los campos.</div>
           <label for="contenido" class="form-label">Título</label>
-          <input type="text" value=" Nuestros servicios" class="form-control edicionDeshabilitada" id="titulopregunta1">
+          <input type="text" value=" Nuestros servicios" class="form-control edicionDeshabilitada" id="titulopregunta">
           <label for="contenido" class="form-label mt-3">Descripción de la pregunta</label>
-            <textarea  class="form-control edicionDeshabilitada contenidoPregunta mt-3" placeholder="Descripción" id="contenidopregunta1">
+            <textarea  class="form-control edicionDeshabilitada contenidoPregunta mt-3" placeholder="Descripción" id="contenidopregunta">
             Entregamos soluciones para empresas, comercios, eventos, festivales, 
             fiestas, clubs, restaurants, consumo masivo, entre otros. 
             Tenemos soporte remoto y en línea las 24 horas del día.       
@@ -72,12 +72,12 @@
             </textarea>
         </div>
         <div class="container col-lg-12 mt-5 mb-5">
-          <button type="button" class="btn btn-primary" onclick="EditarPregunta('pregunta1')">Editar</button>
+          <button type="button" class="btn btn-primary editarPregunta" >Editar</button>
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Eliminar</button>
         </div>
         <hr>
       </div>
-      <div class="mb-3 row" id="pregunta2">
+      <div class="mb-3 row" id="pregunta">
         <div class="modal fade" id="exampleModal2" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -88,25 +88,25 @@
                 ¿Está seguro que desea eliminar el elemento?
                 </div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="Eliminar('pregunta2')">Aceptar</button>
+                <button type="button" class="btn btn-secondary eliminarPregunta" data-bs-dismiss="modal" >Aceptar</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
               </div>
             </div>
           </div>
         </div>
         <div class="container col-lg-12">
-          <div id="errorpregunta2" class="form-text text-danger oculto">Complete todos los campos.</div>
+          <div id="errorPregunta" class="form-text text-danger oculto">Complete todos los campos.</div>
           <label for="contenido" class="form-label">Título</label>
-          <input type="text" value="Métodos de pago" class="form-control edicionDeshabilitada" id="titulopregunta2">
+          <input type="text" value="Métodos de pago" class="form-control edicionDeshabilitada" id="tituloPregunta">
           <label for="contenido" class="form-label mt-3">Descripción de la pregunta</label>
-            <textarea  class="form-control edicionDeshabilitada contenidoPregunta mt-3" placeholder="Descripción" id="contenidopregunta2">
+            <textarea  class="form-control edicionDeshabilitada contenidoPregunta mt-3" placeholder="Descripción" id="contenidoPregunta">
               En MisEntradas.com podes abonar con tarjetas de débido
               y crédito de los principales bancos del mundo. 
              Además, podes abonar en efectivo y retirar tus entradas al momento de pagar.
             </textarea>
         </div>
         <div class="container col-lg-12 mt-5 mb-5">
-          <button type="button"  class="btn btn-primary" onclick="EditarPregunta('pregunta2')">Editar</button>
+          <button type="button"  class="btn btn-primary editarPregunta" >Editar</button>
           <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal2">Eliminar</button>
         </div>
         <hr>
@@ -124,12 +124,12 @@
             <textarea class="form-control" placeholder="Descripción" id="contenidoNuevaPregunta"></textarea>
         </div>
         <div class="col-lg-12 col-md-6">
-          <button type="button"class="btn btn-primary mb-5 mt-5 w-25" onclick="AnadirNuevaPregunta()">Agregar</button>
-          <button type="button"class="btn btn-primary w-25" onclick="OcultarBtn()">Cancelar</button>
+          <button type="button"class="btn btn-primary mb-5 mt-5 w-25"  id="btnAgregar">Agregar</button>
+          <button type="button"class="btn btn-primary w-25"  id="btnCancelar">Cancelar</button>
         </div>
       </div>
       <div class="row">
-        <button class="btn btn-primary w-25" id="btnAgregar" onclick="OcultarBtn()">Nueva pregunta</button>
+        <button class="btn btn-primary w-25" id="btnMostrar">Nueva pregunta</button>
       </div>
     </div>
 </body>

@@ -10,7 +10,6 @@ CREATE TABLE usuarios(
     telefono VARCHAR(12),
     contrasena VARCHAR(25)
 )
-
 CREATE TABLE admin_eventos(
     id_admin_evento INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100),
@@ -21,15 +20,12 @@ CREATE TABLE admin_eventos(
 
 
 )
-CREATE TABLE admin_sistemas(
-    id_admin_sistema INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100),
-    apellido VARCHAR(100),
-    email VARCHAR(150),
-    contrasena VARCHAR(25),
-
-
+CREATE TABLE roles(
+    id_rol INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre_rol VARCHAR(70) -- usuario, admin eventos, admin sistemas, etc
 )
+
+
 
 
 CREATE TABLE eventos (
@@ -40,6 +36,10 @@ CREATE TABLE eventos (
     nombre_evento VARCHAR(255) NOT NULL,  -- Nombre del evento
 
     nombre_recinto VARCHAR(255) NOT NULL,  -- Nombre del recinto donde se realiza el evento
+    mapa_ubicaciones VARCHAR(255), --una imagen que muestra las ubicaciones del recinto
+
+    flyer_evento VARCHAR(255), --una imagen que muestra el evento en cuestion
+
 
     evento_mayores TINYINT NOT NULL DEFAULT 0,  -- 0 = No, 1 = Sí
 
@@ -66,6 +66,19 @@ CREATE TABLE eventos (
     FOREIGN KEY (id_categoria_evento) REFERENCES categorias_eventos(id_categoria)  -- Relación con la tabla de categorias
 
 );
+--DAtos de las imgs del evento
+CREATE TABLE imgs_eventos(
+    id_img INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    id_evento INT NOT NULL,
+    nombre_img VARCHAR(255),
+    url_img VARCHAR(255),
+    extension VARCHAR(25),
+    tamano INT(11),
+    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
+
+
+
+)
 
 
 
@@ -111,6 +124,14 @@ CREATE TABLE compras (
 
 );
 
+CREATE TABLE compra_items(
+    id_compra INT NOT NULL,
+
+FOREIGN KEY (id_compra) REFERENCES compras(id_compra)
+
+
+
+)
 
 
 
@@ -119,10 +140,14 @@ CREATE TABLE compras (
 CREATE TABLE preguntas_frecuentes (
 
     id_pregunta INT AUTO_INCREMENT PRIMARY KEY,
+    id_evento INT NOT NULL,--ID del evento por el cual se consulta
+
 
     pregunta TEXT NOT NULL,
 
-    contenido TEXT NOT NULL
+    contenido TEXT NOT NULL,
+    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
+
 
 );
 
