@@ -29,39 +29,21 @@ CREATE TABLE roles(
 
 
 CREATE TABLE eventos (
-
     id_evento INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     id_categoria_evento INT NOT NULL, --Clave foranea 
-
     nombre_evento VARCHAR(255) NOT NULL,  -- Nombre del evento
-
     nombre_recinto VARCHAR(255) NOT NULL,  -- Nombre del recinto donde se realiza el evento
     mapa_ubicaciones VARCHAR(255), --una imagen que muestra las ubicaciones del recinto
-
-    flyer_evento VARCHAR(255), --una imagen que muestra el evento en cuestion
-
-
     evento_mayores TINYINT NOT NULL DEFAULT 0,  -- 0 = No, 1 = Sí
-
     evento_discapacitados TINYINT NOT NULL DEFAULT 0,  -- 0 = No, 1 = Sí
-
-
     fecha_inicio DATETIME NOT NULL,  -- Fecha y hora de inicio del evento
-
     fecha_fin DATETIME NOT NULL,  -- Fecha y hora de finalización del evento
-
     provincia VARCHAR(100) NOT NULL,  -- Provincia donde se realiza el evento
-
     ciudad VARCHAR(100) NOT NULL,  -- Ciudad donde se realiza el evento
-
     direccion VARCHAR(255),  -- Dirección del evento
-
     total_localidades INT NOT NULL,  -- Total de localidades disponibles
-
     id_admin_evento INT NOT NULL,  -- Clave foránea que referencia a la tabla de administradores de eventos
-
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de registro del evento
-
     FOREIGN KEY (id_admin_evento) REFERENCES admin_eventos(id_admin_evento)  -- Relación con la tabla de administradores de eventos
     FOREIGN KEY (id_categoria_evento) REFERENCES categorias_eventos(id_categoria)  -- Relación con la tabla de categorias
 
@@ -76,11 +58,12 @@ CREATE TABLE imgs_eventos(
     tamano INT(11),
     FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
 
-
-
 )
 
-
+CREATE TABLE tipos_entradas(
+    id_tipo INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre_tipo VARCHAR(100),
+)
 
 
 --entradas del evento
@@ -88,12 +71,22 @@ CREATE TABLE tipos_entradas_evento (
     id_tipo_entrada INT PRIMARY KEY, --clave primaria y foranea
     id_evento INT NOT NULL,  -- Clave foránea que referencia a la tabla de eventos
     precio DECIMAL(10, 2) NOT NULL,  -- Precio de la entrada
-    cantidad_disponible INT NOT NULL,  -- Cantidad de entradas disponibles
+    cantidad_por_tipo INT NOT NULL,  -- Cantidad de entradas por tipo
+    estan_numeradas VARCHAR(2),-- Estan numeradas si/no
     FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
     FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas(id_tipo)  -- Relación con la tabla con los tipos de entradas
 
 
 );
+
+CREATE TABLE entradas_numeradas(
+    id_entrada INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    numeracion_entrada INT NOT NULL,
+    id_tipo_entrada INT NOT NULL,
+    estado ENUM('disponible', 'vendida') NOT NULL,
+    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_entrada)  -- Relación con la tabla con los tipos de entradas
+
+)
 
 
 CREATE TABLE compras (
@@ -101,8 +94,6 @@ CREATE TABLE compras (
     id_compra INT AUTO_INCREMENT PRIMARY KEY,
 
     id_usuario INT NOT NULL,  -- Clave foránea que referencia a la tabla de usuarios
-
-    id_tipo_entrada INT NOT NULL,  -- Clave foránea que referencia a la tabla de tipos de entradas
 
     nombre_comprador VARCHAR(255) NOT NULL,  -- Nombre completo del comprador
 
@@ -116,21 +107,18 @@ CREATE TABLE compras (
 
     fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de la compra
 
-    cantidad INT NOT NULL,  -- Cantidad de entradas compradas
 
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 
-    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_entrada)
 
 );
 
 CREATE TABLE compra_items(
     id_compra INT NOT NULL,
-
-FOREIGN KEY (id_compra) REFERENCES compras(id_compra)
-
-
-
+    id_tipo_entrada INT NOT NULL,  -- Clave foránea que referencia a la tabla de tipos de entradas
+    cantidad INT NOT NULL,  -- Cantidad de entradas compradas
+    FOREIGN KEY (id_compra) REFERENCES compras(id_compra)
+    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_entrada)
 )
 
 
@@ -141,10 +129,9 @@ CREATE TABLE preguntas_frecuentes (
 
     id_pregunta INT AUTO_INCREMENT PRIMARY KEY,
     id_evento INT NOT NULL,--ID del evento por el cual se consulta
-
-
+    nombre_completo VARCHAR(255),
+    email VARCHAR(255),
     pregunta TEXT NOT NULL,
-
     contenido TEXT NOT NULL,
     FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
 
@@ -157,6 +144,8 @@ CREATE TABLE consultas_usuarios(
     nombre_usuario VARCHAR(250),
     email_usuario VARCHAR(150),
     fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de la consulta
+    id_evento NOT NULL,
+    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)
 
 )
 
@@ -199,7 +188,3 @@ CREATE TABLE categorias_eventos(
     nombre_categoria VARCHAR(50),
 )
 
-CREATE TABLE tipos_entradas(
-    id_tipo INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    nombre_tipo VARCHAR(100),
-)
