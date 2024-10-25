@@ -71,19 +71,31 @@ function validarFormularioRegistro() {
             })
             .then(response => response.json())
             .then(data => {
-
-                document.getElementById("formularioRegistro").reset()
-                var modalElement = document.getElementById('successModal');
-      
-                // Crear una instancia del modal usando Bootstrap 5
-                var modal = new bootstrap.Modal(modalElement);
                 
-                modal.show();
+               // responseDiv.innerText = data.message;
+                //responseDiv.style.color = data.status === "success" ? "green" : "red";
         
-                  // Escuchar el evento cuando el modal se oculta
-                  modalElement.addEventListener('hidden.bs.modal', function () {
-                    window.location.href = '../inicio.html'; // Cambia 'index.html' por la URL de tu página de inicio
-                });
+                // Si el registro es exitoso, limpiar el formulario
+                if (data.status === "email registrado") {
+                    document.getElementById("errorRegistro").textContent = data.message
+
+
+                }else{
+                    document.getElementById("formularioRegistro").reset()
+                    var modalElement = document.getElementById('successModal');
+          
+                    // Crear una instancia del modal usando Bootstrap 5
+                    var modal = new bootstrap.Modal(modalElement);
+                    
+                    modal.show();
+            
+                      // Escuchar el evento cuando el modal se oculta
+                      modalElement.addEventListener('hidden.bs.modal', function () {
+                        window.location.href = '../inicio.html'; // Cambia 'index.html' por la URL de tu página de inicio
+                    });
+                }
+
+
             })
             .catch(error => {
                 console.log(error)
