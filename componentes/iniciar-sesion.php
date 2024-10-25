@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
   
     <button type="submit" class="btn btn-primary w-100 mb-3">Ingresar</button>
-    <a class="link-primary active" aria-current="page" href="registrarse.html">¿No tienes cuenta? Registrate</a>
+    <a class="link-primary active" aria-current="page" href="registrarse.php">¿No tienes cuenta? Registrate</a>
     <br>
     <a class="link-primary active" aria-current="page" href="inicio-sesion-admi.html">¿Eres administrador? haz clic aqui</a>
   </form>

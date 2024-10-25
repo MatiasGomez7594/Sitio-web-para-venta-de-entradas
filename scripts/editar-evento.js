@@ -216,8 +216,66 @@ function AnadirNuevoEvento(){
 }
 
 
+function CargarEvento(idEvento){
+    //oculto los botones de crear evento
+    console.log(idEvento)
+    let btnCrearEvento = document.querySelectorAll(".btnCrearEvento")
+    btnCrearEvento.forEach(function(btn) {
+        btn.classList.add("oculto");
+    });
+    let tituloForm = document.getElementById("tituloForm").innerText="Editar Evento"
+    let formEditarEvento = document.getElementById("formulario")
+   // formEditarEvento.reset()
+    formEditarEvento.classList.remove("oculto")
+    //obtengo el nombre y recinto del evento
+    let nombreEvento = document.getElementById("nombreEvento"+idEvento).innerText; 
+    let nombreRecinto = document.getElementById("recinto"+idEvento).innerText; 
+    let editarNombreEvento = document.getElementById("nombreNuevoEvento")
+    let editarNombreRecinto = document.getElementById("nombreRecinto")
+//cargo el nombre y el recinto que obtuve en el formulario de edicion
+    editarNombreEvento.value = nombreEvento
+    editarNombreRecinto.value = nombreRecinto
+    //asigno el id del evento en el input hidden
+    let inputIDEvento = document.getElementById("idEvento").value = idEvento
+
+    
 
 
+}
+function EditarEvento(){
+    let nombreEvento = document.getElementById("nombreNuevoEvento")
+    let nombreRecinto = document.getElementById("nombreRecinto")
+    let eventoMayores = document.getElementById("eventoMayores")
+    let eventoDiscapacidtados = document.getElementById("eventoDiscapacitados")
+    let categoriaEvento = document.getElementById("categoriaEvento")
+    let fechaInicio = new Date(document.getElementById('fechaInicio').value);
+    let fechaFin = new Date(document.getElementById('fechaFin').value);
+    let provincia = document.getElementById("provincias")
+    let ciudad = document.getElementById("ciudades")
+    let direccion = document.getElementById("direccionEvento")
+    let totalEntradas = document.getElementById("totalEntradas")
+    let tiposEntradas = document.getElementById("tipoEntrada")
+    let totalEntradaXTipo =document.getElementById("totalEntradaTipo")
+    if(!nombreEvento.value || !nombreRecinto.value || !eventoMayores.value
+        || !eventoDiscapacidtados.value || !categoriaEvento.value || !fechaInicio
+        || !fechaFin || !provincia.value || !ciudad.value || !direccion.value 
+        || !totalEntradas.value || !tiposEntradas.value || !totalEntradaXTipo.value
+    ){
+        let camposIncompletos = document.getElementById("errorCamposIncompletos")
+        camposIncompletos.classList.remove("oculto")
+    }else{
+        /*
+        console.log(nombreEvento.value ,nombreRecinto.value ,eventoMayores.value
+            ,eventoDiscapacidtados.value ,categoriaEvento.value ,fechaInicio
+            ,fechaFin ,provincia.value ,ciudad.value ,direccion.value 
+            ,totalEntradas.value ,tiposEntradas.value ,totalEntradaXTipo.value)*/
+        if(ValidarFechaEvento()==true){
+            GuardarCambios()
+            ReiniciarFormulario()
+
+        }
+    }
+}
 function GuardarCambios(){
     let inputIDEvento = document.getElementById("idEvento").value
     let fechaInicio = cambiarFormatoFecha( document.getElementById("fechaInicio").value)

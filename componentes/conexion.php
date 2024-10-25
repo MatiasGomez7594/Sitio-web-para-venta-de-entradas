@@ -9,7 +9,6 @@ try{
 
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);//setea para que los errores se manden como excepciones
 
-    echo "conexion realizada";
 
 }catch(PDOException $e) { //e de exception si falla no se pudo conectar
 

@@ -1,4 +1,4 @@
-document.getElementById('formularioRegistro').addEventListener('submit', function(event) {
+document.getElementById('registrarse').addEventListener('click', function(event) {
     event.preventDefault(); // Evita el envío del formulario
     
     validarFormularioRegistro(); // Llamada a la función de validación
@@ -44,20 +44,11 @@ function validarFormularioRegistro() {
         validado = false;
     }
 
-    // Si el formulario está validado muetra el modal
-    if (validado) {
+    // Si el formulario está validado llamo a la funcion registrarse
+    if (validado==true) {
+        Registrarse() 
 
-        var modalElement = document.getElementById('successModal');
-      
-        // Crear una instancia del modal usando Bootstrap 5
-        var modal = new bootstrap.Modal(modalElement);
-        
-        modal.show();
 
-          // Escuchar el evento cuando el modal se oculta
-          modalElement.addEventListener('hidden.bs.modal', function () {
-            window.location.href = '../inicio.html'; // Cambia 'index.html' por la URL de tu página de inicio
-        });
         
     }
 
@@ -65,3 +56,39 @@ function validarFormularioRegistro() {
 
 
  
+
+
+    
+        function Registrarse() {
+
+            // Crear un objeto FormData y agregar los datos del formulario
+            const formData = new FormData(document.getElementById('formularioRegistro'));
+
+            // Enviar la solicitud AJAX
+            fetch('../BBDD/registrar_usuario.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+
+                document.getElementById("formularioRegistro").reset()
+                var modalElement = document.getElementById('successModal');
+      
+                // Crear una instancia del modal usando Bootstrap 5
+                var modal = new bootstrap.Modal(modalElement);
+                
+                modal.show();
+        
+                  // Escuchar el evento cuando el modal se oculta
+                  modalElement.addEventListener('hidden.bs.modal', function () {
+                    window.location.href = '../inicio.html'; // Cambia 'index.html' por la URL de tu página de inicio
+                });
+            })
+            .catch(error => {
+                console.log(error)
+                document.getElementById('errorRegistro').innerHTML = 'Error: ' + error;
+            });
+        }
+    
+
