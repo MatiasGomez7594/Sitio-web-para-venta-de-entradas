@@ -10,20 +10,34 @@ CREATE TABLE usuarios(
     telefono VARCHAR(12),
     contrasena VARCHAR(25)
 )
-CREATE TABLE admin_eventos(
-    id_admin_evento INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100),
-    apellido VARCHAR(100),
-    email VARCHAR(150),
-    contrasena VARCHAR(25),
-    estado ENUM('activo', 'inactivo') NOT NULL,  -- borrado logico
+CREATE TABLE permisos (
+  id int(11) NOT NULL,
+  nombre varchar(255) NOT NULL,
+  ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) 
 
-
-)
 CREATE TABLE roles(
     id_rol INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     nombre_rol VARCHAR(70) -- usuario, admin eventos, admin sistemas, etc
 )
+
+CREATE TABLE roles_permisos(
+  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  id_rol int(11) NOT NULL,
+  id_permiso int(11) NOT NULL,
+  FOREIGN KEY (id_rol) REFERENCES roles(id_rol),
+  FOREIGN KEY (id_permiso) REFERENCES permisos(id)
+)
+
+CREATE TABLE `roles_usuarios` (
+  id int(11) NOT NULL,
+  id_rol int(11) NOT NULL,
+  id_usuario int(11) NOT NULL,
+  FOREIGN KEY (id_rol) REFERENCES roles(id_rol),
+  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+) 
+
+
 
 
 
