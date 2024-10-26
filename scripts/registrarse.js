@@ -1,5 +1,5 @@
-document.getElementById('registrarse').addEventListener('click', function(event) {
-    event.preventDefault(); // Evita el envío del formulario
+
+document.getElementById('registrarse').addEventListener('click', function() {
     
     validarFormularioRegistro(); // Llamada a la función de validación
 });
@@ -58,8 +58,7 @@ function validarFormularioRegistro() {
  
 
 
-    
-        function Registrarse() {
+function Registrarse() {
 
             // Crear un objeto FormData y agregar los datos del formulario
             const formData = new FormData(document.getElementById('formularioRegistro'));
@@ -75,16 +74,15 @@ function validarFormularioRegistro() {
                // responseDiv.innerText = data.message;
                 //responseDiv.style.color = data.status === "success" ? "green" : "red";
         
-                // Si el registro es exitoso, limpiar el formulario
                 if (data.status === "email registrado") {
                     document.getElementById("errorRegistro").textContent = data.message
 
+                // Si el registro es exitoso, limpiar el formulario, muestro un modal
 
                 }else{
                     document.getElementById("formularioRegistro").reset()
                     var modalElement = document.getElementById('successModal');
           
-                    // Crear una instancia del modal usando Bootstrap 5
                     var modal = new bootstrap.Modal(modalElement);
                     
                     modal.show();

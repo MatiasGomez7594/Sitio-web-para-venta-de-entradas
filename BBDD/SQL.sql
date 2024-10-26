@@ -10,30 +10,16 @@ CREATE TABLE usuarios(
     telefono VARCHAR(12),
     contrasena VARCHAR(25)
 )
-CREATE TABLE admin_eventos(
-    id_admin_evento INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    nombre VARCHAR(100),
-    apellido VARCHAR(100),
-    email VARCHAR(150),
-    contrasena VARCHAR(25),
-    estado ENUM('activo', 'inactivo') NOT NULL,  -- borrado logico
 
-
-)
-CREATE TABLE roles(
-    id_rol INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    nombre_rol VARCHAR(70) -- usuario, admin eventos, admin sistemas, etc
-)
 
 
 
 
 CREATE TABLE eventos (
     id_evento INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    id_categoria_evento INT NOT NULL, --Clave foranea 
+    id_categoria_evento INT NOT NULL, -- Clave foranea 
     nombre_evento VARCHAR(255) NOT NULL,  -- Nombre del evento
     nombre_recinto VARCHAR(255) NOT NULL,  -- Nombre del recinto donde se realiza el evento
-    mapa_ubicaciones VARCHAR(255), --una imagen que muestra las ubicaciones del recinto
     evento_mayores TINYINT NOT NULL DEFAULT 0,  -- 0 = No, 1 = Sí
     evento_discapacitados TINYINT NOT NULL DEFAULT 0,  -- 0 = No, 1 = Sí
     fecha_inicio DATETIME NOT NULL,  -- Fecha y hora de inicio del evento
@@ -44,7 +30,7 @@ CREATE TABLE eventos (
     total_localidades INT NOT NULL,  -- Total de localidades disponibles
     id_admin_evento INT NOT NULL,  -- Clave foránea que referencia a la tabla de administradores de eventos
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de registro del evento
-    FOREIGN KEY (id_admin_evento) REFERENCES admin_eventos(id_admin_evento)  -- Relación con la tabla de administradores de eventos
+    FOREIGN KEY (id_admin_evento) REFERENCES usuarios(id_usuario),  -- Relación con la tabla de administradores de eventos
     FOREIGN KEY (id_categoria_evento) REFERENCES categorias_eventos(id_categoria)  -- Relación con la tabla de categorias
 
 );
@@ -68,7 +54,8 @@ CREATE TABLE tipos_entradas(
 
 --entradas del evento
 CREATE TABLE tipos_entradas_evento (
-    id_tipo_entrada INT PRIMARY KEY, --clave primaria y foranea
+    id_tipo_x_evento INT PRIMARY  KEY NOT NULL AUTO_INCREMENT,
+    id_tipo_entrada INT NOT NULL, -- clave primaria y foranea
     id_evento INT NOT NULL,  -- Clave foránea que referencia a la tabla de eventos
     precio DECIMAL(10, 2) NOT NULL,  -- Precio de la entrada
     cantidad_por_tipo INT NOT NULL,  -- Cantidad de entradas por tipo
@@ -84,7 +71,7 @@ CREATE TABLE entradas_numeradas(
     numeracion_entrada INT NOT NULL,
     id_tipo_entrada INT NOT NULL,
     estado ENUM('disponible', 'vendida') NOT NULL,
-    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_entrada)  -- Relación con la tabla con los tipos de entradas
+    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_x_evento)  -- Relación con la tabla con los tipos de entradas
 
 )
 
@@ -128,12 +115,10 @@ CREATE TABLE compra_items(
 CREATE TABLE preguntas_frecuentes (
 
     id_pregunta INT AUTO_INCREMENT PRIMARY KEY,
-    id_evento INT NOT NULL,--ID del evento por el cual se consulta
     nombre_completo VARCHAR(255),
     email VARCHAR(255),
     pregunta TEXT NOT NULL,
     contenido TEXT NOT NULL,
-    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
 
 
 );
@@ -187,4 +172,24 @@ CREATE TABLE categorias_eventos(
     id_categoria INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     nombre_categoria VARCHAR(50),
 )
+
+--Algunos inserts
+INSERT INTO `categorias_eventos`( `nombre_categoria`) VALUES ('Musical'),
+('Deportivo'),('Arte'),('Ciencia'),('Cine');
+
+UPDATE `eventos` SET `evento_discapacitados` = '1', `fecha_inicio` = '2024-10-14 22:16:54', `fecha_fin` = '2024-10-14 00:16:54', `fecha_registro` = '2024-10-25 22:16:54' WHERE `eventos`.`id_evento` = 2;
+INSERT INTO `eventos`(`id_categoria_evento`, `nombre_evento`, `nombre_recinto`, `evento_mayores`, `evento_discapacitados`, `fecha_inicio`, `fecha_fin`, `provincia`, `ciudad`, `direccion`, `total_localidades`, `id_admin_evento`, `fecha_registro`) 
+VALUES ('1','Taylor swift Argentina 2024','Estadio River Plate','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','Buenos Aires','Caba','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
+('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','Buenos Aires','Caba','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
+('1','Kiss End of the World tour','Campo de polo','1','1','2023-10-10 22:00:00','2023-10-10 23:55:00','Buenos Aires','Palermo','Jujuy 233','1000','3','2023-01-25 22:16:54');
+
+
+INSERT INTO `imgs_eventos` ( `id_evento`, `nombre_img`, `url_img`, `extension`, `tamano`) VALUES ( '6', 'kiss.png', 'imgs/kiss.png', 'png', '1'),( '4', 'showimg.jpg', 'imgs/showimg.jpg', 'jpg', '2'),( '5', 'luismiguel.jpg', 'imgs/luismiguel.jpg', 'jpg', '1')
+INSERT INTO `tipos_entradas`( `nombre_tipo`) VALUES ('General'),('anticipada'),('Campo vip'),('campo de pie'),('Platea'),('Pullman'),('Palco');
+INSERT INTO `tipos_entradas_evento`(`id_tipo_entrada`, `id_evento`, `precio`, `cantidad_por_tipo`, `estan_numeradas`) VALUES ('1','4','30000','500','no'), ('2','4','50000','200','no'),
+('2','4','25000','300','si'),('1','5','25000','1000','no'),('1','6','25000','600','no'),('3','6','45000','400','no')
+--estas como estan numeradas hay insertar en la tabla entradas_numeradas
+INSERT INTO `entradas_numeradas`( `numeracion_entrada`, `id_tipo_entrada`, `estado`) VALUES ('11','3','disponible'),
+('10','3','disponible'),('9','3','vendida'),('18','3','disponible'),('17','3','disponible'),('6','3','vendida')
+
 
