@@ -75,11 +75,17 @@ function Registrarse() {
                 //responseDiv.style.color = data.status === "success" ? "green" : "red";
         
                 if (data.status === "email registrado") {
+                    mensaje = data.message
+                    console.log(mensaje)
+
                     document.getElementById("errorRegistro").textContent = data.message
 
                 // Si el registro es exitoso, limpiar el formulario, muestro un modal
 
                 }else{
+                    mensaje = data.message
+                    console.log(mensaje)
+                    
                     document.getElementById("formularioRegistro").reset()
                     var modalElement = document.getElementById('successModal');
           
@@ -91,6 +97,7 @@ function Registrarse() {
                       modalElement.addEventListener('hidden.bs.modal', function () {
                         window.location.href = '../inicio.html'; // Cambia 'index.html' por la URL de tu página de inicio
                     });
+        
                 }
 
 

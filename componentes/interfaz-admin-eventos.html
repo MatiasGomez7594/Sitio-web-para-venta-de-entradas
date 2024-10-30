@@ -6,16 +6,17 @@
     <link rel="stylesheet" href="../css/index.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/783263774b.js" crossorigin="anonymous"></script>   
-<script src="../scripts/editar-evento.js" defer></script>
+<script src="https://kit.fontawesome.com/783263774b.js" crossorigin="anonymous"></script>  
+<!-- <script src="../scripts/editar-evento.js" defer></script>--> 
+<script src="../scripts/cargar_eventos.js" defer></script>
+
 <title>Mis entradas</title>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark  w-100 " style="z-index: 1;">
         <div class="container-fluid">
           <a class="navbar-brand" href="../inicio.html">MisEntradas.com</a>
-          <a class="navbar-brand" href="crear-evento.html">Crear evento</a>
-
+          <a class="navbar-brand" href="crear-evento.php">Crear evento</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -26,7 +27,7 @@
                   Mi cuenta
                 </a>
                 <ul class="dropdown-menu bg-dark">
-                  <li><a class="dropdown-item bg-dark text-light" href="crear-evento.html">Crear evento</a></li>
+                  <li><a class="dropdown-item bg-dark text-light" href="crear-evento.php">Crear evento</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="interfaz-admin-eventos.html">Mi cuenta</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="editar-datos.html">Datos personales</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="cambiar-contraseña.html">Cambiar contraseña</a></li>
@@ -38,9 +39,25 @@
         </div>
       </nav>
     <h1>Bienvenid@! esta es la interfaz del administrador de eventos</h1>
-    <div class="container  eventos" id="listadoEventos">
+    <table class="table  eventos" id="listadoEventos">
       <h2 >Estos son tus eventos</h2>
-      <div class="container row  mt-3" id="evento">
+      <div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
+            </div>
+            <div class="modal-body">
+              ¿Está seguro que desea eliminar el elemento?
+              </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary eliminarEvento" data-bs-dismiss="modal" >Aceptar</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!---      <div class="container row  mt-3" id="evento">
         <div class="modal fade" id="exampleModal" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -76,8 +93,9 @@
                     Eliminar
                   </button>
             </div>
-        </div>
-    </div>
+        </div> -->
+
+      </table>
       <form class="w-75 mx-auto pt-5 mb-5 row oculto " id="formulario">
         <input type="hidden" id="idEvento">
         <h2 id="tituloForm"></h2>

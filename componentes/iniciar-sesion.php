@@ -9,13 +9,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
   $stmt = $pdo->prepare("SELECT * FORM  usuarios WHERE email = :email");
-  $stmt->execute(['email' => $email]);
-  $usuario = $stmt->fetch();
+  $stmt->execute([':email' => $email]);
+  $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
     // Verifica la contraseña
-    if ($usuario && password_verify($password, $usuario['password'])) {
+    if ($usuario && password_verify($password, $usuario['contrasena'])) {
       // Inicia sesion y almacena informacion del usuario
-      $_SESSION['usuario_id'] = $usuario['id'];
+      $_SESSION['usuario_id'] = $usuario['id_usuario'];
       $_SESSION['nombre_usuario'] = $usuario['username'];
       header("Location: mi-cuenta.php"); // Redirige a la pagina inicial
       exit;

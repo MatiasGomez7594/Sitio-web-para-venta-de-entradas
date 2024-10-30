@@ -16,134 +16,175 @@ function VerCiudades(opcion){
 }
 //para ver las ciudades segun  la provincia seleccionada
 document.getElementById("provincias").addEventListener("change",function(event){
-    //console.log(event.target.value)
     VerCiudades(event.target.value)
 })
 
 
-//eliminar un evento
-document.getElementById('listadoEventos').addEventListener('click', function(event) {
-    if (event.target.classList.contains('eliminarEvento')) {
-        const elemento = event.target.closest('#evento');
-        if (elemento) {
-          elemento.remove();
-        }
-      }
-    
-  });
-
-
-
-
-  function OcultarForm(){
-    let formulario = document.getElementById("formulario")
-    let btnCrearEvento = document.querySelectorAll(".btnCrearEvento")
-    btnCrearEvento.forEach(function(btn) {
-        btn.classList.remove("oculto");
-    });
-    let btnEditarEvento = document.getElementById("btnEditarEvento")
-    btnEditarEvento.classList.remove("oculto")
-    formulario.classList.add("oculto")
-    let tituloForm = document.getElementById("tituloForm").innerText=""
-    let listadoTipoEntradas = document.getElementById('listadoTipoEntradas');
-    listadoTipoEntradas.innerHTML = ''; // Limpiar la lista
-
-
-    ReiniciarFormulario()
+function ValidarFechaEvento(){
+  let fechaInicio = new Date(document.getElementById('fechaInicio').value);
+  let fechaFin = new Date(document.getElementById('fechaFin').value);
+  let errorFecha = document.getElementById("errorFecha")
+  let resultado = true
+  if (fechaInicio >= fechaFin) {
+      errorFecha.classList.remove("oculto")
+      resultado = false
+  } else{
+      errorFecha.classList.add("oculto")
+      
+  }
+  return resultado
+  
+  
 }
 
-(function(){
-        // Referencias locales a los elementos
-        const btnMostrar = document.getElementById('btnMostrar');
-        const btnCancelar = document.getElementById('btnCancelar');
-        const btnAgregar= document.getElementById('btnAgregar');
-        let formCrearEvento = document.getElementById("formulario")
-        let btnEditarEvento = document.getElementById("btnEditarEvento")
-        let tituloForm = document.getElementById("tituloForm")
+function validarEvento(){
+  let formularioValido = true;
+    
+  // Seleccionar todos los campos del formulario
+  const camposRequeridos = [
+    { id: 'nombreEvento', tipo: 'input', mensaje: 'Complete este campo' },
+    { id: 'recinto', tipo: 'input', mensaje: 'Complete este campo' },
+    { id: 'categoria', tipo: 'select', mensaje: 'Seleccione una categoría' },
+    { id: 'fechaInicio', tipo: 'input', mensaje: 'Seleccione la fecha y hora de inicio' },
+    { id: 'fechaFin', tipo: 'input', mensaje: 'Seleccione la fecha y hora de finalización' },
+    { id: 'provincias', tipo: 'select', mensaje: 'Seleccione una provincia' },
+    { id: 'ciudades', tipo: 'select', mensaje: 'Seleccione una ciudad' },
+    { id: 'direccion', tipo: 'input', mensaje: 'Complete este campo' },
+    { id: 'tipoEntrada', tipo: 'select', mensaje: 'Seleccione un tipo de entrada' },
+    { id: 'totalEntradas', tipo: 'input', mensaje: 'Ingrese el total de localidades/entradas' },
+    { id: 'totalEntradaTipo', tipo: 'input', mensaje: 'Ingrese el total por el tipo de entrada' },
+    { id: 'precioEntrada', tipo: 'input', mensaje: 'Ingrese el precio de la entrada' }
+];
+        // Agregar datos de entradas en formato JSON (por ejemplo)
+        const entradasEvento = [];
+        let tipoEntradas = document.querySelectorAll(".entradaItem")
+    
+        // Crea un array para almacenar los tipos de entradas del evento
+        tipoEntradas.forEach(tipo => {
+          let inputs = tipo.querySelectorAll('input[type="text"]');
+          let checkbox = tipo.querySelector('input[type="checkbox"]')
+          
+          // Almacena los valores de los inputs en un array temporal
+          let valoresInputs = Array.from(inputs).map(input => input.value);
+           // Selecciona el checkbox dentro de cada item y verifica si está seleccionado
+           const estanNumeradas = checkbox && checkbox.checked ? "si" : "no";
+           
+           // Agrega los tipos y si estan numeradas segun el checkbox
+           entradasEvento.push({
+               valoresInputs: valoresInputs,
+               opcionSeleccionada: estanNumeradas
+           });
+      
+      })
 
-    //para ver el formulario
-        btnMostrar.addEventListener("click",function(){            
-            formCrearEvento.reset()
-            formCrearEvento.classList.remove("oculto")
-            tituloForm.innerText="Crear Evento"
-            btnEditarEvento.classList.add("oculto")
-            btnMostrar.classList.add("oculto")
-            btnAgregar.classList.remove("oculto")
-            
+  // Limpiar mensajes de error previos
+  document.querySelectorAll('.text-danger').forEach(el => el.classList.remove('text-danger'));
+  document.querySelectorAll('.mensaje-error').forEach(el => el.remove());
+
+  // Validar campos
+  camposRequeridos.forEach(campo => {
+      const elemento = document.getElementById(campo.id);
+      
+      if ((campo.tipo === 'input' && !elemento.value.trim()) ||
+          (campo.tipo === 'select' && elemento.value === '0' ||  !entradasEvento)) {
+
+          formularioValido = false;
+          elemento.classList.add('is-invalid');
+
+          // Crear y mostrar mensaje de error
+          const mensajeError = document.createElement('div');
+          mensajeError.className = 'form-text text-danger mensaje-error';
+          mensajeError.textContent = campo.mensaje;
+          elemento.parentElement.appendChild(mensajeError);
+      }
+  });
+  let fechaValida = ValidarFechaEvento()
+
+  if (formularioValido && fechaValida==true && entradasEvento) {
+      // Limpiar todas las clases de error y mensajes al enviar el formulario
+      document.querySelectorAll('.text-danger').forEach(el => el.classList.remove('text-danger'));
+      document.querySelectorAll('.mensaje-error').forEach(el => el.remove());
+
+      // Aquí puedes proceder a enviar el formulario
+      console.log("Formulario válido. Proceder con la creación del evento.");
+      document.getElementById("errorCampos").classList.add("oculto")
+      CrearEvento()
+
+  } else {
+      console.log("Formulario inválido. Corrige los campos resaltados.");
+      document.getElementById("errorCampos").classList.add("text-danger")
+
+      document.getElementById("errorCampos").classList.remove("oculto")
+
+  }
+}
+
+function ValidarDatosEvento(){
+  //datos del evento
+  let nombreEvento = document.getElementById("nombreEvento")
+  let recinto = document.getElementById("recinto")
+  let eventoMayores = document.getElementById("eventoMayores")
+  let eventoDiscapacitados = document.getElementById("eventoDiscapacitados")
+  let categoria = document.getElementById("categoria")
+  let provincias = document.getElementById("provincias")
+  let provinciaSeleccionada =  provincias.options[provincias.selectedIndex].text;
+  let ciudades = document.getElementById("ciudades")
+  let ciudadSeleccionada = ciudades.options[ciudades.selectedIndex].text;
+  let direccion = document.getElementById("direccion")
+
+      // Agregar datos de entradas en formato JSON (por ejemplo)
+      const entradasEvento = [];
+      let tipoEntradas = document.querySelectorAll(".entradaItem")
+  
+      // Crea un array para almacenar los tipos de entradas del evento
+      tipoEntradas.forEach(tipo => {
+        let inputs = tipo.querySelectorAll('input[type="text"]');
+        let checkbox = tipo.querySelector('input[type="checkbox"]')
         
-        });
-//para ocultarlo
-        btnCancelar.addEventListener("click",function(){
-            formCrearEvento.reset()
-            formCrearEvento.classList.add("oculto")
-            btnMostrar.classList.remove("oculto")
-        })
-//para crear un evento
-btnAgregar.addEventListener("click",function(){
-    console.log("crerar evento....")
-})
-//para editar un evento
-})(); 
+        // Almacena los valores de los inputs en un array temporal
+        let valoresInputs = Array.from(inputs).map(input => input.value);
+         // Selecciona el checkbox dentro de cada item y verifica si está seleccionado
+         const estanNumeradas = checkbox && checkbox.checked ? "si" : "no";
+         
+         // Agrega los tipos y si estan numeradas segun el checkbox
+         entradasEvento.push({
+             valoresInputs: valoresInputs,
+             opcionSeleccionada: estanNumeradas
+         });
+    
+    })
 
+
+  let fechaValida = ValidarFechaEvento()
+  if(nombreEvento.value && direccion.value  && recinto.value && eventoMayores.value &&
+    eventoDiscapacitados.value && categoria.value && fechaValida == true
+    && provinciaSeleccionada && ciudadSeleccionada && entradasEvento
+  ){
+    document.getElementById("errorCampos").classList.add("oculto")
+ 
+    CrearEvento()
+
+
+  }else{
+    document.getElementById("errorCampos").classList.remove("oculto")
+  }
+
+
+}
+
+document.getElementById("btnCrear").addEventListener("click",function(){
+  //console.log("crerar evento....")
+  validarEvento()
+
+  //ValidarDatosEvento()
+})
 
 
      
 
 
-function CrearEvento(){
-    let nombreEvento = document.getElementById("nombreNuevoEvento")
-    let nombreRecinto = document.getElementById("nombreRecinto")
-    let eventoMayores = document.getElementById("eventoMayores")
-    let eventoDiscapacidtados = document.getElementById("eventoDiscapacitados")
-    let categoriaEvento = document.getElementById("categoriaEvento")
-    let fechaInicio = new Date(document.getElementById('fechaInicio').value);
-    let fechaFin = new Date(document.getElementById('fechaFin').value);
-    let provincia = document.getElementById("provincias")
-    let ciudad = document.getElementById("ciudades")
-    let direccion = document.getElementById("direccionEvento")
-    let totalEntradas = document.getElementById("totalEntradas")
-    let tiposEntradas = document.getElementById("tipoEntrada")
-    let totalEntradaXTipo =document.getElementById("totalEntradaTipo")
-    if(!nombreEvento.value || !nombreRecinto.value || !eventoMayores.value
-        || !eventoDiscapacidtados.value || !categoriaEvento.value || !fechaInicio
-        || !fechaFin || !provincia.value || !ciudad.value || !direccion.value 
-        || !totalEntradas.value || !tiposEntradas.value || !totalEntradaXTipo.value
-    ){
-        let camposIncompletos = document.getElementById("errorCamposIncompletos")
-        camposIncompletos.classList.remove("oculto")
-    }else{
-        /*
-        console.log(nombreEvento.value ,nombreRecinto.value ,eventoMayores.value
-            ,eventoDiscapacidtados.value ,categoriaEvento.value ,fechaInicio
-            ,fechaFin ,provincia.value ,ciudad.value ,direccion.value 
-            ,totalEntradas.value ,tiposEntradas.value ,totalEntradaXTipo.value)*/
-        if(ValidarFechaEvento()==true){
-            AnadirNuevoEvento()
-            ReiniciarFormulario()
 
 
-        }
-    }
-
-}
-
-function ValidarFechaEvento(){
-    let fechaInicio = new Date(document.getElementById('fechaInicio').value);
-    let fechaFin = new Date(document.getElementById('fechaFin').value);
-    let errorFecha = document.getElementById("errorFecha")
-    let resultado = true
-    //console.log(fechaFin + fechaInicio)
-    if (fechaInicio >= fechaFin) {
-        errorFecha.classList.remove("oculto")
-        resultado = false
-    } else{
-        errorFecha.classList.add("oculto")
-        
-    }
-    return resultado
-    
-    
-}
 //funcion para cambiar el formato de la fecha
 function cambiarFormatoFecha(fechaOriginal) {
    let partesFechaHora = fechaOriginal.split("T"); // Dividir la fecha y la hora
@@ -161,73 +202,11 @@ function cambiarFormatoFecha(fechaOriginal) {
     
     return fechaFormateada
 }
-function AnadirNuevoEvento(){
-    let nombreEvento = document.getElementById("nombreNuevoEvento").value
-    let fechaInicio = cambiarFormatoFecha( document.getElementById("fechaInicio").value)
-    let lugar = document.getElementById("nombreRecinto").value
-    const listadoEventos = document.getElementById('listadoEventos');
-    let totalEventos = listadoEventos.children.length++
-
-    const nuevoEvento =`      
-        <div class="container row  mt-3" id="evento${totalEventos}">
-        <div class="modal fade" id="exampleModal${totalEventos}" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-          <div class="modal-dialog">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
-              </div>
-              <div class="modal-body">
-                ¿Está seguro que desea eliminar el elemento?
-                </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="Eliminar('evento${totalEventos}')">Aceptar</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Cancelar</button>
-              </div>
-            </div>
-          </div>
-        </div>
-            <div class="col col-lg-3 col-sm-12">
-              <h6 >Nombre del evento</h6>
-              <p id="nombreEvento${totalEventos}">${nombreEvento}</p>
-            </div>
-            <div class="col col-lg-3 col-sm-12">
-              <h6 >Lugar</h6>
-              <p id="recinto${totalEventos}">${lugar}</p>
-            </div>
-            <div class="col col-lg-3 col-sm-12">
-              <h6>Fecha y hora</h6>
-              <p id="fechaEvento${totalEventos}">${fechaInicio}</p>
-            </div>
-            <div class="col col-lg-3 col-sm-12">
-              <h6>Configuración del evento</h6>
-                  <button class="btn btn-primary btn-sm"  onclick="CargarEvento(${totalEventos})">Editar</button>
-                  <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#exampleModal${totalEventos}" >
-                    Eliminar
-                  </button>
-            </div>
-        </div>`   
-        const contenedorTemporal = document.createElement('div');
-        
-        contenedorTemporal.innerHTML = nuevoEvento
-        listadoEventos.appendChild(contenedorTemporal)
-        OcultarForm()
-
-
-}
 
 
 
 
-function GuardarCambios(){
-    let inputIDEvento = document.getElementById("idEvento").value
-    let fechaInicio = cambiarFormatoFecha( document.getElementById("fechaInicio").value)
-    let nombreEvento = document.getElementById("nombreNuevoEvento")
-    let nombreRecinto = document.getElementById("nombreRecinto")
-    let nombreEventoAntes = document.getElementById("nombreEvento"+inputIDEvento).innerText = nombreEvento.value; 
-    let nombreRecintoAntes = document.getElementById("recinto"+inputIDEvento).innerText = nombreRecinto.value; 
-    let fechEventoAntes = document.getElementById("fechaEvento"+inputIDEvento).innerText = fechaInicio
-    OcultarForm()
-}
+
 function gestionarEntradas() {
     let totalEntradas = 0;  // Guardar el total de entradas disponibles
     let entradasAgregadas = [];  // Guardar los tipos de entradas agregadas
@@ -264,8 +243,10 @@ function gestionarEntradas() {
     function agregarTipoEntrada() {
       let tipoEntrada = document.getElementById('tipoEntrada').value;
       let totalPorTipo = parseInt(document.getElementById('totalEntradaTipo').value);
+      let precioEntrada= parseInt(document.getElementById('precioEntrada').value);
 
-      if (!tipoEntrada || tipoEntrada == "0" || totalPorTipo <= 0) {
+
+      if (!tipoEntrada || tipoEntrada == "0" || totalPorTipo <= 0 || precioEntrada <=0) {
         return;
       }
 
@@ -275,7 +256,7 @@ function gestionarEntradas() {
       if (!validarEntradasDisponibles(totalPorTipo)) return;
 
       // Agregar el tipo de entrada al listado
-      entradasAgregadas.push({ tipo: tipoEntrada, total: totalPorTipo });
+      entradasAgregadas.push({ tipo: tipoEntrada, total: totalPorTipo , precio: precioEntrada});
 
       mostrarEntradasAgregadas();
     }
@@ -289,9 +270,18 @@ function gestionarEntradas() {
        let div = document.createElement('div');
         div.classList.add('entradaItem','col-lg-12', 'mb-1');
         div.innerHTML = `
-          <p>${entrada.tipo}: ${entrada.total} entradas</p>
-          <button class="btn btn-primary btn-sm" type="button" onclick="controlador.eliminarEntrada(${index})">Eliminar</button>
-        `;
+          <input type="text" class="edicionDeshabilitada" class="tipoEntrada" value="${entrada.tipo}">
+          <input type="text" class="edicionDeshabilitada" class="cantidad" value="${entrada.total}">
+          <input type="text" class="edicionDeshabilitada" class="precioEntrada" value="${entrada.precio}">
+
+          <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="${entrada.tipo}" id="estanNumeradas">
+            <label class="form-check-label" for="flexCheckDefault">
+              ¿Están numeradas?
+              </label>
+          </div>
+          <button class="btn btn-primary btn-sm mt-1" type="button" onclick="controlador.eliminarEntrada(${index})">Eliminar</button>
+          `;
         listadoTipoEntradas.appendChild(div);
       });
     }
@@ -308,13 +298,94 @@ function gestionarEntradas() {
       agregarTipoEntrada,
       eliminarEntrada
     };
+}
+
+
+const controlador = gestionarEntradas();
+
+
+document.getElementById("btnAgregarEntrada").addEventListener("click",function(){
+  // Inicializamos el controlador de entradas
+
+  controlador.agregarTipoEntrada();
+
+});
+
+
+
+
+
+
+
+
+
+
+
+  function CrearEvento() {
+    const formData = new FormData(document.getElementById("formEvento"));
+    let provincias = document.getElementById("provincias") 
+    let provinciaSeleccionada =  provincias.options[provincias.selectedIndex].text;
+    let ciudades = document.getElementById("ciudades") 
+    let ciudadSeleccionada = ciudades.options[ciudades.selectedIndex].text;
+
+
+    // Agregar datos de entradas en formato JSON (por ejemplo)
+    const entradasEvento = [];
+    let tipoEntradas = document.querySelectorAll(".entradaItem")
+
+    // Crea un array para almacenar los tipos de entradas del evento
+    tipoEntradas.forEach(tipo => {
+      let inputs = tipo.querySelectorAll('input[type="text"]');
+      let checkbox = tipo.querySelector('input[type="checkbox"]')
+      
+      // Almacena los valores de los inputs en un array temporal
+      let valoresInputs = Array.from(inputs).map(input => input.value);
+       // Selecciona el checkbox dentro de cada item y verifica si está seleccionado
+       const estanNumeradas = checkbox && checkbox.checked ? "si" : "no";
+       
+       // Agrega los tipos y si estan numeradas segun el checkbox
+       entradasEvento.push({
+           valoresInputs: valoresInputs,
+           opcionSeleccionada: estanNumeradas
+       });
+  
+  })
+    formData.append("entradas", JSON.stringify(entradasEvento));
+    formData.append('id_admin_eventos', 3);
+    formData.append('provincia_seleccionada', provinciaSeleccionada);
+    formData.append('ciudad_seleccionada', ciudadSeleccionada);
+
+      // Comprobar el contenido de FormData antes de enviar
+  for (const [key, value] of formData.entries()) {
+    console.log(key, value);
   }
 
+  
+    // Enviar la solicitud
+    fetch('../BBDD/crear_evento.php', {
+      method: 'POST',
+      body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        console.log(data.message);
 
-  const controlador = gestionarEntradas();
+        document.getElementById("formEvento").reset()
+        let listadoTipoEntradas = document.getElementById('listadoTipoEntradas');
+        listadoTipoEntradas.innerHTML = ''; // Limpiar la lista
+        var modalElement = document.getElementById('successModal');
+        var modal = new bootstrap.Modal(modalElement);
+        
+        modal.show();
 
 
-  function AgregarTipo(){
-    // Inicializamos el controlador de entradas
-  controlador.agregarTipoEntrada();
-}
+      } else {
+        console.error("Error:", data.message);
+      }
+    })
+    .catch(error => console.error("Error:", error));
+  }
+  
+
+

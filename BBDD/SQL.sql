@@ -6,11 +6,43 @@ CREATE TABLE usuarios(
     nombre_usuario VARCHAR(100),
     apellido_usuario VARCHAR(100),
     genero VARCHAR(20),
-    email VARCHAR(150),
+    email VARCHAR(150) NOT NULL,
     telefono VARCHAR(12),
-    contrasena VARCHAR(25)
+    contrasena VARCHAR(100) NOT NULL,
+    estado ENUM('activo', 'inactivo') NOT NULL
+
+)
+<<<<<<< HEAD
+
+=======
+CREATE TABLE permisos (
+  id int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
+  nombre varchar(255) NOT NULL
+) 
+
+CREATE TABLE roles(
+    id_rol INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre_rol VARCHAR(70) -- usuario, admin eventos, admin sistemas, etc
 )
 
+CREATE TABLE roles_permisos(
+  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  id_rol int(11) NOT NULL,
+  id_permiso int(11) NOT NULL,
+  FOREIGN KEY (id_rol) REFERENCES roles(id_rol),
+  FOREIGN KEY (id_permiso) REFERENCES permisos(id)
+)
+
+CREATE TABLE roles_usuarios (
+  id int(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
+  id_rol int(11) NOT NULL,
+  id_usuario int(11) NOT NULL,
+  FOREIGN KEY (id_rol) REFERENCES roles(id_rol),
+  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+) 
+
+
+>>>>>>> 8ee65126797abff1ea8e011653169ef5a310e9f0
 
 
 
@@ -49,6 +81,8 @@ CREATE TABLE imgs_eventos(
 CREATE TABLE tipos_entradas(
     id_tipo INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     nombre_tipo VARCHAR(100),
+    estado ENUM('activo', 'inactivo') NOT NULL -- Borrado logico
+
 )
 
 
@@ -128,10 +162,8 @@ CREATE TABLE consultas_usuarios(
     contenido_consulta TEXT NOT NULL,
     nombre_usuario VARCHAR(250),
     email_usuario VARCHAR(150),
-    fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de la consulta
-    id_evento NOT NULL,
-    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)
-
+    fecha_consulta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de la consulta
+    estado ENUM('activa', 'respondida') NOT NULL,  -- Método de pago
 )
 
 CREATE TABLE calificacion_evento(
@@ -171,9 +203,14 @@ CREATE TABLE tarjetas (
 CREATE TABLE categorias_eventos(
     id_categoria INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     nombre_categoria VARCHAR(50),
+    estado ENUM('activo', 'inactivo') NOT NULL -- Borrado logico
+
 )
 
 --Algunos inserts
+INSERT INTO `roles`( `nombre_rol`) VALUES ('administrador de eventos'),('administrador de sistemas'),('cliente');
+INSERT INTO `roles_permisos` (`id`, `id_rol`, `id_permiso`) VALUES (NULL, '1', '1'), (NULL, '2', '3'), (NULL, '3', '2');
+
 INSERT INTO `categorias_eventos`( `nombre_categoria`) VALUES ('Musical'),
 ('Deportivo'),('Arte'),('Ciencia'),('Cine');
 

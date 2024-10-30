@@ -276,6 +276,18 @@ function EditarEvento(){
         }
     }
 }
+
+//eliminar un evento
+document.getElementById('listadoEventos').addEventListener('click', function(event) {
+  if (event.target.classList.contains('eliminarEvento')) {
+      const elemento = event.target.closest('#evento');
+      if (elemento) {
+        elemento.remove();
+      }
+    }
+  
+});
+
 function GuardarCambios(){
     let inputIDEvento = document.getElementById("idEvento").value
     let fechaInicio = cambiarFormatoFecha( document.getElementById("fechaInicio").value)
@@ -369,7 +381,7 @@ function gestionarEntradas() {
   }
 
 
-  const controlador = gestionarEntradas();
+ const controlador = gestionarEntradas();
 
 
   function AgregarTipo(){
