@@ -2,40 +2,45 @@
 require(__DIR__.'/../includes/globals.php');
 require(__DIR__.'/conexion.php');
 // Verifica si el formulario fue enviado
-if ($_SERVER['REQUEST_METHOD'] === 'POST'){
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST'){
   $email = $_POST['InputEmail'];
   $password = trim($_POST['InputPassword']); // Elimina espacios en blanco al inicio y al final
 
-  
 
-  $stmt = $conn->prepare("SELECT *  FROM  usuarios WHERE email = :email");
+  $stmt = $conn->prepare("SELECT u.id_usuario, u.nombre_usuario, u.email, u.contrasena, 
+  r.nombre AS rol_usuario
+  FROM usuarios u JOIN roles_usuarios ru ON u.id_usuario = ru.id_usuario 
+  JOIN roles r ON ru.id_rol = r.id_rol WHERE u.email = :email");
   $stmt->execute([':email' => $email]);
   $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
 //print_r($usuario);
 
-print_r($usuario['contrasena']); // Hash guardado en la base de datos
+//print_r($usuario['contrasena']); // Hash guardado en la base de datos
 
-print_r($password); 
+//print_r($password); 
 
 $hash = $usuario['contrasena'];
 
 if ($usuario) {
   if (password_verify($password, $hash)) {
-      echo "Contraseña válida.";
+    $_SESSION['id_usuario'] = $usuario['id_usuario'];
+    $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
+    $_SESSION['rol_usuario'] = $usuario["rol_usuario"];
       require(__DIR__.'/../includes/permisos.php');     
     // Comprueba el permiso del usuario
-      if (permisos::tienePermiso('ver_panel_admi_sistema', $_SESSION['usuario_id'])) {
+      if (permisos::tienePermiso('Agregar administrador', $_SESSION['id_usuario'])) {
         header('Location:/Sitio-web-para-venta-de-entradas/componentes/interfaz-admin-sistemas.php');
         exit;
-      } elseif (permisos::tienePermiso('ver_panel_admi_eventos', $_SESSION['usuario_id'])) {
-        header('Location:/Sitio-web-venta-de-entradas/interfaz-admin-eventos.php');
+      } elseif (permisos::tienePermiso('Crear evento', $_SESSION['id_usuario'])) {
+        header('Location:/Sitio-web-para-venta-de-entradas/componentes/interfaz-admin-eventos.php');
         exit;
-      } elseif(permisos::tienePermiso('comprar_entrada', $_SESSION['usuario_id'])) {
-        header('Location:/Sitio-web-venta-de-entradas/mi-cuenta.php');
+      } elseif(permisos::tienePermiso('Comprar entradas', $_SESSION['id_usuario'])) {
+        header('Location:/Sitio-web-para-venta-de-entradas/componentes/mi-cuenta.php');
         exit;
       }else{
-        header("Location:/Sitio-web-venta-de-entradas/registrarse.php");
+        echo "Usted no posee permisos";
       }
         exit;
   } else {
@@ -86,7 +91,7 @@ $conn = null;
       </div>
     </div>
   </nav>
-  <form class="w-50 mx-auto pt-5"method="POST" action="" id="formulario">
+  <form class="w-50 mx-auto pt-5" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" id="formulario">
     <h1 class="pt-5">Iniciar sesión</h1>
     <div class="mb-3">
       <label for="InputEmail" class="form-label">Email</label>
@@ -104,6 +109,6 @@ $conn = null;
     <br>
   </form>
   
-    
+
 </body>
 </html>

@@ -34,9 +34,10 @@ function validarFormulario() {
     }
 
     // Si el formulario está validado, puedes proceder con el envío o alguna acción
-    if (validado) {
+    if (validado == true) {
     
         // Aquí puedes proceder con el envío del formulario o realizar alguna acción
         console.log('Formulario válido. Procediendo...');
+        return true
     }
 }

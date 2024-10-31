@@ -12,19 +12,18 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark  w-100 " style="z-index: 1;">
         <div class="container-fluid">
-          <a class="navbar-brand" href="../inicio.html">MisEntradas.com</a>
+          <a class="navbar-brand" href="../inicio.php">MisEntradas.com</a>
           <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item dropdown">
-                <a class="nav-link active dropdown-toggle " href="interfaz-admin-eventos.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <a class="nav-link active dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                   Mi cuenta
                 </a>
                 <ul class="dropdown-menu bg-dark">
-                  <li><a class="dropdown-item bg-dark text-light" href="crear-evento.html">Crear evento</a></li>
-                  <li><a class="dropdown-item bg-dark text-light" href="interfaz-admin-eventos.html">Mi cuenta</a></li>
+                  <li><a class="dropdown-item bg-dark text-light" href="interfaz-admin-eventos.php">Mi cuenta</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="editar-datos.html">Datos personales</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="cambiar-contraseña.html">Cambiar contraseña</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="#">Cerrar sesión</a></li>
@@ -170,22 +169,6 @@
         </div>
       </form>
       
-      
-      <div class="modal fade " data-bs-backdrop="static" id="successModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="modalLabel">Evento creado</h5>
-            </div>
-            <div class="modal-body">
-              Su el evento fue guardado  exitosamente, ya puedes visualizarlo en tu lista de eventos.
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    
+
 </body>
 </html>

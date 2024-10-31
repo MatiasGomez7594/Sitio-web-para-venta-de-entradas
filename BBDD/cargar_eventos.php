@@ -7,6 +7,7 @@ try {
     $sql = "
     SELECT 
         e.id_evento,
+        e.id_categoria_evento,
         e.nombre_evento,
         e.nombre_recinto,
         e.evento_mayores,
@@ -41,7 +42,7 @@ try {
     LEFT JOIN tipos_entradas_evento te ON e.id_evento = te.id_evento
     LEFT JOIN entradas_numeradas en ON te.id_tipo_x_evento = en.id_tipo_entrada
     WHERE e.id_admin_evento = :id_admin_evento 
-    GROUP BY e.id_evento;
+    ORDER BY e.fecha_registro ASC;
     ";
     // Preparar la declaración
     $stmt = $conn->prepare($sql);

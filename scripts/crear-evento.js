@@ -98,6 +98,7 @@ function validarEvento(){
           elemento.parentElement.appendChild(mensajeError);
       }
   });
+  
   let fechaValida = ValidarFechaEvento()
 
   if (formularioValido && fechaValida==true && entradasEvento) {
@@ -113,70 +114,16 @@ function validarEvento(){
   } else {
       console.log("Formulario inválido. Corrige los campos resaltados.");
       document.getElementById("errorCampos").classList.add("text-danger")
-
       document.getElementById("errorCampos").classList.remove("oculto")
 
   }
 }
 
-function ValidarDatosEvento(){
-  //datos del evento
-  let nombreEvento = document.getElementById("nombreEvento")
-  let recinto = document.getElementById("recinto")
-  let eventoMayores = document.getElementById("eventoMayores")
-  let eventoDiscapacitados = document.getElementById("eventoDiscapacitados")
-  let categoria = document.getElementById("categoria")
-  let provincias = document.getElementById("provincias")
-  let provinciaSeleccionada =  provincias.options[provincias.selectedIndex].text;
-  let ciudades = document.getElementById("ciudades")
-  let ciudadSeleccionada = ciudades.options[ciudades.selectedIndex].text;
-  let direccion = document.getElementById("direccion")
-
-      // Agregar datos de entradas en formato JSON (por ejemplo)
-      const entradasEvento = [];
-      let tipoEntradas = document.querySelectorAll(".entradaItem")
-  
-      // Crea un array para almacenar los tipos de entradas del evento
-      tipoEntradas.forEach(tipo => {
-        let inputs = tipo.querySelectorAll('input[type="text"]');
-        let checkbox = tipo.querySelector('input[type="checkbox"]')
-        
-        // Almacena los valores de los inputs en un array temporal
-        let valoresInputs = Array.from(inputs).map(input => input.value);
-         // Selecciona el checkbox dentro de cada item y verifica si está seleccionado
-         const estanNumeradas = checkbox && checkbox.checked ? "si" : "no";
-         
-         // Agrega los tipos y si estan numeradas segun el checkbox
-         entradasEvento.push({
-             valoresInputs: valoresInputs,
-             opcionSeleccionada: estanNumeradas
-         });
-    
-    })
-
-
-  let fechaValida = ValidarFechaEvento()
-  if(nombreEvento.value && direccion.value  && recinto.value && eventoMayores.value &&
-    eventoDiscapacitados.value && categoria.value && fechaValida == true
-    && provinciaSeleccionada && ciudadSeleccionada && entradasEvento
-  ){
-    document.getElementById("errorCampos").classList.add("oculto")
- 
-    CrearEvento()
-
-
-  }else{
-    document.getElementById("errorCampos").classList.remove("oculto")
-  }
-
-
-}
 
 document.getElementById("btnCrear").addEventListener("click",function(){
   //console.log("crerar evento....")
   validarEvento()
 
-  //ValidarDatosEvento()
 })
 
 
@@ -185,23 +132,7 @@ document.getElementById("btnCrear").addEventListener("click",function(){
 
 
 
-//funcion para cambiar el formato de la fecha
-function cambiarFormatoFecha(fechaOriginal) {
-   let partesFechaHora = fechaOriginal.split("T"); // Dividir la fecha y la hora
-   let fecha = partesFechaHora[0]; // "2024-09-24"
-   let hora = partesFechaHora[1]; // "10:20"
-    
-    // Dividir la fecha (YYYY-MM-DD)
-   let partesFecha = fecha.split("-");
-   let anio = partesFecha[0];
-   let mes = partesFecha[1];
-   let dia = partesFecha[2];
-    
-    // Formato deseado: "DD/MM/YYYY - HH:MM"
-   let fechaFormateada = dia + "/" + mes + "/" + anio + " - " + hora;
-    
-    return fechaFormateada
-}
+
 
 
 

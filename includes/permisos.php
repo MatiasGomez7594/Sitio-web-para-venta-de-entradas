@@ -103,7 +103,7 @@ class Permisos
             INNER JOIN
                 roles_usuarios
                     ON
-                        roles_usuarios.id_rol = roles.id
+                        roles_usuarios.id_rol = roles.id_rol
             WHERE 
                 roles_usuarios.id_usuario = :idUsuario;
         ";
@@ -144,7 +144,7 @@ class Permisos
             INNER JOIN
                 roles_usuarios
                     ON
-                        roles_usuarios.id_rol = roles.id
+                        roles_usuarios.id_rol = roles.id_rol
             WHERE 
                     roles_usuarios.id_usuario = :idUsuario 
                 AND roles.nombre IN (" . $bindRoles . ")

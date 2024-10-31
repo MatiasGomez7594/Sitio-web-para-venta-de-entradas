@@ -22,7 +22,7 @@ CREATE TABLE permisos (
 
 CREATE TABLE roles(
     id_rol INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    nombre_rol VARCHAR(70) -- usuario, admin eventos, admin sistemas, etc
+    nombre VARCHAR(70) -- usuario, admin eventos, admin sistemas, etc
 )
 
 CREATE TABLE roles_permisos(
@@ -138,7 +138,7 @@ CREATE TABLE compra_items(
     id_compra INT NOT NULL,
     id_tipo_entrada INT NOT NULL,  -- Clave foránea que referencia a la tabla de tipos de entradas
     cantidad INT NOT NULL,  -- Cantidad de entradas compradas
-    FOREIGN KEY (id_compra) REFERENCES compras(id_compra)
+    FOREIGN KEY (id_compra) REFERENCES compras(id_compra),
     FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_entrada)
 )
 
@@ -208,8 +208,9 @@ CREATE TABLE categorias_eventos(
 )
 
 --Algunos inserts
+INSERT INTO `permisos`( `nombre`) VALUES ('Crear evento'),('Comprar entradas'),('Agregar administrador');
 INSERT INTO `roles`( `nombre_rol`) VALUES ('administrador de eventos'),('administrador de sistemas'),('cliente');
-INSERT INTO `roles_permisos` (`id`, `id_rol`, `id_permiso`) VALUES (NULL, '1', '1'), (NULL, '2', '3'), (NULL, '3', '2');
+INSERT INTO `roles_permisos` ( `id_rol`, `id_permiso`) VALUES ( '1', '1'), ( '2', '3'), ( '3', '2');
 
 INSERT INTO `categorias_eventos`( `nombre_categoria`) VALUES ('Musical'),
 ('Deportivo'),('Arte'),('Ciencia'),('Cine');

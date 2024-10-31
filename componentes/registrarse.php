@@ -11,7 +11,7 @@
 <body >
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-fixed  w-100 " style="z-index: 1;">
         <div class="container-fluid">
-          <a class="navbar-brand" href="../inicio.html">MisEntradas.com</a>
+          <a class="navbar-brand" href="../inicio.php">MisEntradas.com</a>
           </div>
         </div>
       </nav>

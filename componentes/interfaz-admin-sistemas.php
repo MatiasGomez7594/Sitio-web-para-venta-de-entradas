@@ -2,9 +2,9 @@
 require(__DIR__.'/../includes/globals.php');
 require(__DIR__.'/conexion.php');
 
-if (!isset($_SESSION['usuario_id'])) {
+if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario']!= 'administrador de sistemas') {
   // Redirigir si no hay sesion
-  header('Location: /Sitio-web-para-venta-de-entradas/componentes/registrarse.php');
+  header('../inicio.php');
   exit;
 }
 ?>
@@ -21,34 +21,10 @@ if (!isset($_SESSION['usuario_id'])) {
 <title>Mis entradas</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark  w-100 " style="z-index: 1;">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="../inicio.html">MisEntradas.com</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item dropdown">
-                <a class="nav-link active dropdown-toggle " href="interfaz-admin-eventos.html" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Mi cuenta
-                </a>
-                <ul class="dropdown-menu bg-dark">
-                  <li><a class="dropdown-item bg-dark text-light" href="interfaz-admin-sistemas.html">Mi cuenta</a></li>
-                  <li><a class="dropdown-item bg-dark text-light" href="editar-datos.html">Datos personales</a></li>
-                  <li><a class="dropdown-item bg-dark text-light" href="cambiar-contraseña.html">Cambiar contraseña</a></li>
-                  <li> <a href="ver-administradores.html" class="dropdown-item bg-dark text-light"  >Ver administradores</a></li>
-                  <li> <a href="ver-tipo-entradas.html" class="dropdown-item bg-dark text-light"  >Ver tipos de entradas</a></li>
-                  <li> <a href="ver-preguntas-frecuentes.html" class="dropdown-item bg-dark text-light"  >Ver preguntas frecuentes</a></li>
-                  <li> <a href="reporte-de-ventas.html" class="dropdown-item bg-dark text-light"  >Generar reporte de ventas</a></li>
-                  <li><a class="dropdown-item bg-dark text-light" href="../inicio.html">Cerrar sesión</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-      <h1>Bienvenid@! esta es la interfaz del administrador de sistemas</h1>
+  <!-- Añado al html el nav de la interfaz-->
+  <?php require_once("nav-sistemas.php")?>
+
+      <h1>Bienvenid@! <?php echo $_SESSION['nombre_usuario']?> esta es la interfaz del administrador de sistemas</h1>
 
     <div class="container  mx-auto mb-5 mt-5 row gap-1  " >
         <a href="ver-administradores.html" class="btn btn-primary active col-lg-2  col-md-6 col-sm-12"  tabindex="-1" role="button">Ver administradores</a>

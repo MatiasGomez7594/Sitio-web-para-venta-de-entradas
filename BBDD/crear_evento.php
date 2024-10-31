@@ -82,7 +82,7 @@ try {
         $buscar_entradas_numeradas->execute();
         $resultados = $buscar_entradas_numeradas->fetchAll(PDO::FETCH_ASSOC);
         foreach ($resultados as $fila) {
-           for($i=1;$i<(int)$fila['cantidad_por_tipo'] ;$i++){
+           for($i=1;$i<(int)$fila['cantidad_por_tipo']+1 ;$i++){
                 $stmt = $conn->prepare("INSERT INTO entradas_numeradas( numeracion_entrada,id_tipo_entrada,estado) 
                 VALUES (:numeracion_entrada,:id_tipo_entrada,:estado)");
                 $stmt->execute([
