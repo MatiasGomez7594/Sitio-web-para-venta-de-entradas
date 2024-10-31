@@ -1,3 +1,13 @@
+<?php
+require(__DIR__.'/../includes/globals.php');
+require(__DIR__.'/conexion.php');
+
+if (!isset($_SESSION['usuario_id'])) {
+  // Redirigir si no hay sesion
+  header('Location: /Sitio-web-para-venta-de-entradas/componentes/registrarse.php');
+  exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

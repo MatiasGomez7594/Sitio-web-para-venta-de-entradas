@@ -1,7 +1,9 @@
 document.getElementById('formulario').addEventListener('submit', function(event) {
-    event.preventDefault(); // Evita el envío del formulario
+    event.preventDefault(); // Evita el envío del formulario inicialmente
     
-    validarFormulario(); // Llamada a la función de validación
+    if (validarFormulario()) { // Llama a la validación y permite el envío solo si retorna true
+        this.submit(); // Envía el formulario
+    }
 });
 
 function validarFormulario() {
@@ -33,8 +35,7 @@ function validarFormulario() {
 
     // Si el formulario está validado, puedes proceder con el envío o alguna acción
     if (validado) {
-        // Redirigir a otra página
-    window.location.href = "mi-cuenta.html";
+    
         // Aquí puedes proceder con el envío del formulario o realizar alguna acción
         console.log('Formulario válido. Procediendo...');
     }
