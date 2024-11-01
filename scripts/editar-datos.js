@@ -1,46 +1,93 @@
+document.getElementById("formeditardatos").addEventListener("submit", function(event){
+    event.preventDefault();
+   validarFormulario();
+   
 
-function validarFormulario(event) {
-    event.preventDefault();  // Prevenir envío del formulario 
+});
 
-    const nombreUsuario = document.getElementById('nombre-usuario').value;
-    const email = document.getElementById('email').value;
-    const telefono = document.getElementById('telefono').value;
-    const errorMessagesDiv = document.getElementById('error-messages');
 
-    let errores = [];
 
-    // Limpiar mensajes de error anteriores
-    errorMessagesDiv.innerHTML = '';
-    errorMessagesDiv.classList.add('d-none'); // Ocultar el contenedor inicialmente
 
-    // Validación del nombre de usuario
-    if (nombreUsuario.length < 3) {
-        errores.push("El nombre de usuario debe tener al menos 3 letras.");
-    }
 
-    // Validación del email
-    const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!regexEmail.test(email)) {
-        errores.push("El email debe tener un formato válido.");
-    }
+function validarFormulario() {
+        let isValid = true;
 
-    // Validación del teléfono (números únicamente, con 7 a 15 dígitos)
-    const regexTelefono = /^\d{7,15}$/;
-    if (!regexTelefono.test(telefono)) {
-        errores.push("El teléfono debe contener solo números y tener entre 7 y 15 dígitos.");
-    }
+        const nombreusuario = document.getElementById('nombre_usuario');
+        const email = document.getElementById('email');
+        const telefono = document.getElementById('telefono');
+        //const errorMessagesDiv = document.getElementById('error-messages');
+        const genero=document.getElementById("genero");
+        const generoerror= document.getElementById("generoerror");
+    
+        limpiarError(nombreusuario);
+        limpiarError(email);
+        limpiarError(telefono);
+        limpiarError(generoerror);
+        
+        // Validación del nombre de usuario
+        if(nombreusuario.value === ""){
+            mostrarError(nombreusuario,"Debe ingresar el nombre por favor ");
+            isValid=false;
+        }
+         else if(nombreusuario.value.length < 3) {
+                        mostrarError(nombreusuario,"El nombre de usuario debe tener al menos 3 letras.");
+                        isValid = false;
+        }
 
-    // Mostrar errores o permitir envío
-    if (errores.length > 0) {
-        errorMessagesDiv.innerHTML = errores.join("<br>"); // Mostrar errores en el contenedor
-        errorMessagesDiv.classList.remove('d-none'); // Mostrar el contenedor
-    } else {
-        errorMessagesDiv.classList.add('d-none'); // Ocultar el contenedor si no hay errores
-    }
+        // Validación del email
+        const regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if(email.value === ""){
+            mostrarError(email,"Debe ingresar el email por favor");
+            isValid=false;
+        }
+         else if  (!regexEmail.test(email.value)) {
+                    mostrarError(email,"El email ingresado no tiene  un formato válido.");
+                    isValid = false;
+        }
+
+        // Validación del teléfono )
+        const regexTelefono = /^\d{10}$/;
+        if(telefono.value === ""){
+            mostrarError(telefono,"Debe ingresar el telefono por favor");
+            isValid=false;
+        }
+         else if  (!regexTelefono.test(telefono.value)) {
+                    mostrarError( telefono,"El teléfono debe contener solo numeros y hasta 10 digitos ");
+                    isValid = false;
+        }
+
+        if(genero.value=== ""){
+            mostrarError(generoerror,"Debe seleccionar un genero por favor ");
+            isValid = false;
+        }
+
+                    if (isValid) {
+                        document.getElementById("formeditardatos").submit();
+                    }
+
+
 }
 
 
 
-    const form = document.querySelector("form");
-    form.addEventListener("submit", validarFormulario);
-
+    function mostrarError(input, mensaje) {
+        // Elimina el mensaje de error existente, si lo hay
+        const errorExistente = input.parentNode.querySelector('.error-message');
+        if (errorExistente) {
+            errorExistente.remove();
+        }
+    
+        // Crea y añade un nuevo mensaje de error
+        const errorContainer = document.createElement('p');
+        errorContainer.textContent = mensaje;
+        errorContainer.classList.add('error-message', 'text-danger');
+        input.parentNode.appendChild(errorContainer);
+    }
+    
+    // Función para limpiar errores
+    function limpiarError(input) {
+        const errorExistente = input.parentNode.querySelector('.error-message');
+        if (errorExistente) {
+            errorExistente.remove();
+        }
+    }

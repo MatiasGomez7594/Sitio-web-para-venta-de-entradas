@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
   $stmt = $conn->prepare("SELECT u.id_usuario, u.nombre_usuario, u.email, u.contrasena, 
-  r.nombre_rol AS rol_usuario
+  r.nombre AS rol_usuario
   FROM usuarios u JOIN roles_usuarios ru ON u.id_usuario = ru.id_usuario 
   JOIN roles r ON ru.id_rol = r.id_rol WHERE u.email = :email");
   $stmt->execute([':email' => $email]);

@@ -11,8 +11,8 @@ const mensajeError4 = document.getElementById('mensajeError4');
 
 
 emailInput.addEventListener('input', () => {
-    const email = emailInput.value; // Ahora estamos validando un email, así que cambiemos la variable
-    // Expresión regular para validar correos electrónicos (simplificada)
+    const email = emailInput.value; 
+    // validar email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
@@ -26,7 +26,7 @@ emailInput.addEventListener('input', () => {
 
 passwordInput.addEventListener('input', () => {
     const password = passwordInput.value;
-    // Expresión regular para validar contraseñas (ejemplo básico)
+    // validar password
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
     if (!passwordRegex.test(password)) {
@@ -49,5 +49,4 @@ textInput.addEventListener('input', () => {
         mensajeError4.textContent = '';
     }
 });
-
 

@@ -1,3 +1,72 @@
+<?php  
+  session_start();
+  if (!isset($_SESSION['id_usuario'])) {
+    // mandar a inicio si no inicio session
+    header("Location: ../inicio.php");
+    exit(); 
+}
+  include 'conexion.php';
+
+
+
+
+
+  $passworderror= $emailerror= $comentarioerror="";
+  $email= $password= $comentario= "";
+ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+   
+   
+     $id_usuario =($_SESSION['id_usuario']);
+     $email= $_POST["email"];
+     $password=$_POST["password"];
+     $comentario=$_POST["comentario"];
+     $formValid = true;
+
+        $resultadoQuery=$conn->prepare (" SELECT contrasena, email from usuarios where id_usuario= :id_usuario");
+        $resultadoQuery->execute([':id_usuario' => $id_usuario]);
+        $usuario = $resultadoQuery->fetch(PDO::FETCH_ASSOC);
+      
+   if($usuario){
+    if(!password_verify($password, $usuario['contrasena'])){
+        $passworderror ="La contraseña es incorrecta";
+        $formValid=false;
+   
+      }
+        
+     if( !($email ===  $usuario["email"] )){
+         $emailerror="Email incorrecto.";
+         $formValid=false;
+     }
+   }
+    if( $formValid){
+
+        $queryRoles = "DELETE FROM roles_usuarios WHERE id_usuario = :id_usuario";
+        $resultadoRoles = $conn->prepare($queryRoles);
+        $resultadoRoles->bindParam(':id_usuario', $id_usuario);
+        $resultadoRoles->execute();
+
+         $query="DELETE FROM usuarios WHERE id_usuario= :id_usuario";
+         $resultadoQuery = $conn->prepare($query);
+         $resultadoQuery->bindParam(':id_usuario', $id_usuario);
+         if($resultadoQuery->execute()) {
+               
+            session_destroy();
+            header("Location: ../inicio.php");
+            exit(); 
+         }
+   
+
+    }
+
+
+
+ }
+ 
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,71 +78,50 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
+        <script defer src="../scripts/eliminar-perfil.js"></script>
     <title>Document</title>
 </head>
 
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-fixed  w-100 " style="z-index: 1;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="../inicio.html">MisEntradas.com</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle " href="mi-cuenta.html" role="button"
-                            data-bs-toggle="dropdown" aria-expanded="false">
-                            Mi perfil
-                        </a>
-                        <ul class="dropdown-menu bg-dark">
-                            <li><a class="dropdown-item bg-dark text-light" href="mi-cuenta.html">Mi cuenta</a></li>
-                            <li><a class="dropdown-item bg-dark text-light" href="mis-compras.html">Mis compras</a></li>
-                            <li><a class="dropdown-item bg-dark text-light" href="editar-datos.html">Datos
-                                    personales</a></li>
-                            <li><a class="dropdown-item bg-dark text-light" href="cambiar-contraseña.html">Cambiar
-                                    contraseña</a></li>
-                            <li><a class="dropdown-item bg-dark text-light" href="mis-tarjetas.html">Mis tarjetas</a>
-                            </li>
-                            <li><a class="dropdown-item bg-dark text-light" href="eliminar-perfil.html">Eliminar
-                                    perfil</a></li>
-                            <li><a class="dropdown-item bg-dark text-light" href="#">Cerrar sesión</a></li>
-
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php require_once("nav-cliente.php")?>
+    
     <div class="mx-auto w-75 pt-5 mb-5">
-        <form class="w-50 mx-auto  pt-5 " id="miFormulario">
+        <form class="w-50 mx-auto  pt-5 " id="miFormulario" action="" method="post">
             <h1 class="pt-5">Eliminar Usuario</h1>
             <div class="mb-3">
                 <label for="exampleInputEmail1" class="form-label">Ingresa tu email </label>
-                <input type="email" placeholder="tucorreo@email.com" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp">
-                <span class="form-label text-danger" id="mensajeError2"></span>
+                <input type="email" placeholder="tucorreo@email.com"   name="email" id="exampleInputEmail1"
+                    aria-describedby="emailHelp"class="form-control <?php if(!empty($emailerror)){echo 'is-invalid';} ?>">
+                    <span class="form-label text-danger" id="mensajeError2"></span>
+                <div class="invalid-feedback">
+                    <?php   
+                     echo $emailerror;
+                    ?>
+                </div>
+               
             </div>
             <div class="mb-3">
                 <label for="exampleInputPassword1" class="form-label">Contraseña</label>
-                <input type="password" placeholder="Ingresa tu contraseña" class="form-control"
-                    id="exampleInputPassword1">
-                <span class="form-label" id="mensajeError3"></span>
+                <input type="password" placeholder="Ingresa tu contraseña" 
+                    id="exampleInputPassword1" name="password"class="form-control <?php if(!empty($passworderror)){echo 'is-invalid';} ?>">
+                    <span class="form-label text-danger" id="mensajeError3"></span>
+                 <div class="invalid-feedback">
+                    <?php   
+                     echo $passworderror;
+                    ?>
+                </div>
+                
             </div>
 
             <div class="mb-3">
                 <label for="exampleText" class="form-label">¿Porque desea eliminar su cuenta? (Opcional)</label>
-                <input type="text" placeholder="..." class="form-control" id="exampleText">
-                <span class="form-label" id="mensajeError4"></span>
+                <input type="text" placeholder="..." class="form-control" id="exampleText" name="comentario">
+                <span class="form-label text-danger" id="mensajeError4"></span>
             </div>
-            <button type="button" class="btn btn-primary w-100 mt-3" onclick="Eliminar()">Eliminar</button>
+            <button type="submit" class="btn btn-primary w-100 mt-3" >Eliminar</button>
         </form>
 
     </div>
-
-    <script src="../scripts/eliminar-perfil.js"></script>
 </body>
 
 </html>

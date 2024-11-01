@@ -1,4 +1,95 @@
-<!DOCTYPE html>
+<?php
+  session_start();
+  if (!isset($_SESSION['id_usuario'])) {
+    // mandar a inicio si no inicio session
+    header("Location: ../inicio.php");
+    exit(); 
+}
+  include 'conexion.php';
+  
+  $msgSuccess ="";
+  $usuario = $_SESSION['id_usuario'];
+
+  if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $formValid = true;
+    $nameusererror = $emailerror= $telefonoerror=  $generoerror ="";
+    $nombre_usuario = $_POST['nombre_usuario'];
+    $email = $_POST['email'];
+    $telefono = $_POST['telefono'];
+    $genero = $_POST['genero'];
+
+    if (empty($nombre_usuario) ){
+          $nameusererror = "El nombre completo es obligatorio.";
+          $formValid=false;
+      }else if ( !preg_match("/^[A-Za-z0-9]{5,}$/", $nombre_usuario)) {
+           $nameusererror= "Por favor, el nombre debe ser mayor a 4 caracteres, puede incluir letras y numeros";
+           $formValid=false;
+      }
+
+//validar email
+    if(empty($email)){
+           $emailerror="El email es obligatorio.";
+           $formValid=false;
+       }else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+          $emailerror="El formato del email es inválido.";
+          $formValid=false;
+      }
+  
+     if(empty($telefono)){
+          $telefonoerror="El telefono es obligatorio";
+          $formValid=false;
+
+       }else if (!preg_match('/^\d{10}$/', $telefono)) {
+             $telefonoerror = "El teléfono solo puede contener maximo 10 digitos.";
+            $formValid=false;
+       }
+      
+       if (empty($genero)) {
+        $generoerror = "El género es obligatorio.";
+        $formValid = false;
+       }
+
+
+    if($formValid){// Prepara la consulta para actualizar los datos del usuario
+      
+      $query = "UPDATE usuarios 
+          SET nombre_usuario = :nombre, 
+              telefono = :telefono, 
+              email = :email, 
+              genero = :genero 
+          WHERE id_Usuario = :idUsuario";
+          
+              $resultadoQuery = $conn->prepare($query);
+              $resultadoQuery->bindParam(':nombre', $nombre_usuario);
+              $resultadoQuery->bindParam(':telefono', $telefono);
+              $resultadoQuery->bindParam(':email', $email);
+              $resultadoQuery->bindParam(':genero', $genero);
+              $resultadoQuery->bindParam(':idUsuario', $usuario);
+            
+              if($resultadoQuery->execute()) {
+        
+                $msgSuccess="Se editaron tus datos correctamente";
+        
+              }else {
+               $msgSuccess="no se pudo realizar la edicion";
+              }
+            }
+    
+    
+
+
+
+
+
+
+}
+
+
+?>
+
+
+<!
+DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -11,37 +102,65 @@
 <body>
 <?php require_once("nav-cliente.php")?>
 
-    <form class="w-75 mx-auto pt-5">
+<form class="w-75 mx-auto pt-5"    action=""  method="post" id="formeditardatos">
         <h1 class="mt-5">Edita los datos de tu cuenta</h1>
 
-        <!-- Contenedor para mostrar mensajes de error -->
-        <div id="error-messages" class="alert alert-danger d-none" role="alert"></div>
+        
 
         <div class="row g-3 mt-5">
             <div class="col">
-                <label for="nombre-usuario" class="form-label">Nombre de usuario</label>
-              <input type="text" class="form-control" placeholder="Nombre de usuario" id="nombre-usuario" aria-label="First name" value="Usuario">
+                <label for="nombre_usuario" class="form-label">Nombre de usuario</label>
+              <input type="text"  placeholder="Nombre de usuario" name="nombre_usuario" id="nombre_usuario" aria-label="First name"class="form-control <?php if(!empty($nameusererror)){echo 'is-invalid';} ?>">
+        <div class="invalid-feedback">
+                    <?php   
+                     echo $nameusererror;
+                    ?>
+                </div>
             </div>
             <div class="col">
                 <label for="email" class="form-label">Email</label>
-              <input type="text" class="form-control" id="email" placeholder="Email@ejemplo.com" aria-label="Last name" value="Usuario@email.com">
+              <input type="text"  id="email" name="email" placeholder="Email@ejemplo.com" aria-label="Last name"class="form-control <?php if(!empty($emailerror)){echo 'is-invalid';} ?>">
+        <div class="invalid-feedback">
+                    <?php   
+                     echo $emailerror;
+                    ?>
+                </div>
             </div>
           </div>
           <div class="row g-3 mt-5">
             <div class="col">
                 <label for="telefono" class="form-label">Teléfono</label>
-              <input type="text" class="form-control" id="telefono" placeholder="Teléfono" aria-label="First name" value="1234567890">
+              <input type="text"  id="telefono" name="telefono" placeholder="Teléfono" aria-label="First name"class="form-control <?php if(!empty($telefonoerror)){echo 'is-invalid';} ?>">
+        <div class="invalid-feedback">
+                    <?php   
+                     echo $telefonoerror;
+                    ?>
+                </div>
             </div>
             <div class="col">
                 <label for="genero" class="form-label">Género</label>
-                <select class="form-select" aria-label="Default select example" id="genero">
-                    <option selected value="hombre">Hombre</option>
+                <select class="form-select  <?php if (!empty($generoerror)) { echo 'is-invalid'; } ?>" aria-label="Default select example" id="genero" name="genero">
+                    <option value="">selecione una opcion..</option>
+                    <option value="hombre">Hombre</option>
                     <option value="mujer">Mujer</option>
                     <option value="otro">Otro</option>
-                  </select>            
+                  </select>  
+                  <div  id=generoerror class="invalid-feedback">
+                              <?php echo $generoerror; ?>
+                 </div>          
             </div>
           </div>
           <button class="btn btn-primary btn-lg mt-5" type="submit">Guardar</button>
-    </form>
+    
+          <div class="mt-4">
+          <?php if (!empty($msgSuccess)) { ?>
+                                  <div class="alert alert-success">
+                                      <?php echo  $msgSuccess; ?>
+                                  </div>
+                              <?php } ?> 
+       </div>
+
+   </form>
+       
 </body>
 </html>
