@@ -2,7 +2,8 @@
 require(__DIR__.'/../includes/globals.php');
 require(__DIR__.'/conexion.php');
 // Verifica si el formulario fue enviado
-
+$contrasena_incorrecta = '';
+$usuario_incorrecto = '';
 if ($_SERVER['REQUEST_METHOD'] == 'POST'){
   $email = $_POST['InputEmail'];
   $password = trim($_POST['InputPassword']); // Elimina espacios en blanco al inicio y al final
@@ -21,19 +22,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 //print_r($password); 
 
-$hash = $usuario['contrasena'];
 
 if ($usuario) {
+  $hash = $usuario['contrasena'];
   if (password_verify($password, $hash)) {
     $_SESSION['id_usuario'] = $usuario['id_usuario'];
     $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
     $_SESSION['rol_usuario'] = $usuario["rol_usuario"];
-
-  
-
       require(__DIR__.'/../includes/permisos.php');     
     // Comprueba el permiso del usuario
-      if (permisos::tienePermiso('ver_panel_admi_sistema', $_SESSION['id_usuario'])) {
+      if (permisos::tienePermiso('Agregar administrador', $_SESSION['id_usuario'])) {
         header('Location:/Sitio-web-para-venta-de-entradas/componentes/interfaz-admin-sistemas.php');
         exit;
       } elseif (permisos::tienePermiso('Crear evento', $_SESSION['id_usuario'])) {
@@ -47,29 +45,15 @@ if ($usuario) {
       }
         exit;
   } else {
-      echo "Contraseña incorrecta.";
+      $contrasena_incorrecta ='<div class="alert alert-danger mt-5" role="alert">
+                  Contraseña incorrecta
+                  </div>';
   }
-}
+} $usuario_incorrecto ='<div class="alert alert-danger mt-5" role="alert">
+El email no se encuentra registrado.
+</div>';
 
-    // Verifica la contraseña
-   /* if ($usuario && password_verify($password, $usuario['contrasena']) ) {
-      // Inicia sesion y almacena informacion del usuario
-      $_SESSION['usuario_id'] = $usuario['id_usuario'];
-      $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
-  
-          // Verificar si las variables de sesión se han establecido
-   /*if (isset($_SESSION['usuario_id']) && isset($_SESSION['nombre_usuario'])) {
-      echo "Sesión iniciada correctamente.<br>";
-      echo "ID del usuario: " . $_SESSION['usuario_id'] . "<br>";
-      echo "Nombre del usuario: " . $_SESSION['nombre_usuario'];
-    } else {
-      echo "Error: No se pudieron establecer las variables de sesión.";
-    }*/   
-      
- /* } else {
-      $error = "Usuario o contraseña incorrectos.";
 
-  }*/
       
 }
 
@@ -90,12 +74,16 @@ $conn = null;
 <body>
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-fixed  w-100 " style="z-index: 1;">
     <div class="container-fluid">
-      <a class="navbar-brand" href="../inicio.html">MisEntradas.com</a>
+      <a class="navbar-brand" href="../inicio.php">MisEntradas.com</a>
       </div>
     </div>
   </nav>
   <form class="w-50 mx-auto pt-5" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" id="formulario">
-    <h1 class="pt-5">Iniciar sesión</h1>
+  <?php echo $contrasena_incorrecta?>
+  <?php echo $usuario_incorrecto?>
+
+  
+  <h1 class="pt-5">Iniciar sesión</h1>
     <div class="mb-3">
       <label for="InputEmail" class="form-label">Email</label>
       <input type="email" placeholder="Ejemplo@email.com" name="InputEmail" class="form-control" id="InputEmail" aria-describedby="emailHelp" required>

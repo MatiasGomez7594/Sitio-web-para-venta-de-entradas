@@ -44,7 +44,18 @@ CREATE TABLE roles_usuarios (
 
 >>>>>>> 8ee65126797abff1ea8e011653169ef5a310e9f0
 
+CREATE TABLE provincias(
+    id_provincia INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre VARCHAR(50)
+)
 
+CREATE TABLE ciudades(
+    id_ciudad INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre VARCHAR(200),
+    id_provincia INT NOT NULL,
+    FOREIGN KEY (id_provincia) REFERENCES provincias(id_provincia)
+
+)
 
 
 CREATE TABLE eventos (
@@ -56,14 +67,17 @@ CREATE TABLE eventos (
     evento_discapacitados TINYINT NOT NULL DEFAULT 0,  -- 0 = No, 1 = Sí
     fecha_inicio DATETIME NOT NULL,  -- Fecha y hora de inicio del evento
     fecha_fin DATETIME NOT NULL,  -- Fecha y hora de finalización del evento
-    provincia VARCHAR(100) NOT NULL,  -- Provincia donde se realiza el evento
-    ciudad VARCHAR(100) NOT NULL,  -- Ciudad donde se realiza el evento
+    id_provincia INT NOT NULL,  -- ID Provincia donde se realiza el evento
+    id_ciudad INT NOT NULL,  -- ID Ciudad donde se realiza el evento
     direccion VARCHAR(255),  -- Dirección del evento
     total_localidades INT NOT NULL,  -- Total de localidades disponibles
     id_admin_evento INT NOT NULL,  -- Clave foránea que referencia a la tabla de administradores de eventos
     fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de registro del evento
+    estado VARCHAR(50) DEFAULT 'activo' NOT NULL, 
     FOREIGN KEY (id_admin_evento) REFERENCES usuarios(id_usuario),  -- Relación con la tabla de administradores de eventos
-    FOREIGN KEY (id_categoria_evento) REFERENCES categorias_eventos(id_categoria)  -- Relación con la tabla de categorias
+    FOREIGN KEY (id_categoria_evento) REFERENCES categorias_eventos(id_categoria),  -- Relación con la tabla de categorias
+    FOREIGN KEY (id_provincia) REFERENCES provincias(id_provincia),  -- Relación con la tabla de provincias
+    FOREIGN KEY (id_ciudad) REFERENCES ciudades(id_ciudad)  -- Relación con la tabla de ciudades
 
 );
 --DAtos de las imgs del evento
@@ -72,8 +86,6 @@ CREATE TABLE imgs_eventos(
     id_evento INT NOT NULL,
     nombre_img VARCHAR(255),
     url_img VARCHAR(255),
-    extension VARCHAR(25),
-    tamano INT(11),
     FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
 
 )
@@ -94,10 +106,9 @@ CREATE TABLE tipos_entradas_evento (
     precio DECIMAL(10, 2) NOT NULL,  -- Precio de la entrada
     cantidad_por_tipo INT NOT NULL,  -- Cantidad de entradas por tipo
     estan_numeradas VARCHAR(2),-- Estan numeradas si/no
+    estado VARCHAR(50) DEFAULT 'activo' NOT NULL, 
     FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
     FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas(id_tipo)  -- Relación con la tabla con los tipos de entradas
-
-
 );
 
 CREATE TABLE entradas_numeradas(
@@ -111,27 +122,15 @@ CREATE TABLE entradas_numeradas(
 
 
 CREATE TABLE compras (
-
     id_compra INT AUTO_INCREMENT PRIMARY KEY,
-
     id_usuario INT NOT NULL,  -- Clave foránea que referencia a la tabla de usuarios
-
     nombre_comprador VARCHAR(255) NOT NULL,  -- Nombre completo del comprador
-
     email VARCHAR(100) NOT NULL,  -- Email del comprador
-
     dni VARCHAR(20) NOT NULL,  -- DNI del comprador
-
     telefono VARCHAR(20) NOT NULL,  -- Teléfono del comprador
-
     metodo_pago ENUM('Credito/Debito', 'Efectivo') NOT NULL,  -- Método de pago
-
     fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de la compra
-
-
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
-
-
 );
 
 CREATE TABLE compra_items(
@@ -209,11 +208,19 @@ CREATE TABLE categorias_eventos(
 
 --Algunos inserts
 INSERT INTO `permisos`( `nombre`) VALUES ('Crear evento'),('Comprar entradas'),('Agregar administrador');
-INSERT INTO `roles`( `nombre_rol`) VALUES ('administrador de eventos'),('administrador de sistemas'),('cliente');
+INSERT INTO `roles`( `nombre`) VALUES ('administrador de eventos'),('administrador de sistemas'),('cliente');
 INSERT INTO `roles_permisos` ( `id_rol`, `id_permiso`) VALUES ( '1', '1'), ( '2', '3'), ( '3', '2');
 
 INSERT INTO `categorias_eventos`( `nombre_categoria`) VALUES ('Musical'),
 ('Deportivo'),('Arte'),('Ciencia'),('Cine');
+
+INSERT INTO `provincias` (`id_provincia`, `nombre`) VALUES (NULL, 'Buenos Aires'), 
+(NULL, 'CABA'), (NULL, 'Santa Fé'), (NULL, 'Córdoba');
+
+INSERT INTO `ciudades` (`id_ciudad`, `nombre`, `id_provincia`) VALUES (NULL, 'Merlo', '1'), 
+(NULL, 'La plata', '1'), (NULL, 'Ezeiza', '1'), (NULL, 'Rio cuarto', '4'), 
+(NULL, 'Córdoba', '4'), (NULL, 'Palermo', '2'), (NULL, 'Flores', '2'), 
+(NULL, 'Santa Fé', '3'), (NULL, 'Rosario', '3');
 
 UPDATE `eventos` SET `evento_discapacitados` = '1', `fecha_inicio` = '2024-10-14 22:16:54', `fecha_fin` = '2024-10-14 00:16:54', `fecha_registro` = '2024-10-25 22:16:54' WHERE `eventos`.`id_evento` = 2;
 INSERT INTO `eventos`(`id_categoria_evento`, `nombre_evento`, `nombre_recinto`, `evento_mayores`, `evento_discapacitados`, `fecha_inicio`, `fecha_fin`, `provincia`, `ciudad`, `direccion`, `total_localidades`, `id_admin_evento`, `fecha_registro`) 

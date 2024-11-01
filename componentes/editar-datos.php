@@ -104,9 +104,6 @@ DOCTYPE html>
 
 <form class="w-75 mx-auto pt-5"    action=""  method="post" id="formeditardatos">
         <h1 class="mt-5">Edita los datos de tu cuenta</h1>
-
-        
-
         <div class="row g-3 mt-5">
             <div class="col">
                 <label for="nombre_usuario" class="form-label">Nombre de usuario</label>

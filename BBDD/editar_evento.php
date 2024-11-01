@@ -20,7 +20,7 @@ try {
     $conn->beginTransaction();
 
     // Borrar entradas no numeradas
-    $buscar_entradas_no_numeradas = $conn->prepare("DELETE FROM tipos_entradas_evento 
+    $buscar_entradas_no_numeradas = $conn->prepare("UPDATE tipos_entradas_evento 
         WHERE id_evento = :id_evento AND estan_numeradas = 'no'");
     $buscar_entradas_no_numeradas->execute([':id_evento' => $id_evento]);
 

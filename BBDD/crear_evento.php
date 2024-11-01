@@ -11,16 +11,16 @@ try {
     $evento_discapacitados = $_POST['eventoDiscapacitados'] ?? NULL;
     $fecha_inicio = $_POST['fechaInicio'] ?? NULL;
     $fecha_fin = $_POST['fechaFin'] ?? NULL;
+    $provincia = $_POST['provincias'] ?? NULL;
+    $ciudad = $_POST['ciudades'] ?? NULL;
     $direccion = $_POST['direccion'] ?? NULL;
-    $ciudad = $_POST['ciudad_seleccionada'] ?? NULL;
-    $provincia = $_POST['provincia_seleccionada'] ?? NULL;
     $total_localidades = $_POST['totalLocalidades'] ?? NULL;
     // Obtener las entradas desde el JSON
     $entradas = $_POST['entradas'] ?? NULL;
     //Insertar datos del evento en la base de datos
     $stmt = $conn->prepare("INSERT INTO eventos (id_categoria_evento,
     nombre_evento, nombre_recinto,evento_mayores,evento_discapacitados,fecha_inicio,fecha_fin,
-    provincia, ciudad,direccion,total_localidades, id_admin_evento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,?)");
+    id_provincia, id_ciudad,direccion,total_localidades, id_admin_evento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,?)");
     $stmt->execute([$id_categoria,$nombre_evento, $recinto,$evento_mayores,$evento_discapacitados,$fecha_inicio,$fecha_fin, 
     $provincia,$ciudad,$direccion, $total_localidades,$id_admin]);
     $stmt = $conn->prepare("SELECT id_evento FROM eventos WHERE id_admin_evento = $id_admin ORDER BY id_evento DESC LIMIT 1 ");

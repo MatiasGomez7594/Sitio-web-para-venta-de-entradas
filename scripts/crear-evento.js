@@ -254,16 +254,9 @@ document.getElementById("btnAgregarEntrada").addEventListener("click",function()
 
   function CrearEvento() {
     const formData = new FormData(document.getElementById("formEvento"));
-    let provincias = document.getElementById("provincias") 
-    let provinciaSeleccionada =  provincias.options[provincias.selectedIndex].text;
-    let ciudades = document.getElementById("ciudades") 
-    let ciudadSeleccionada = ciudades.options[ciudades.selectedIndex].text;
-
-
     // Agregar datos de entradas en formato JSON (por ejemplo)
     const entradasEvento = [];
     let tipoEntradas = document.querySelectorAll(".entradaItem")
-
     // Crea un array para almacenar los tipos de entradas del evento
     tipoEntradas.forEach(tipo => {
       let inputs = tipo.querySelectorAll('input[type="text"]');
@@ -282,9 +275,6 @@ document.getElementById("btnAgregarEntrada").addEventListener("click",function()
   
   })
     formData.append("entradas", JSON.stringify(entradasEvento));
-    formData.append('id_admin_eventos', 3);
-    formData.append('provincia_seleccionada', provinciaSeleccionada);
-    formData.append('ciudad_seleccionada', ciudadSeleccionada);
 
       // Comprobar el contenido de FormData antes de enviar
   for (const [key, value] of formData.entries()) {
@@ -304,7 +294,7 @@ document.getElementById("btnAgregarEntrada").addEventListener("click",function()
 
         document.getElementById("formEvento").reset()
         let listadoTipoEntradas = document.getElementById('listadoTipoEntradas');
-        listadoTipoEntradas.innerHTML = ''; // Limpiar la lista
+        listadoTipoEntradas.innerHTML = ''; // Limpiar la lista con las entradas
         var modalElement = document.getElementById('successModal');
         var modal = new bootstrap.Modal(modalElement);
         

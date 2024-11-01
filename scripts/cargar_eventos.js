@@ -16,7 +16,6 @@ function cargarDatos() {
 //funcion para cambiar el formato de la fecha
 function cambiarFormatoFecha(fechaOriginal) {
     let partesFechaHora = fechaOriginal.split(" "); // Dividir la fecha y la hora
-    console.log(partesFechaHora)
     let fecha = partesFechaHora[0]; // "2024-09-24"
     let hora = partesFechaHora[1].split(":"); // "10:20"     
      hora = hora[0]+":"+hora[1]
@@ -34,7 +33,6 @@ function cambiarFormatoFecha(fechaOriginal) {
 function mostrarDatos(datos) {
     const tabla = document.getElementById('listadoEventos');
     tabla.innerHTML = ''; // Limpiar contenido previo
-    console.log(datos)
     datos.forEach(registro => {
         let evento =`        
         <div class="container row  mt-3 evento" data-id="${registro.id_evento}">
@@ -235,12 +233,6 @@ controlador.agregarTipoEntrada();
 
 function EditarEvento() {
   const formData = new FormData(document.getElementById("formEvento"));
-  let provincias = document.getElementById("provincias") 
-  let provinciaSeleccionada =  provincias.options[provincias.selectedIndex].text;
-  let ciudades = document.getElementById("ciudades") 
-  let ciudadSeleccionada = ciudades.options[ciudades.selectedIndex].text;
-
-
   // Agregar datos de entradas en formato JSON (por ejemplo)
   const entradasEvento = [];
   let tipoEntradas = document.querySelectorAll(".entradaItem")
@@ -263,8 +255,6 @@ function EditarEvento() {
 
 })
   formData.append("entradas", JSON.stringify(entradasEvento));
-  formData.append('provincia_seleccionada', provinciaSeleccionada);
-  formData.append('ciudad_seleccionada', ciudadSeleccionada);
 
     // Comprobar el contenido de FormData antes de enviar
 for (const [key, value] of formData.entries()) {
@@ -427,9 +417,7 @@ function CargarEvento(eventos){
       const eventoId = parseInt(this.getAttribute("data-id"));
       const evento = eventos.find(e => e.id_evento === eventoId);
       if (evento) {
-        evento.tipos_entradas.forEach(tipo =>
-          console.log(tipo.id_tipo_x_evento)
-        )
+
         // Rellenar los campos del formulario en el modal
         document.getElementById("idEvento").value = evento.id_evento
         document.getElementById("nombreEvento").value = evento.nombre_evento;
@@ -441,7 +429,8 @@ function CargarEvento(eventos){
         document.getElementById("eventoMayores").value = evento.evento_mayores;
         document.getElementById("eventoDiscapacitados").value = evento.evento_discapacitados;
         document.getElementById("categoria").value = evento.id_categoria_evento;
-        //document.getElementById("provincias").value = 1;
+        document.getElementById("provincias").value =evento.id_provincia;
+
         //VerCiudades(evento.provincia)
       }
     });

@@ -1,3 +1,13 @@
+<?php
+require(__DIR__.'/../includes/globals.php');
+require(__DIR__.'/conexion.php');
+// Verificamos si el administrador de eventos inicio sesio
+if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrador de eventos') {
+    header("Location: ../inicio.php");
+    exit;
+}
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,6 +44,7 @@
         </div>
       </nav>
     <form class="w-50 mx-auto pt-5" id="formEvento" enctype="multipart/form-data">
+        <input type="hidden" name="id_admin_eventos" id="idAdmin" value="<?php echo $_SESSION['id_usuario'];?>">
         <h2>Crea un nuevo evento</h2>
         <div id="errorCampos" class="form-text text-danger  fs-6 oculto">
           Complete todos los campos.
@@ -165,10 +176,25 @@
         </div>
         <div class="row mb-5 w-75">
           <button type="button" class="btn btn-primary w-25 m-1" id="btnCrear">Crear evento</button>
-          <a class="btn btn-primary w-25 m-1" href="interfaz-admin-eventos.html">Cancelar</a>
+          <a class="btn btn-primary w-25 m-1" href="interfaz-admin-eventos.php">Cancelar</a>
         </div>
       </form>
       
+      <div class="modal fade " data-bs-backdrop="static" id="successModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalLabel">Evento creado</h5>
+            </div>
+            <div class="modal-body">
+              el evento fue creado  exitosamente, ya puedes visualizarlo en tu lista de eventos.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            </div>
+          </div>
+        </div>
+      </div>
 
 </body>
 </html>

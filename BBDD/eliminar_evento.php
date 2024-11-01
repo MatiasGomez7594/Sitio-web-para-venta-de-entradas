@@ -8,15 +8,16 @@ if (isset($_POST['id_evento'])) {
     try{
         $id_evento = $_POST['id_evento']; 
         $conn->beginTransaction();
-        // Eliminar entradas numeradas asociadas (si existen) a los tipos de entradas del evento
+        // Eliminar entradas numeradas asociadas (si existen) 
+        //a los tipos de entradas del evento
         $sql = "DELETE en FROM entradas_numeradas en
             INNER JOIN tipos_entradas_evento te ON en.id_tipo_entrada = te.id_tipo_x_evento
-            WHERE te.id_evento = :id_evento";
+            WHERE te.id_evento = :id_evento AND en.estado = 'disponible'";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id_evento', $id_evento, PDO::PARAM_INT);
         $stmt->execute();
-        // Eliminar tipos de entradas del evento
-        $sql = "DELETE FROM tipos_entradas_evento WHERE id_evento = :id_evento";
+        // Eliminar logicamente tipos de entradas del evento
+        $sql = "UPDATE tipos_entradas_evento SET estado = 'inactivo' WHERE id_evento = :id_evento ";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id_evento', $id_evento, PDO::PARAM_INT);
         $stmt->execute();
@@ -25,8 +26,8 @@ if (isset($_POST['id_evento'])) {
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id_evento', $id_evento, PDO::PARAM_INT);
         $stmt->execute();
-        // Eliminar el evento
-        $sql = "DELETE FROM eventos WHERE id_evento = :id_evento";
+        // Eliminar el evento logicamente
+        $sql = "UPDATE eventos SET estado = 'inactivo' WHERE id_evento = :id_evento";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id_evento', $id_evento, PDO::PARAM_INT);
         $stmt->execute();
