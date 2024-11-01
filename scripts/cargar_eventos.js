@@ -231,6 +231,15 @@ controlador.agregarTipoEntrada();
 });
 
 
+function CerrarModalEditarEvento() {
+  const modalElement = document.getElementById("modalEditarEvento");
+  const modalInstance = bootstrap.Modal.getInstance(modalElement);
+
+  if (modalInstance) {
+    modalInstance.hide(); // Cierra el modal si existe la instancia activa
+  }
+}
+
 function EditarEvento() {
   const formData = new FormData(document.getElementById("formEvento"));
   // Agregar datos de entradas en formato JSON (por ejemplo)
@@ -279,6 +288,11 @@ for (const [key, value] of formData.entries()) {
       var modal = new bootstrap.Modal(modalElement);
       
       modal.show();
+         // Escuchar el evento cuando el modal se oculta
+        modalElement.addEventListener('hidden.bs.modal', function () {
+          CerrarModalEditarEvento()
+      });
+      //oculto el formulario de edicion
 
 
     } else {
@@ -431,7 +445,7 @@ function CargarEvento(eventos){
         document.getElementById("categoria").value = evento.id_categoria_evento;
         document.getElementById("provincias").value =evento.id_provincia;
 
-        //VerCiudades(evento.provincia)
+        VerCiudades(evento.provincia)
       }
     });
   });

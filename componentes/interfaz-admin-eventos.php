@@ -30,7 +30,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrado
       <table class="table  eventos" id="listadoEventos">
       </table>
 
-      <div class="modal fade" id="modalEditarEvento" data-bs-backdrop="static"  tabindex="-1" aria-labelledby="modalEditarEventoLabel" aria-hidden="true">
+    <div class="modal fade" id="modalEditarEvento" data-bs-backdrop="static"  tabindex="-1" aria-labelledby="modalEditarEventoLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
@@ -180,7 +180,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrado
   </div>
 
         
-  <div class="modal fade " data-bs-backdrop="static" id="modalEditarEvento" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+  <div class="modal fade " data-bs-backdrop="static" id="successModal" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">

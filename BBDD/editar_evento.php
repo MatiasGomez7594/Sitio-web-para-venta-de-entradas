@@ -11,8 +11,8 @@ $evento_discapacitados = $_POST['eventoDiscapacitados'] ?? NULL;
 $fecha_inicio = $_POST['fechaInicio'] ?? NULL;
 $fecha_fin = $_POST['fechaFin'] ?? NULL;
 $direccion = $_POST['direccion'] ?? NULL;
-$ciudad = $_POST['ciudad_seleccionada'] ?? NULL;
-$provincia = $_POST['provincia_seleccionada'] ?? NULL;
+$ciudad = $_POST['ciudades'] ?? NULL;
+$provincia = $_POST['provincias'] ?? NULL;
 $total_localidades = $_POST['totalLocalidades'] ?? NULL;
 $entradas = $_POST['entradas'] ?? NULL;
 
@@ -21,7 +21,8 @@ try {
 
     // Borrar entradas no numeradas
     $buscar_entradas_no_numeradas = $conn->prepare("UPDATE tipos_entradas_evento 
-        WHERE id_evento = :id_evento AND estan_numeradas = 'no'");
+    SET estado = 'inactivo'
+        WHERE id_evento = :id_evento ");
     $buscar_entradas_no_numeradas->execute([':id_evento' => $id_evento]);
 
     // Eliminar entradas numeradas disponibles
@@ -39,19 +40,7 @@ try {
         ]);
     }
 
-    // Verificar si quedan entradas numeradas vendidas
-    foreach ($resultados as $fila) {
-        $entradas_numeradas_vendidas = $conn->prepare("SELECT numeracion_entrada FROM entradas_numeradas 
-            WHERE id_tipo_entrada = :id_tipo_entrada");
-        $entradas_numeradas_vendidas->execute([':id_tipo_entrada' => $fila['id_tipo_x_evento']]);
-        $vendidas = $entradas_numeradas_vendidas->fetchAll(PDO::FETCH_ASSOC);
 
-        if (count($vendidas) == 0) {
-            $borrar_entradas_numeradas = $conn->prepare("DELETE FROM tipos_entradas_evento 
-                WHERE id_evento = :id_evento AND estan_numeradas = 'si'");
-            $borrar_entradas_numeradas->execute([':id_evento' => $id_evento]);
-        }
-    }
 
     // Actualizar evento
     $sql = "UPDATE eventos SET 
@@ -62,8 +51,8 @@ try {
         evento_discapacitados = :evento_discapacitados,
         fecha_inicio = :fecha_inicio,
         fecha_fin = :fecha_fin,
-        provincia = :provincia,
-        ciudad = :ciudad,
+        id_provincia = :provincia,
+        id_ciudad = :ciudad,
         direccion = :direccion,
         total_localidades = :total_localidades 
         WHERE id_evento = :id_evento";
