@@ -193,7 +193,12 @@ document.getElementById('formulario').addEventListener('click', function(event) 
 
   })();  // Inmediatamente invocada para encapsular las variables
 
+        const btnNuevo = document.getElementById('btnNuevo');
+        const agregarNuevo = document.getElementById('agregarNuevo');
 
+        btnNuevo.addEventListener('click', () => {
+            agregarNuevo.classList.toggle('d-none');
+        });
 
 
 

@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
   $stmt = $conn->prepare("SELECT u.id_usuario, u.nombre_usuario, u.email, u.contrasena, 
-  r.nombre AS rol_usuario
+  r.nombre_rol AS rol_usuario
   FROM usuarios u JOIN roles_usuarios ru ON u.id_usuario = ru.id_usuario 
   JOIN roles r ON ru.id_rol = r.id_rol WHERE u.email = :email");
   $stmt->execute([':email' => $email]);
@@ -28,9 +28,12 @@ if ($usuario) {
     $_SESSION['id_usuario'] = $usuario['id_usuario'];
     $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
     $_SESSION['rol_usuario'] = $usuario["rol_usuario"];
+
+  
+
       require(__DIR__.'/../includes/permisos.php');     
     // Comprueba el permiso del usuario
-      if (permisos::tienePermiso('Agregar administrador', $_SESSION['id_usuario'])) {
+      if (permisos::tienePermiso('ver_panel_admi_sistema', $_SESSION['id_usuario'])) {
         header('Location:/Sitio-web-para-venta-de-entradas/componentes/interfaz-admin-sistemas.php');
         exit;
       } elseif (permisos::tienePermiso('Crear evento', $_SESSION['id_usuario'])) {
