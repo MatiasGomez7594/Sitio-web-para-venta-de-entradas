@@ -68,3 +68,25 @@
 
 
 
+
+
+.globo{
+    font-size: 70px;
+    margin-left: 5px;
+}
+
+
+.flyer img {
+    width: 100%; /* Ocupa el 100% del ancho del contenedor */
+    height: auto; /* Mantiene la relación de aspecto */
+    max-height: 100%; /* Ajusta la altura según el contenedor */
+    object-fit: cover; /* Cubre el contenedor sin deformarse */
+}
+
+
+
+.oculto{
+    display: none!important;
+}
+
+

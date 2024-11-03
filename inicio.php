@@ -8,8 +8,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/783263774b.js" crossorigin="anonymous"></script> 
-<script src="scripts/script.js" defer></script>
 <script src="scripts/inicio.js" defer></script>   
+
 <title>Mis entradas</title>
 </head>
 <body>
@@ -76,6 +76,7 @@
           <option selected >Buscar por ciudad</option>
           <option value="CABA">CABA</option>
           <option value="Merlo">Merlo</option>
+          <option value="Ezeiza">Ezeiza</option>
           <option value="Córdoba">Córdoba</option>
           <option value="Rosario">Rosario</option>
           <option value="Otra">Otra</option>
@@ -100,58 +101,7 @@
           </div>
         </div>
       </div>
-
-      <div class="galeria-eventos bg-dark">
-        <a class=" link-dark link-underline-opacity-0" id="taylorSwift" data-ciudad="CABA" data-provincia="Buenos Aires" data-precio="15000" data-fecha="2024-09-25" data-nombre="Taylor Swift en concierto" data-categoria="Concierto" href="componentes/ver-evento.html">
-          <div class="card mb-3 " style="width: 14rem;">
-              <img src="imgs/showimg.jpg " class="card-img-top" alt="...">
-              <div class="card-body">
-                <i class="fas fa-map-marker-alt text-body-tertiary"> Estadio monumental</i>              
-                <h4 class="text-wrap" >Taylor Swift en concierto por primera vez</h4>
-                    <hr class="divider">
-                    <h6>25/09/2024 - 20:30hs</h6>
-                    <h6>Precio: 15000 </h6>
-              </div>
-            </div>
-          </a>
-          <a class=" link-dark link-underline-opacity-0" id="therion" data-ciudad="Palermo" data-provincia="Buenos Aires" data-precio="12000" data-fecha="2024-10-30" data-nombre="Therion Leviathan Tour 2024" data-categoria="Concierto" href="componentes/ver-evento.html">
-            <div class="card mb-3 " style="width: 14rem;">
-                <img src="imgs/therion.jpg" class="card-img-top" alt="...">
-                <div class="card-body">
-                  <i class="fas fa-map-marker-alt text-body-tertiary"> Groove, Palermo</i>              
-  
-                    <h4 class="text-wrap">Therion Leviathan Tour 2024</h4>
-                      <hr class="divider">
-                      <h6>30/10/2024 - 21:00 hs</h6>
-                      <h6>Precio: 12000</h6>
-                    </div>
-              </div>
-            </a>
-            <a class=" link-dark link-underline-opacity-0" id="Luis Miguel " data-ciudad="Merlo" data-provincia="Buenos Aires" data-precio="1000" data-fecha="2024-12-08" data-nombre="Luis Miguel en concierto" data-categoria="Concierto" href="componentes/ver-evento.html">
-              <div class="card mb-3 " style="width: 14rem;">
-                  <img src="imgs/luismiguel.jpg" class="card-img-top" alt="...">
-                  <div class="card-body">
-                    <i class="fas fa-map-marker-alt text-body-tertiary"> Cancha de Vélez</i>              
-  
-                      <h4 class="text-wrap">Luis Miguel en concierto</h4>
-                        <hr class="divider">
-                        <h6>8/12/2024 - 19:30 hs</h6>
-                        <h6>Precio: 1000</h6>
-                  </div>
-                </div>
-              </a>
-              <a class=" link-dark link-underline-opacity-0" id="Lola" data-ciudad="Chascomus" data-provincia="Buenos Aires" data-precio="100000" data-fecha="2024-02-02" data-nombre="LollaPaloosa Argentina 2024" data-categoria="Festival"  href="componentes/ver-evento.html">
-                <div class="card mb-3 " style="width: 14rem;">
-                    <img src="imgs/lolla.png" class="card-img-top" alt="...">
-                    <div class="card-body">
-                      <i class="fas fa-map-marker-alt text-body-tertiary"> Campo de Polo</i>              
-                        <h4 class="text-wrap">LollaPaloosa Argentina 2024</h4>
-                          <hr class="divider">
-                          <h6>2/2/2024 - 10:00 hs</h6>
-                          <h6>Precio: 100000 </h6>
-                    </div>
-                  </div>
-                </a>
+      <div class="galeria-eventos bg-dark" id="galeriaEventos">
       </div>
       <div class="container-preguntas-frecuentes w-100 bg-dark pt-2 pb-2">
         <a href="./componentes/preguntas-frecuentes.html" class="preguntasLink">Preguntas frecuentes</a>
