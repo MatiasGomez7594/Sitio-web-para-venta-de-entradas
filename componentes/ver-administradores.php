@@ -13,7 +13,7 @@ $query = "SELECT u.id_usuario, u.nombre_usuario, u.email, u.estado
           FROM usuarios u
           JOIN roles_usuarios ru ON u.id_usuario = ru.id_usuario
           JOIN roles r ON ru.id_rol = r.id_rol
-          WHERE r.nombre_rol = 'administrador de eventos';";
+          WHERE r.nombre = 'administrador de eventos';";
 
 
  $stmt = $conn->prepare($query);
@@ -75,31 +75,7 @@ $query = "SELECT u.id_usuario, u.nombre_usuario, u.email, u.estado
     <title>Administradores de Eventos</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark w-100" style="z-index: 1;">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="../inicio.html">MisEntradas.com</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                    <li class="nav-item dropdown">
-                        <a class="nav-link active dropdown-toggle" href="interfaz-admin-eventos.php" role="button" data-bs-toggle="dropdown" aria-expanded="false">Mi cuenta</a>
-                        <ul class="dropdown-menu bg-dark">
-                            <li><a class="dropdown-item bg-dark text-light" href="interfaz-admin-sistemas.php">Mi cuenta</a></li>
-                            <li><a class="dropdown-item bg-dark text-light" href="editar-datos.php">Datos personales</a></li>
-                            <li><a class="dropdown-item bg-dark text-light" href="cambiar-contraseña.php">Cambiar contraseña</a></li>
-                            <li><a href="ver-administradores.php" class="dropdown-item bg-dark text-light">Ver administradores</a></li>
-                            <li><a href="ver-tipo-entradas.php" class="dropdown-item bg-dark text-light">Ver tipos de entradas</a></li>
-                            <li><a href="ver-preguntas-frecuentes.php" class="dropdown-item bg-dark text-light">Ver preguntas frecuentes</a></li>
-                            <li><a href="reporte-de-ventas.php" class="dropdown-item bg-dark text-light">Generar reporte de ventas</a></li>
-                            <li><a class="dropdown-item bg-dark text-light" href="../inicio.php">Cerrar sesión</a></li>
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <?php include_once("nav-sistemas.php");?>
 
     <div class="container mt-5">
         <h1 class="text-center mb-4">Listado de Administradores de Eventos</h1>
@@ -140,15 +116,11 @@ $query = "SELECT u.id_usuario, u.nombre_usuario, u.email, u.estado
         </div>
     </div>
 <?php endforeach; ?>
-
-
-
         <!-- Boton para agregar nuevo administrador -->
-        <?php if ($puedeCrearAdmin): ?>
         <div class="d-flex justify-content-center">
             <button type="button" class="btn btn-success w-25 mb-3" id="btnNuevo">Agregar nuevo administrador</button>
         </div>
-        <?php endif; 
+        <?php 
     $conn = null;
         ?>
 </body>

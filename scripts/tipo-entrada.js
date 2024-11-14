@@ -4,7 +4,7 @@ const tablaentradas = document.getElementById('tablaentradas');
 document.addEventListener('DOMContentLoaded', cargarentradas);
 
 function cargarentradas() {
-    fetch('obtener-tiposdeentradas.php')
+    fetch('../BBDD/obtener-tipos-entradas.php')
         .then(response => {
             if (!response.ok) throw new Error("Error al cargar las categorías");
             return response.json();
@@ -73,7 +73,7 @@ function agregarentrada() {
     const formData = new FormData(document.getElementById("formentradas"));
     formData.append('action', 'add');
 
-    fetch('ABMentradas.php', {
+    fetch('../BBDD/AMBentradas.php', {
         method: 'POST',
         body: formData
     })
@@ -103,7 +103,7 @@ tablaentradas.addEventListener('click', function(e) {
 
 // Eliminar tipo de entrada
 function eliminarEntrada(identrada) {
-    fetch('ABMentradas.php', {
+    fetch('../BBDD/AMBentradas.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ action: 'delete', id_entrada: identrada })
@@ -118,9 +118,9 @@ function eliminarEntrada(identrada) {
     });
 }
 
-// Editar tipo de enetrada  muestra los datos en el modal 
+// Editar tipo de entrada  muestra los datos en el modal 
 function editarEntrada(identrada) {
-    fetch(`obtener-entrada.php?id=${identrada}`)
+    fetch(`../BBDD/obtener-entrada.php?id=${identrada}`)
         .then(response => response.json())
         .then(data => {
             document.getElementById('editIdEntrada').value = data.id_tipo;
@@ -157,7 +157,7 @@ function actualizarEntrada() {
     const formData = new FormData(document.getElementById('formEditarEntrada'));
     formData.append('action', 'edit');
 
-    fetch('ABMentradas.php', {
+    fetch('../BBDD/AMBentradas.php', {
         method: 'POST',
         body: formData
     })

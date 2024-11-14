@@ -10,7 +10,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
   $stmt = $conn->prepare("SELECT u.id_usuario, u.nombre_usuario, u.email, u.contrasena, 
-  r.nombre_rol AS rol_usuario
+  r.nombre AS rol_usuario
   FROM usuarios u JOIN roles_usuarios ru ON u.id_usuario = ru.id_usuario 
   JOIN roles r ON ru.id_rol = r.id_rol WHERE u.email = :email");
   $stmt->execute([':email' => $email]);
@@ -35,7 +35,7 @@ if ($usuario) {
       if (permisos::tienePermiso('ver_panel_admi_sistema', $_SESSION['id_usuario'])) {
         header('Location:/Sitio-web-para-venta-de-entradas/componentes/interfaz-admin-sistemas.php');
         exit;
-      } elseif (permisos::tienePermiso('', $_SESSION['id_usuario'])) {
+      } elseif (permisos::tienePermiso('Crear evento', $_SESSION['id_usuario'])) {
         header('Location:/Sitio-web-para-venta-de-entradas/componentes/interfaz-admin-eventos.php');
         exit;
       } elseif(permisos::tienePermiso('Comprar entradas', $_SESSION['id_usuario'])) {

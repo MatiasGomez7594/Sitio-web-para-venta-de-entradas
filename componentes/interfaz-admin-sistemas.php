@@ -28,7 +28,7 @@ if (empty(array_intersect($permisosRequeridos, $permisosNombres))) {
     header('Location: ../inicio.php');
     exit;
 }
-print_r($permisosNombres);
+//print_r($permisosNombres);
 ?>
 
 <!DOCTYPE html>

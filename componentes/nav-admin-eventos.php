@@ -16,6 +16,7 @@
                   <li><a class="dropdown-item bg-dark text-light" href="interfaz-admin-eventos.php">Mi cuenta</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="editar-datos.php">Datos personales</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="cambiar-contraseña.php">Cambiar contraseña</a></li>
+                  <li><a class="dropdown-item bg-dark text-light" href="editar-datos.php">Editar datos</a></li>
                   <li><a class="dropdown-item bg-dark text-light"  href="logout.php">Cerrar sesión</a></li>
                 </ul>
               </li>

@@ -270,7 +270,7 @@ function agregarEntradaNumerada(event) {
 
   // Crear elemento de entrada seleccionada
   const entradaDiv = document.createElement("div");
-  entradaDiv.className = "entrada-seleccionada mb-2 d-flex align-items-center";
+  entradaDiv.className = "entrada-seleccionada container-fluid mb-1 d-flex align-items-center justify-content-center w-100";
   entradaDiv.innerHTML = `
       <input type="hidden" value="${idEntrada}" name="idEntradaNumerada">
       <span class="badge bg-secondary me-2">${tipoEntrada}</span>
@@ -283,6 +283,7 @@ function agregarEntradaNumerada(event) {
   const opcionEliminada = selectElement.querySelector(`option[value="${numeracionSeleccionada}"]`);
   opcionEliminada.remove();
 
+
   // Agregar evento de eliminar a cada entrada agregada
   entradaDiv.querySelector(".btnEliminarEntrada").addEventListener("click", function() {
       eliminarEntradaNumerada(entradaDiv, selectElement, numeracionSeleccionada);
@@ -290,6 +291,8 @@ function agregarEntradaNumerada(event) {
 
   // Agregar la entrada seleccionada al contenedor
   formItemsCompra.appendChild(entradaDiv);
+  //formItemsCompra.insertBefore(entradaDiv, formItemsCompra.firstChild);
+
 }
 
   // Función para eliminar una entrada seleccionada de la lista y restaurar la opción en el selector

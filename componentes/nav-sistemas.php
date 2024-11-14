@@ -16,6 +16,8 @@
                   <li> <a href="ver-tipo-entradas.php" class="dropdown-item bg-dark text-light"  >Ver tipos de entradas</a></li>
                   <li> <a href="ver-preguntas-frecuentes.php" class="dropdown-item bg-dark text-light"  >Ver preguntas frecuentes</a></li>
                   <li> <a href="reporte-de-ventas.php" class="dropdown-item bg-dark text-light"  >Generar reporte de ventas</a></li>
+                  <li><a class="dropdown-item bg-dark text-light" href="cambiar-contraseña.php">Cambiar contraseña</a></li>
+                  <li><a class="dropdown-item bg-dark text-light" href="editar-datos.php">Editar datos</a></li>
                   <li><a class="dropdown-item bg-dark text-light"  href="logout.php">Cerrar sesión</a></li>
                 </ul>
               </li>

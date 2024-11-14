@@ -4,7 +4,6 @@ CREATE DATABASE mis_entradas;
 CREATE TABLE usuarios(
     id_usuario INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     nombre_usuario VARCHAR(100),
-    apellido_usuario VARCHAR(100),
     genero VARCHAR(20),
     email VARCHAR(150) NOT NULL,
     telefono VARCHAR(12),
@@ -107,7 +106,7 @@ CREATE TABLE tipos_entradas_evento (
     cantidad_por_tipo INT NOT NULL,  -- Cantidad de entradas por tipo
     estan_numeradas VARCHAR(2),-- Estan numeradas si/no
     estado VARCHAR(50) DEFAULT 'activo' NOT NULL, 
-    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
+    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento),  -- Relación con la tabla de eventos
     FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas(id_tipo)  -- Relación con la tabla con los tipos de entradas
 );
 
@@ -146,14 +145,10 @@ CREATE TABLE compra_items(
 -- Crear tabla preguntas_frecuentes
 
 CREATE TABLE preguntas_frecuentes (
-
     id_pregunta INT AUTO_INCREMENT PRIMARY KEY,
-    nombre_completo VARCHAR(255),
-    email VARCHAR(255),
     pregunta TEXT NOT NULL,
     contenido TEXT NOT NULL,
-
-
+    estado ENUM('activa', 'inactiva')
 );
 
 CREATE TABLE consultas_usuarios(
@@ -162,7 +157,7 @@ CREATE TABLE consultas_usuarios(
     nombre_usuario VARCHAR(250),
     email_usuario VARCHAR(150),
     fecha_consulta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de la consulta
-    estado ENUM('activa', 'respondida') NOT NULL,  -- Método de pago
+    estado ENUM('activa', 'respondida') NOT NULL  -- Método de pago
 )
 
 CREATE TABLE calificacion_evento(
@@ -170,7 +165,7 @@ CREATE TABLE calificacion_evento(
     id_evento INT NOT NULL,
     id_usuario INT NOT NULL
     calificacion INT NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)  -- Relación con la tabla de usuarios
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),  -- Relación con la tabla de usuarios
     FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
 
 )
@@ -225,8 +220,8 @@ INSERT INTO `ciudades` (`id_ciudad`, `nombre`, `id_provincia`) VALUES (NULL, 'Me
 UPDATE `eventos` SET `evento_discapacitados` = '1', `fecha_inicio` = '2024-10-14 22:16:54', `fecha_fin` = '2024-10-14 00:16:54', `fecha_registro` = '2024-10-25 22:16:54' WHERE `eventos`.`id_evento` = 2;
 INSERT INTO `eventos`(`id_categoria_evento`, `nombre_evento`, `nombre_recinto`, `evento_mayores`, `evento_discapacitados`, `fecha_inicio`, `fecha_fin`, `provincia`, `ciudad`, `direccion`, `total_localidades`, `id_admin_evento`, `fecha_registro`) 
 VALUES ('1','Taylor swift Argentina 2024','Estadio River Plate','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','Buenos Aires','Caba','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
-('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','Buenos Aires','Caba','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
-('1','Kiss End of the World tour','Campo de polo','1','1','2023-10-10 22:00:00','2023-10-10 23:55:00','Buenos Aires','Palermo','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
+('1','Kiss End of the World tour','Campo de polo','1','1','2023-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
 
 
 INSERT INTO `imgs_eventos` ( `id_evento`, `nombre_img`, `url_img`, `extension`, `tamano`) VALUES ( '6', 'kiss.png', 'imgs/kiss.png', 'png', '1'),( '4', 'showimg.jpg', 'imgs/showimg.jpg', 'jpg', '2'),( '5', 'luismiguel.jpg', 'imgs/luismiguel.jpg', 'jpg', '1')
@@ -238,3 +233,4 @@ INSERT INTO `entradas_numeradas`( `numeracion_entrada`, `id_tipo_entrada`, `esta
 ('10','3','disponible'),('9','3','vendida'),('18','3','disponible'),('17','3','disponible'),('6','3','vendida')
 
 
+INSERT INTO `preguntas_frecuentes` (`id_pregunta`, `pregunta`, `contenido`, `estado`) VALUES (NULL, 'Medios de pago', 'Aceptamos todos los medios de pago', 'activa');

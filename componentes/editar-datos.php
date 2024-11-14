@@ -100,7 +100,23 @@ DOCTYPE html>
     <script src="../scripts/editar-datos.js" defer></script>
 </head>
 <body>
-<?php require_once("nav-cliente.php")?>
+<?php 
+        if ($_SESSION['rol_usuario'] == 'cliente') {
+                // Redirigir si no hay sesion
+                require_once("nav-cliente.php");
+
+              }
+            else if ( $_SESSION['rol_usuario'] == 'administrador de eventos') {
+              // Redirigir si no hay sesion
+              require_once("nav-admin-eventos.php");
+
+            }
+          else if ($_SESSION['rol_usuario'] == 'administrador de sistemas') {
+            // Redirigir si no hay sesion
+            require_once("nav-sistemas.php");
+
+          }
+          ?>
 
 <form class="w-75 mx-auto pt-5"    action=""  method="post" id="formeditardatos">
         <h1 class="mt-5">Edita los datos de tu cuenta</h1>

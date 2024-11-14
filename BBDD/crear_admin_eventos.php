@@ -11,6 +11,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
 
     try {
+        // Verificar si el email ya está registrado
+        $buscar_usuario = $conn->prepare("SELECT email FROM usuarios WHERE email = :email");
+        $buscar_usuario->bindParam(':email', $email);
+        $buscar_usuario->execute();
+        if ($buscar_usuario->fetch()) {
+            echo "<div class='alert alert-danger'>El email ya se encuentra registrado</div> ";
+            exit;
+        }
         $conn->beginTransaction();
 
         // Inserta el usuario en la base de datos
@@ -25,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $usuarioId = $conn->lastInsertId();
 
         // Asigna el rol de administrador de eventos
-        $queryRol = "INSERT INTO roles_usuarios (id_usuario, id_rol) VALUES (:id_usuario, (SELECT id_rol FROM roles WHERE nombre_rol = 'administrador de eventos'))";
+        $queryRol = "INSERT INTO roles_usuarios (id_usuario, id_rol) VALUES (:id_usuario, (SELECT id_rol FROM roles WHERE nombre = 'administrador de eventos'))";
         $stmtRol = $conn->prepare($queryRol);
         $stmtRol->bindParam(':id_usuario', $usuarioId);
         $stmtRol->execute();

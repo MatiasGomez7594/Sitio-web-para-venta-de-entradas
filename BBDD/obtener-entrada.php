@@ -1,5 +1,5 @@
 <?php
-include "/../componenetes/conexion.php";
+include "../componentes/conexion.php";
 
 // devuelve la info de la entrada que se selecciono para editar 
 $id_entrada = $_GET['id'] ?? null;

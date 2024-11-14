@@ -54,7 +54,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>     
 </head>
 <body>
-<?php require_once("nav-cliente.php")?>
+<?php 
+        if ($_SESSION['rol_usuario'] == 'cliente') {
+                // Redirigir si no hay sesion
+                require_once("nav-cliente.php");
+
+              }
+            else if ( $_SESSION['rol_usuario'] == 'administrador de eventos') {
+              // Redirigir si no hay sesion
+              require_once("nav-admin-eventos.php");
+
+            }
+          else if ($_SESSION['rol_usuario'] == 'administrador de sistemas') {
+            // Redirigir si no hay sesion
+            require_once("nav-sistemas.php");
+
+          }
+          ?>
+
 <div class="container pt-5 ">
     <div class="row justify-content-center">
         <div class="col-md-6">

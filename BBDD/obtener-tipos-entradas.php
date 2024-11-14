@@ -1,5 +1,5 @@
 <?php
-include 'conexion.php';
+include '../componentes/conexion.php';
 
 //devuelve todos los tipos de entrada  para la tabla 
 
@@ -12,4 +12,4 @@ $sql = "SELECT * FROM tipos_entradas ";
 
 
 
-   $conn =null ;
+   //$conn =null ;
