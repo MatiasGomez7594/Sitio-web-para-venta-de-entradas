@@ -12,10 +12,10 @@
                 </a>
                 <ul class="dropdown-menu bg-dark">
                   <li><a class="dropdown-item bg-dark text-light" href="interfaz-admin-sistemas.php">Mi cuenta</a></li>
-                  <li> <a href="ver-administradores.html" class="dropdown-item bg-dark text-light"  >Ver administradores</a></li>
-                  <li> <a href="ver-tipo-entradas.html" class="dropdown-item bg-dark text-light"  >Ver tipos de entradas</a></li>
-                  <li> <a href="ver-preguntas-frecuentes.html" class="dropdown-item bg-dark text-light"  >Ver preguntas frecuentes</a></li>
-                  <li> <a href="reporte-de-ventas.html" class="dropdown-item bg-dark text-light"  >Generar reporte de ventas</a></li>
+                  <li> <a href="ver-administradores.php" class="dropdown-item bg-dark text-light"  >Ver administradores</a></li>
+                  <li> <a href="ver-tipo-entradas.php" class="dropdown-item bg-dark text-light"  >Ver tipos de entradas</a></li>
+                  <li> <a href="ver-preguntas-frecuentes.php" class="dropdown-item bg-dark text-light"  >Ver preguntas frecuentes</a></li>
+                  <li> <a href="reporte-de-ventas.php" class="dropdown-item bg-dark text-light"  >Generar reporte de ventas</a></li>
                   <li><a class="dropdown-item bg-dark text-light"  href="logout.php">Cerrar sesión</a></li>
                 </ul>
               </li>

@@ -28,6 +28,7 @@ if (empty(array_intersect($permisosRequeridos, $permisosNombres))) {
     header('Location: ../inicio.php');
     exit;
 }
+print_r($permisosNombres);
 ?>
 
 <!DOCTYPE html>
@@ -65,6 +66,12 @@ if (empty(array_intersect($permisosRequeridos, $permisosNombres))) {
             <?php if (tienePermiso('ver_preguntas_frecuentes')): ?>
                 <div class="col">
                     <a href="ver-preguntas-frecuentes.php" class="btn btn-primary w-100 p-3" role="button">Ver preguntas frecuentes</a>
+                </div>
+            <?php endif; ?>
+
+            <?php if (tienePermiso('administrar_categorias')): ?>
+                <div class="col">
+                    <a href="administrar-categorias.php" class="btn btn-primary w-100 p-3" role="button">Administrar categorias</a>
                 </div>
             <?php endif; ?>
 

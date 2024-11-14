@@ -94,7 +94,7 @@ document.getElementById('formulario').addEventListener('click', function(event) 
   }
 });
 
-//añadir nuevo administrador de eventos
+/*añadir nuevo administrador de eventos
 (function() {
     // Referencias locales a los elementos
     const btnMostrar = document.getElementById('btnMostrar');
@@ -119,10 +119,6 @@ document.getElementById('formulario').addEventListener('click', function(event) 
         AnadirNuevoAdministrador()
 
     });
-
-
-
-
     function AnadirNuevoAdministrador(){
         let errorCampos = document.getElementById("errorCampos")
         let errorNombre = document.getElementById("errorNombre")
@@ -136,7 +132,9 @@ document.getElementById('formulario').addEventListener('click', function(event) 
             errorEmail.classList.add("oculto")
             errorCampos.classList.add("oculto")
 
+        }
 
+    }
             //obtengo el total de administradores y lo uso como id del nuevo administrador
             let cantidadAdministradores = formulario.children.length++;
         
@@ -166,7 +164,7 @@ document.getElementById('formulario').addEventListener('click', function(event) 
       <hr>
         
         
-          `;
+          
         
           // Crear un contenedor temporal para el HTML
           const contenedorTemporal = document.createElement('div');
@@ -190,17 +188,16 @@ document.getElementById('formulario').addEventListener('click', function(event) 
         }
       }
 
-
-  })();  // Inmediatamente invocada para encapsular las variables
+ 
 
         const btnNuevo = document.getElementById('btnNuevo');
         const agregarNuevo = document.getElementById('agregarNuevo');
 
         btnNuevo.addEventListener('click', () => {
             agregarNuevo.classList.toggle('d-none');
-        });
+        });*/
 
-
+     
 
 
 

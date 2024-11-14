@@ -1,131 +1,198 @@
-//eliminar un tipo de entrada
-document.getElementById('formulario').addEventListener('click', function(event) {
-    if (event.target.classList.contains('eliminarTipo')) {
-      const elemento = event.target.closest('#tipoEntrada');
-      if (elemento) {
-        elemento.remove();
-      }
+const tablaentradas = document.getElementById('tablaentradas');
+
+// Cargar tipos de entrada al cargar la página
+document.addEventListener('DOMContentLoaded', cargarentradas);
+
+function cargarentradas() {
+    fetch('obtener-tiposdeentradas.php')
+        .then(response => {
+            if (!response.ok) throw new Error("Error al cargar las categorías");
+            return response.json();
+        })
+        .then(data => mostrarentradas(data))
+        .catch(error => console.error("Error:", error));
+}
+
+// Mostrar entradas en la tabla
+function mostrarentradas(entradas) {
+    const bodytabla = document.getElementById('bodytabla');
+    bodytabla.innerHTML = '';
+
+    entradas.forEach(entrada => {
+        const fila = document.createElement('tr');
+        fila.innerHTML = `
+            <td>${entrada.nombre_tipo}</td>
+            <td>${entrada.estado}</td>
+            <td>
+                <button class="btn btn-warning btn-edit" data-id="${entrada.id_tipo}">Editar</button>
+                <button class="btn btn-danger btn-delete" data-id="${entrada.id_tipo}">Eliminar</button>
+            </td>
+        `;
+        bodytabla.appendChild(fila);
+    });
+}
+
+// Validación del formularios
+function validarFormularioentradas(nombreInput, estadoInput) {
+    let isValid = true;
+    limpiarError(nombreInput);
+    limpiarError(estadoInput);
+
+    if (nombreInput.value.trim() === '') {
+        mostrarError(nombreInput, 'Debe ingresar un nombre para la entrada.');
+        isValid = false;
+    } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]{1,50}$/.test(nombreInput.value)) {
+        mostrarError(nombreInput, 'Ingrese un nombre válido. Solo puede contener letras y hasta 50 caracteres.');
+        isValid = false;
     }
-  });
 
-//editar un tipo de entrada
-document.getElementById('formulario').addEventListener('click', function(event) {
-    if (event.target.classList.contains('editarTipo')) {
-      let tipoEntrada = event.target.closest('#tipoEntrada');
-     const nombreEntrada = tipoEntrada.querySelector('input');
+    if (estadoInput.value === "") {
+        mostrarError(estadoInput, 'Debe ingresar un estado para la entrada.');
+        isValid = false;
+    }
 
-      let errorNombre = document.getElementById("errorNombre")
-      if( nombreEntrada.value){
-        errorNombre.classList.add("oculto")
-        if(nombreEntrada.classList.contains('edicionDeshabilitada')){
-            nombreEntrada.classList.remove("edicionDeshabilitada")
-            nombreEntrada.focus();
-        }else {
-            nombreEntrada.classList.add("edicionDeshabilitada")
+    return isValid;
+}
+
+
+
+
+// formulario de agregar
+document.getElementById("formentradas").addEventListener("submit", function(event) {
+    event.preventDefault();
+    const nombreentrada = document.getElementById('nombreentrada');
+    const estadoentrada= document.getElementById('estadoentrada');
+
+    if (validarFormularioentradas(nombreentrada, estadoentrada)) {
+        agregarentrada();
+    }
+});
+
+// Agregarentrada
+function agregarentrada() {
+    const formData = new FormData(document.getElementById("formentradas"));
+    formData.append('action', 'add');
+
+    fetch('ABMentradas.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById("formentradas").reset();
+            cargarentradas();
+        } else {
+            mostrarError(document.getElementById('nombreentrada'), data.errors.nombreentrada);
+            mostrarError(document.getElementById('estadoentrada'), data.errors.estadoentrada);
         }
-    }else{
-        errorNombre.classList.remove("oculto")
+    });
+}
+
+//  si se hizo click en editar o eliminar  --> llama a la funcion 
+tablaentradas.addEventListener('click', function(e) {
+    const identrada = e.target.dataset.id;
+
+    if (e.target.classList.contains('btn-delete')) {
+        eliminarEntrada(identrada);
+    } else if (e.target.classList.contains('btn-edit')) {
+        editarEntrada(identrada);
     }
-    }
-  });
-
-  //agregar nuevo tipo de entrada
-
-  (function() {
-    // Referencias locales a los elementos
-    const btnMostrar = document.getElementById('btnMostrar');
-    const btnCancelar = document.getElementById('btnCancelar');
-    const btnAgregar= document.getElementById('btnAgregar');
+});
 
 
-    const nuevoTipo = document.getElementById('agregarNuevo');
-
-    // Mostrar el div cuando se hace clic en "Mostrar"
-    btnMostrar.addEventListener('click', function() {
-      nuevoTipo.classList.remove('oculto');  // Muestra el div
-    });
-
-    // Mostrar el div cuando se hace clic en "Mostrar"
-     btnCancelar.addEventListener('click', function() {
-         nuevoTipo.classList.add('oculto');  // Muestra el div
-    });
-
-    // Mostrar el div cuando se hace clic en "Mostrar"
-    btnAgregar.addEventListener('click', function() {
-        AnadirNuevoTipoEntrada()
-
-    });
-
-
-
-
-    function AnadirNuevoTipoEntrada(){
-        let errorNombre = document.getElementById("errorNombre")
-        let nombreEntrada = document.getElementById("entradaNueva").value
-        const formulario = document.getElementById('formulario');
-        if( nombreEntrada){
-            errorNombre.classList.add("oculto")
-            //obtengo el total de entradas y lo uso como id de la nuevo tipo de entrada
-            let cantidadEntrada = formulario.children.length++;
-        
-          // Crear el nuevo bloque de HTML que se va a insertar que representa una nuevo tipo de entrada
-          const nuevoElementoHTML = `
-          <div class="row" id="tipoEntrada">
-            <div class="modal fade" id="exampleModal${cantidadEntrada}" tabindex="-1" data-bs-backdrop="static" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar</h1>
-                  </div>
-                  <div class="modal-body">
-                    ¿Está seguro que desea eliminar el elemento?
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary eliminarTipo" data-bs-dismiss="modal">Aceptar</button>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-3">Nombre de la entrada        
-              <input value="${nombreEntrada}" placeholder="Nombre del tipo de entrada" type="text" class="form-control edicionDeshabilitada" id="nombreEntrada">
-            </div>
-            <div class="col-md-3">
-              <div class="d-flex justify-content-center">
-                <button type="button" class="btn btn-primary btn-sm me-2 editarTipo" >Editar</button>
-                <button type="button" class="btn btn-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#exampleModal${cantidadEntrada}">Eliminar</button>
-              </div>
-            </div>
-            <hr>
-          </div>`;
-        
-          // Crear un contenedor temporal para el HTML
-          const contenedorTemporal = document.createElement('div');
-          contenedorTemporal.innerHTML = nuevoElementoHTML;
-        
-        
-        
-          // Obtener el antepenúltimo lugar
-          const antepenultimoElemento = formulario.children[formulario.children.length - 2];
-        
-          // Insertar el nuevo bloque en el antepenúltimo lugar
-          formulario.insertBefore(contenedorTemporal.firstElementChild, antepenultimoElemento);
-          nuevoTipo.classList.add('oculto');  // oculto el div
-          document.getElementById('formulario').reset()
-
-    
-        }else{
-            errorNombre.classList.remove("oculto")
+// Eliminar tipo de entrada
+function eliminarEntrada(identrada) {
+    fetch('ABMentradas.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: new URLSearchParams({ action: 'delete', id_entrada: identrada })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            cargarentradas();
+        } else {
+            
         }
-      }
+    });
+}
+
+// Editar tipo de enetrada  muestra los datos en el modal 
+function editarEntrada(identrada) {
+    fetch(`obtener-entrada.php?id=${identrada}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('editIdEntrada').value = data.id_tipo;
+            document.getElementById('editNombreEntrada').value = data.nombre_tipo;
+            document.getElementById('editEstadoEntrada').value = data.estado;
+
+            const modal = new bootstrap.Modal(document.getElementById('modalEditarEntrada'));
+            modal.show();
+            limpiarError(editNombreEntrada);
+            limpiarError(editEstadoEntrada);
+
+        });
+}
 
 
-  })();  // Inmediatamente invocada para encapsular las variables
+document.getElementById('formEditarEntrada').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const editNombreEntrada = document.getElementById('editNombreEntrada');
+    const editEstadoEntrada = document.getElementById('editEstadoEntrada');
+
+   
+    limpiarError(editNombreEntrada);
+    limpiarError(editEstadoEntrada);
+
+    // Validar los campos
+    if (validarFormularioentradas(editNombreEntrada, editEstadoEntrada)) {
+        actualizarEntrada();
+    }
+});
 
 
+// se mandan los datos para que se haga el update
+function actualizarEntrada() {
+    const formData = new FormData(document.getElementById('formEditarEntrada'));
+    formData.append('action', 'edit');
+
+    fetch('ABMentradas.php', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            
+            const modal = bootstrap.Modal.getInstance(document.getElementById('modalEditarEntrada'));
+            modal.hide();
+            cargarentradas();
+        } else {
+            
+            limpiarError(document.getElementById('editNombreEntrada'));
+            limpiarError(document.getElementById('editEstadoEntrada'));
+
+            // Mostrar  errores
+            mostrarError(document.getElementById('editNombreEntrada'), data.errors.nombreEntrada);
+            mostrarError(document.getElementById('editEstadoEntrada'), data.errors.estadoEntrada);
+        }
+    });
+}
 
 
+function mostrarError(input, mensaje) {
+    const errorExistente = input.parentNode.querySelector('.error-message');
+    if (errorExistente) errorExistente.remove();
+
+    const errorContainer = document.createElement('p');
+    errorContainer.textContent = mensaje;
+    errorContainer.classList.add('error-message', 'text-danger');
+    input.parentNode.appendChild(errorContainer);
+}
 
 
-
-
+function limpiarError(input) {
+    const errorExistente = input.parentNode.querySelector('.error-message');
+    if (errorExistente) errorExistente.remove();
+}
