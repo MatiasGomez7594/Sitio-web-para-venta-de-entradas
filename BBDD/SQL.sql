@@ -186,7 +186,7 @@ CREATE TABLE tarjetas (
 
     fecha_expiracion VARCHAR(5) NOT NULL,  -- Fecha de expiración (MM/AA)
 
-    codigo_seguridad VARCHAR(3) NOT NULL,  -- Código de seguridad
+    codigo_seguridad VARCHAR(100) NOT NULL,  -- Código de seguridad
 
     tipo_tarjeta ENUM('Crédito', 'Débito') NOT NULL,
 

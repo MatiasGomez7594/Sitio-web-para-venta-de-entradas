@@ -79,7 +79,7 @@
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
         <script defer src="../scripts/eliminar-perfil.js"></script>
-    <title>Document</title>
+    <title>eliminar perfil</title>
 </head>
 
 <body>

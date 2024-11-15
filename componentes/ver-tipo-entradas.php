@@ -9,14 +9,12 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/783263774b.js" crossorigin="anonymous"></script>  
 <script src="../scripts/tipo-entrada.js" defer></script>  
-<script src ="tipo-entrada.js" defer ></script>
+
 <title>Mis entradas</title>
 </head>
 <body>
     
     <?php require_once("nav-sistemas.php") ?>
-
-   
     
     <div class="container my-5">
         <div class="row">
