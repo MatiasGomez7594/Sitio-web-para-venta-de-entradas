@@ -1,4 +1,4 @@
---PARA CREAR LA BBDD
+
 CREATE DATABASE mis_entradas;
 
 CREATE TABLE usuarios(
@@ -11,9 +11,7 @@ CREATE TABLE usuarios(
     estado ENUM('activo', 'inactivo') NOT NULL
 
 )
-<<<<<<< HEAD
 
-=======
 CREATE TABLE permisos (
   id int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
   nombre varchar(255) NOT NULL
@@ -40,8 +38,6 @@ CREATE TABLE roles_usuarios (
   FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
 ) 
 
-
->>>>>>> 8ee65126797abff1ea8e011653169ef5a310e9f0
 
 CREATE TABLE provincias(
     id_provincia INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -163,7 +159,7 @@ CREATE TABLE consultas_usuarios(
 CREATE TABLE calificacion_evento(
     id_calificacion INT AUTO_INCREMENT PRIMARY KEY,
     id_evento INT NOT NULL,
-    id_usuario INT NOT NULL
+    id_usuario INT NOT NULL,
     calificacion INT NOT NULL,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),  -- Relación con la tabla de usuarios
     FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
@@ -218,13 +214,12 @@ INSERT INTO `ciudades` (`id_ciudad`, `nombre`, `id_provincia`) VALUES (NULL, 'Me
 (NULL, 'Santa Fé', '3'), (NULL, 'Rosario', '3');
 
 UPDATE `eventos` SET `evento_discapacitados` = '1', `fecha_inicio` = '2024-10-14 22:16:54', `fecha_fin` = '2024-10-14 00:16:54', `fecha_registro` = '2024-10-25 22:16:54' WHERE `eventos`.`id_evento` = 2;
-INSERT INTO `eventos`(`id_categoria_evento`, `nombre_evento`, `nombre_recinto`, `evento_mayores`, `evento_discapacitados`, `fecha_inicio`, `fecha_fin`, `provincia`, `ciudad`, `direccion`, `total_localidades`, `id_admin_evento`, `fecha_registro`) 
+INSERT INTO `eventos`(`id_categoria_evento`, `nombre_evento`, `nombre_recinto`, `evento_mayores`, `evento_discapacitados`, `fecha_inicio`, `fecha_fin`, `id_provincia`, `ciudad`, `direccion`, `total_localidades`, `id_admin_evento`, `fecha_registro`) 
 VALUES ('1','Taylor swift Argentina 2024','Estadio River Plate','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','Buenos Aires','Caba','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
 ('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
 ('1','Kiss End of the World tour','Campo de polo','1','1','2023-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
 
-
-INSERT INTO `imgs_eventos` ( `id_evento`, `nombre_img`, `url_img`, `extension`, `tamano`) VALUES ( '6', 'kiss.png', 'imgs/kiss.png', 'png', '1'),( '4', 'showimg.jpg', 'imgs/showimg.jpg', 'jpg', '2'),( '5', 'luismiguel.jpg', 'imgs/luismiguel.jpg', 'jpg', '1')
+INSERT INTO `imgs_eventos` ( `id_evento`, `nombre_img`, `url_img`) VALUES ( '6', 'kiss.png', 'imgs/kiss.png'),( '4', 'showimg.jpg', 'imgs/showimg.jpg'),( '5', 'luismiguel.jpg', 'imgs/luismiguel.jpg');
 INSERT INTO `tipos_entradas`( `nombre_tipo`) VALUES ('General'),('anticipada'),('Campo vip'),('campo de pie'),('Platea'),('Pullman'),('Palco');
 INSERT INTO `tipos_entradas_evento`(`id_tipo_entrada`, `id_evento`, `precio`, `cantidad_por_tipo`, `estan_numeradas`) VALUES ('1','4','30000','500','no'), ('2','4','50000','200','no'),
 ('2','4','25000','300','si'),('1','5','25000','1000','no'),('1','6','25000','600','no'),('3','6','45000','400','no')
@@ -234,3 +229,8 @@ INSERT INTO `entradas_numeradas`( `numeracion_entrada`, `id_tipo_entrada`, `esta
 
 
 INSERT INTO `preguntas_frecuentes` (`id_pregunta`, `pregunta`, `contenido`, `estado`) VALUES (NULL, 'Medios de pago', 'Aceptamos todos los medios de pago', 'activa');
+
+INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `genero`, `email`, `telefono`, `contrasena`, `estado`) VALUES (NULL, 'bartsimpson', NULL, 'bartsimpson@gmail.com', NULL, '$2y$10$q7WDjEWLM0ofTRUZXdmg8uwpMQqR4.Teu.5yR7t.xZ6UO8SaUh9aC', ''), (NULL, 'lisasimpson', NULL, 'lisasimpson@gmail.com', NULL, '$2y$10$WJNoz4/37FDIoZAUvaLL3ONb8.PO3VpCMhdDJQDy/qkkHi1ExoBM2', 'activo'), (NULL, 'magui', NULL, 'magui@gmail.com', NULL, '$2y$10$L1Cwu8AN0EgccTqy/6wNPe2qs0hBjN/g9ZYFiXe4P.8/x3gw5G5ey', 'activo'), (NULL, 'homero',  NULL, 'homero@gmail.com', NULL, '$2y$10$ZdyKGKBrxpQsDU17R9WOMOoIH1AMXv3w2TRB0ohzOpcyyo.ToKtoK', 'activo'), (NULL, 'boladenieve', NULL, 'boladenieve@gmail.com', NULL, '$2y$10$7g21w6G/8gVUE7drdIaAZ.RS3khMnJzArXNdQ/wbHVL7WBA.fsXVC', 'activo'), (NULL, 'ayudantedesanta', NULL, 'ayudantedesanta@gmail.com', NULL, '$2y$10$SZ0idgm9Vr0iZBD1KJpZTeMZkJOmJD8LPEtFzaCudXC9Rp.XRKnPu', '')
+INSERT INTO `permisos` (`id`, `nombre`) VALUES (NULL, 'ver_panel_admi_sistema'), (NULL, 'ver_administradores_eventos'), (NULL, 'ver_tipo_entradas'), (NULL, 'ver_preguntas_frecuentes'), (NULL, 'generar_reporte_de_ventas'), (NULL, 'crear_admi_eventos'), (NULL, 'ver_panel_admi_eventos'), (NULL, 'eliminar_admi_eventos'), (NULL, 'administrar_categorias')
+INSERT INTO `roles_permisos` (`id`, `id_rol`, `id_permiso`) VALUES (NULL, '2', '1'), (NULL, '2', '5'), (NULL, '2', '7'), (NULL, '2', '8'), (NULL, '2', '9'), (NULL, '2', '10'), (NULL, '1', '11'), (NULL, '2', '12'), (NULL, '2', '13')
+INSERT INTO `roles_usuarios` (`id`, `id_rol`, `id_usuario`) VALUES (NULL, '2', '1'), (NULL, '1', '2'), (NULL, '1', '3'), (NULL, '1', '4'), (NULL, '1', '5'), (NULL, '1', '6')
