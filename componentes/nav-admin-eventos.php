@@ -13,6 +13,7 @@
                 </a>
                 <ul class="dropdown-menu bg-dark">
                   <li><a class="dropdown-item bg-dark text-light" href="crear-evento.php">Crear evento</a></li>
+                  <li><a class="dropdown-item bg-dark text-light"  href="ver-consultas.php">Ver consultas</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="interfaz-admin-eventos.php">Mi cuenta</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="editar-datos.php">Datos personales</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="cambiar-contraseña.php">Cambiar contraseña</a></li>

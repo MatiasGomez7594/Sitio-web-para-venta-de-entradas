@@ -176,9 +176,7 @@
             <div class="mb-3">
                 <textarea required minlength="10" class="form-control" placeholder="Mensaje" name="mensaje" id="mensaje" style="height: 100px"></textarea>
                 <p id ="errorMensaje"class="text-danger oculto">Para poder responderte debes escribir algún mensaje.</p>
-
               </div>
-
             <button type="button" class="btn btn-primary mb-5" id="btnEnviar">Enviar</button>
           </form>
     </div>

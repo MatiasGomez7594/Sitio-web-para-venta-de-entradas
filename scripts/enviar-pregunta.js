@@ -1,8 +1,5 @@
 
-document.getElementById('btnEnviar').addEventListener('click', function() {
-    
-    ValidarFormulario(); // Llamada a la función de validación
-});
+
 
 function ValidarFormulario() {
     
@@ -73,4 +70,6 @@ function ValidarFormulario() {
             });
         }
     
-
+document.getElementById('btnEnviar').addEventListener('click', function() {
+    ValidarFormulario(); // Llamada a la función de validación
+});
