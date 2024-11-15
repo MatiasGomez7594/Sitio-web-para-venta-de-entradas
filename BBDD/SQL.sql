@@ -189,4 +189,90 @@ CREATE TABLE tarjetas (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
 );
 
--- Aquí puedes añadir los INSERT con datos si los necesitas
+INSERT INTO provincias (nombre) 
+VALUES 
+('Buenos Aires'),
+('Córdoba'),
+('Santa Fe');
+INSERT INTO ciudades (nombre, id_provincia) 
+VALUES ('La Plata', 1),
+('Córdoba', 2),
+('Palermo', 1),
+('Rosario', 3),
+('Ezeiza', 1),
+('Merlo', 1),
+('Liniers', 1);
+
+
+INSERT INTO categorias_eventos (nombre_categoria, estado) 
+VALUES 
+('Musical', 'activo'),
+('Artistico', 'activo'),
+('Deportivo', 'activo'),
+('Tecnológico', 'activo');
+
+INSERT INTO tipos_entradas( nombre_tipo) 
+VALUES ('General'),('Anticipada'),('Campo vip'),
+('Campo de pie'),('Platea'),('Pullman'),('Palco');
+
+INSERT INTO usuarios ( nombre_usuario, genero, email, telefono, contrasena, estado) VALUES 
+('el cliente', NULL, 'cliente@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo'), 
+('admin sistemas', NULL, 'sistemas@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo'), 
+('admin eventos', NULL, 'eventos@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo');
+
+
+
+INSERT INTO eventos(id_categoria_evento, nombre_evento, nombre_recinto, evento_mayores, evento_discapacitados, fecha_inicio, fecha_fin, id_provincia, id_ciudad, direccion, total_localidades, id_admin_evento, fecha_registro) 
+VALUES ('1','Taylor swift Argentina 2024','Estadio River Plate','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
+('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
+('1','Kiss End of the World tour','Campo de polo','1','1','2023-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+
+INSERT INTO imgs_eventos ( id_evento, nombre_img, url_img)
+ VALUES ( '1', 'showimg.jpg', 'imgs/showimg.jpg'),
+ ( '2', 'luismiguel.jpg', 'imgs/luismiguel.jpg'),
+ ( '3', 'kiss.png', 'imgs/kiss.png');
+INSERT INTO tipos_entradas_evento(id_tipo_entrada, id_evento, precio, cantidad_por_tipo, estan_numeradas) 
+VALUES ('1','1','30000','500','no'), 
+('2','1','50000','200','no'),
+('2','2','25000','300','no'),
+('1','2','25000','1000','no'),
+('1','3','25000','600','no'),
+('3','3','45000','400','no');
+
+
+
+
+INSERT INTO preguntas_frecuentes (id_pregunta, pregunta, contenido, estado) 
+VALUES (NULL, 'Medios de pago', 'Aceptamos todos los medios de pago', 'activa');
+
+
+INSERT INTO `roles` ( `nombre`) 
+VALUES ( 'cliente'), ( 'administrador de sistemas'), ( 'administrador de eventos');
+
+INSERT INTO `permisos` (`nombre`) 
+VALUES 
+('comprar_entrada'), 
+('añadir_tarjeta'), 
+('calificar_evento'),
+('ver_panel_admi_sistema'), 
+('ver_administradores_eventos'), 
+('ver_tipo_entradas'), 
+('ver_preguntas_frecuentes'), 
+('generar_reporte_de_ventas'), 
+('crear_admi_eventos'), 
+('eliminar_admi_eventos'), 
+('administrar_categorias'),
+('ver_panel_admi_eventos'), 
+('administrar_evento'), 
+('responder_consulta');
+
+INSERT INTO roles_permisos ( id_rol, id_permiso) 
+VALUES 
+( '1', '1'), ( '1', '2'), ( '1', '3'), 
+( '2', '4'), ( '2', '5'), ( '2', '6'), 
+( '2', '7'), ( '2', '8'), ( '2', '9'),( '2', '10'), ( '2', '11'), 
+( '3', '12'),
+( '3', '13'),
+( '3', '14');
+
+INSERT INTO roles_usuarios (id_rol, id_usuario) VALUES ( '1', '1'), ( '2', '2'), ( '3', '3'); 

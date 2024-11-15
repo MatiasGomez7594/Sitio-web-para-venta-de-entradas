@@ -32,7 +32,7 @@ try {
         $ultimoUsuario = $stmt->fetchColumn();
         if ($ultimoUsuario) {
             // Insertar el rol del usuario
-            $id_rol = 3; // 3 = cliente
+            $id_rol = 1; // 3 = cliente
             $asignar_rol = $conn->prepare("INSERT INTO roles_usuarios(id_rol, id_usuario) VALUES (:id_rol, :id_usuario)");
             $asignar_rol->bindParam(':id_rol', $id_rol);
             $asignar_rol->bindParam(':id_usuario', $ultimoUsuario);

@@ -29,16 +29,17 @@ if ($usuario) {
     $_SESSION['id_usuario'] = $usuario['id_usuario'];
     $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
     $_SESSION['rol_usuario'] = $usuario["rol_usuario"];
+
       require(__DIR__.'/../includes/permisos.php'); 
           
     // Comprueba el permiso del usuario
       if (permisos::tienePermiso('ver_panel_admi_sistema', $_SESSION['id_usuario'])) {
         header('Location:/Sitio-web-para-venta-de-entradas/componentes/interfaz-admin-sistemas.php');
         exit;
-      } elseif (permisos::tienePermiso('Crear evento', $_SESSION['id_usuario'])) {
+      } elseif (permisos::tienePermiso('ver_panel_admi_eventos', $_SESSION['id_usuario'])) {
         header('Location:/Sitio-web-para-venta-de-entradas/componentes/interfaz-admin-eventos.php');
         exit;
-      } elseif(permisos::tienePermiso('Comprar entradas', $_SESSION['id_usuario'])) {
+      } elseif(permisos::tienePermiso('comprar_entrada', $_SESSION['id_usuario'])) {
         header('Location:/Sitio-web-para-venta-de-entradas/componentes/mi-cuenta.php');
         exit;
       }else{
