@@ -23,7 +23,7 @@ function tienePermiso($permiso) {
 }
 
 // Redirecciona a inicio si no tiene ningún permiso requerido
-$permisosRequeridos = ['ver_administradores_eventos', 'ver_tipo_entradas', 'ver_preguntas_frecuentes', 'generar_reporte_de_ventas'];
+$permisosRequeridos = ['administrar_categorias','ver_administradores_eventos', 'ver_tipo_entradas', 'ver_preguntas_frecuentes', 'generar_reporte_de_ventas'];
 if (empty(array_intersect($permisosRequeridos, $permisosNombres))) {
     header('Location: ../inicio.php');
     exit;

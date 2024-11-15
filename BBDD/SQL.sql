@@ -1,236 +1,192 @@
+-- Crear la base de datos
+CREATE DATABASE IF NOT EXISTS mis_entradas;
+USE mis_entradas;
 
-CREATE DATABASE mis_entradas;
-
-CREATE TABLE usuarios(
+-- Tabla usuarios
+CREATE TABLE usuarios (
     id_usuario INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     nombre_usuario VARCHAR(100),
     genero VARCHAR(20),
-    email VARCHAR(150) NOT NULL,
+    email VARCHAR(150) NOT NULL UNIQUE,
     telefono VARCHAR(12),
     contrasena VARCHAR(100) NOT NULL,
     estado ENUM('activo', 'inactivo') NOT NULL
+);
 
-)
-
+-- Tabla permisos
 CREATE TABLE permisos (
-  id int(11) NOT NULL  AUTO_INCREMENT PRIMARY KEY,
-  nombre varchar(255) NOT NULL
-) 
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre VARCHAR(255) NOT NULL
+);
 
-CREATE TABLE roles(
+-- Tabla roles
+CREATE TABLE roles (
     id_rol INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    nombre VARCHAR(70) -- usuario, admin eventos, admin sistemas, etc
-)
+    nombre VARCHAR(70) -- usuario, admin eventos, admin sistemas, etc.
+);
 
-CREATE TABLE roles_permisos(
-  id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  id_rol int(11) NOT NULL,
-  id_permiso int(11) NOT NULL,
-  FOREIGN KEY (id_rol) REFERENCES roles(id_rol),
-  FOREIGN KEY (id_permiso) REFERENCES permisos(id)
-)
+-- Relación entre roles y permisos
+CREATE TABLE roles_permisos (
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id_rol INT NOT NULL,
+    id_permiso INT NOT NULL,
+    FOREIGN KEY (id_rol) REFERENCES roles(id_rol) ON DELETE CASCADE,
+    FOREIGN KEY (id_permiso) REFERENCES permisos(id) ON DELETE CASCADE
+);
 
+-- Relación entre roles y usuarios
 CREATE TABLE roles_usuarios (
-  id int(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  id_rol int(11) NOT NULL,
-  id_usuario int(11) NOT NULL,
-  FOREIGN KEY (id_rol) REFERENCES roles(id_rol),
-  FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
-) 
+    id INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id_rol INT NOT NULL,
+    id_usuario INT NOT NULL,
+    FOREIGN KEY (id_rol) REFERENCES roles(id_rol) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
+);
 
-
-CREATE TABLE provincias(
+-- Tabla provincias
+CREATE TABLE provincias (
     id_provincia INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     nombre VARCHAR(50)
-)
+);
 
-CREATE TABLE ciudades(
+-- Tabla ciudades
+CREATE TABLE ciudades (
     id_ciudad INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     nombre VARCHAR(200),
     id_provincia INT NOT NULL,
-    FOREIGN KEY (id_provincia) REFERENCES provincias(id_provincia)
+    FOREIGN KEY (id_provincia) REFERENCES provincias(id_provincia) ON DELETE CASCADE
+);
 
-)
+-- Tabla categorías de eventos
+CREATE TABLE categorias_eventos (
+    id_categoria INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre_categoria VARCHAR(50),
+    estado ENUM('activo', 'inactivo') NOT NULL -- Borrado lógico
+);
 
-
+-- Tabla eventos
 CREATE TABLE eventos (
     id_evento INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    id_categoria_evento INT NOT NULL, -- Clave foranea 
-    nombre_evento VARCHAR(255) NOT NULL,  -- Nombre del evento
-    nombre_recinto VARCHAR(255) NOT NULL,  -- Nombre del recinto donde se realiza el evento
-    evento_mayores TINYINT NOT NULL DEFAULT 0,  -- 0 = No, 1 = Sí
-    evento_discapacitados TINYINT NOT NULL DEFAULT 0,  -- 0 = No, 1 = Sí
-    fecha_inicio DATETIME NOT NULL,  -- Fecha y hora de inicio del evento
-    fecha_fin DATETIME NOT NULL,  -- Fecha y hora de finalización del evento
-    id_provincia INT NOT NULL,  -- ID Provincia donde se realiza el evento
-    id_ciudad INT NOT NULL,  -- ID Ciudad donde se realiza el evento
-    direccion VARCHAR(255),  -- Dirección del evento
-    total_localidades INT NOT NULL,  -- Total de localidades disponibles
-    id_admin_evento INT NOT NULL,  -- Clave foránea que referencia a la tabla de administradores de eventos
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de registro del evento
-    estado VARCHAR(50) DEFAULT 'activo' NOT NULL, 
-    FOREIGN KEY (id_admin_evento) REFERENCES usuarios(id_usuario),  -- Relación con la tabla de administradores de eventos
-    FOREIGN KEY (id_categoria_evento) REFERENCES categorias_eventos(id_categoria),  -- Relación con la tabla de categorias
-    FOREIGN KEY (id_provincia) REFERENCES provincias(id_provincia),  -- Relación con la tabla de provincias
-    FOREIGN KEY (id_ciudad) REFERENCES ciudades(id_ciudad)  -- Relación con la tabla de ciudades
-
+    id_categoria_evento INT NOT NULL,
+    nombre_evento VARCHAR(255) NOT NULL,
+    nombre_recinto VARCHAR(255) NOT NULL,
+    evento_mayores TINYINT NOT NULL DEFAULT 0,
+    evento_discapacitados TINYINT NOT NULL DEFAULT 0,
+    fecha_inicio DATETIME NOT NULL,
+    fecha_fin DATETIME NOT NULL,
+    id_provincia INT NOT NULL,
+    id_ciudad INT NOT NULL,
+    direccion VARCHAR(255),
+    total_localidades INT NOT NULL,
+    id_admin_evento INT NOT NULL,
+    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    estado VARCHAR(50) DEFAULT 'activo' NOT NULL,
+    FOREIGN KEY (id_admin_evento) REFERENCES usuarios(id_usuario) ON DELETE CASCADE,
+    FOREIGN KEY (id_categoria_evento) REFERENCES categorias_eventos(id_categoria) ON DELETE CASCADE,
+    FOREIGN KEY (id_provincia) REFERENCES provincias(id_provincia) ON DELETE CASCADE,
+    FOREIGN KEY (id_ciudad) REFERENCES ciudades(id_ciudad) ON DELETE CASCADE
 );
---DAtos de las imgs del evento
-CREATE TABLE imgs_eventos(
-    id_img INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+
+-- Tabla imágenes de eventos
+CREATE TABLE imgs_eventos (
+    id_img INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     id_evento INT NOT NULL,
     nombre_img VARCHAR(255),
     url_img VARCHAR(255),
-    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
-
-)
-
-CREATE TABLE tipos_entradas(
-    id_tipo INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    nombre_tipo VARCHAR(100),
-    estado ENUM('activo', 'inactivo') NOT NULL -- Borrado logico
-
-)
-
-
---entradas del evento
-CREATE TABLE tipos_entradas_evento (
-    id_tipo_x_evento INT PRIMARY  KEY NOT NULL AUTO_INCREMENT,
-    id_tipo_entrada INT NOT NULL, -- clave primaria y foranea
-    id_evento INT NOT NULL,  -- Clave foránea que referencia a la tabla de eventos
-    precio DECIMAL(10, 2) NOT NULL,  -- Precio de la entrada
-    cantidad_por_tipo INT NOT NULL,  -- Cantidad de entradas por tipo
-    estan_numeradas VARCHAR(2),-- Estan numeradas si/no
-    estado VARCHAR(50) DEFAULT 'activo' NOT NULL, 
-    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento),  -- Relación con la tabla de eventos
-    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas(id_tipo)  -- Relación con la tabla con los tipos de entradas
+    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento) ON DELETE CASCADE
 );
 
-CREATE TABLE entradas_numeradas(
-    id_entrada INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+-- Tipos de entradas
+CREATE TABLE tipos_entradas (
+    id_tipo INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    nombre_tipo VARCHAR(100),
+    estado ENUM('activo', 'inactivo') NOT NULL
+);
+
+-- Entradas por evento
+CREATE TABLE tipos_entradas_evento (
+    id_tipo_x_evento INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id_tipo_entrada INT NOT NULL,
+    id_evento INT NOT NULL,
+    precio DECIMAL(10, 2) NOT NULL,
+    cantidad_por_tipo INT NOT NULL,
+    estan_numeradas ENUM('si', 'no') NOT NULL,
+    estado VARCHAR(50) DEFAULT 'activo' NOT NULL,
+    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento) ON DELETE CASCADE,
+    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas(id_tipo) ON DELETE CASCADE
+);
+
+-- Tabla entradas numeradas
+CREATE TABLE entradas_numeradas (
+    id_entrada INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     numeracion_entrada INT NOT NULL,
     id_tipo_entrada INT NOT NULL,
     estado ENUM('disponible', 'vendida') NOT NULL,
-    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_x_evento)  -- Relación con la tabla con los tipos de entradas
-
-)
-
-
-CREATE TABLE compras (
-    id_compra INT AUTO_INCREMENT PRIMARY KEY,
-    id_usuario INT NOT NULL,  -- Clave foránea que referencia a la tabla de usuarios
-    nombre_comprador VARCHAR(255) NOT NULL,  -- Nombre completo del comprador
-    email VARCHAR(100) NOT NULL,  -- Email del comprador
-    dni VARCHAR(20) NOT NULL,  -- DNI del comprador
-    telefono VARCHAR(20) NOT NULL,  -- Teléfono del comprador
-    metodo_pago ENUM('Credito/Debito', 'Efectivo') NOT NULL,  -- Método de pago
-    fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de la compra
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)
+    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_x_evento) ON DELETE CASCADE
 );
 
-CREATE TABLE compra_items(
+-- Tabla compras
+CREATE TABLE compras (
+    id_compra INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    nombre_comprador VARCHAR(255) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    dni VARCHAR(20) NOT NULL,
+    telefono VARCHAR(20) NOT NULL,
+    metodo_pago ENUM('Credito/Debito', 'Efectivo') NOT NULL,
+    fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
+);
+
+-- Tabla compra_items
+CREATE TABLE compra_items (
     id_compra INT NOT NULL,
-    id_tipo_entrada INT NOT NULL,  -- Clave foránea que referencia a la tabla de tipos de entradas
-    cantidad INT NOT NULL,  -- Cantidad de entradas compradas
-    FOREIGN KEY (id_compra) REFERENCES compras(id_compra),
-    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_entrada)
-)
+    id_tipo_entrada INT NOT NULL,
+    cantidad INT NOT NULL,
+    FOREIGN KEY (id_compra) REFERENCES compras(id_compra) ON DELETE CASCADE,
+    FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_x_evento) ON DELETE CASCADE
+);
 
-
-
--- Crear tabla preguntas_frecuentes
-
+-- Tabla preguntas frecuentes
 CREATE TABLE preguntas_frecuentes (
-    id_pregunta INT AUTO_INCREMENT PRIMARY KEY,
+    id_pregunta INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     pregunta TEXT NOT NULL,
     contenido TEXT NOT NULL,
-    estado ENUM('activa', 'inactiva')
+    estado ENUM('activa', 'inactiva') NOT NULL
 );
 
-CREATE TABLE consultas_usuarios(
-    id_consulta INT AUTO_INCREMENT PRIMARY KEY,
+-- Tabla consultas usuarios
+CREATE TABLE consultas_usuarios (
+    id_consulta INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     contenido_consulta TEXT NOT NULL,
     nombre_usuario VARCHAR(250),
     email_usuario VARCHAR(150),
-    fecha_consulta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,  -- Fecha de la consulta
-    estado ENUM('activa', 'respondida') NOT NULL  -- Método de pago
-)
+    fecha_consulta TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    estado ENUM('activa', 'respondida') NOT NULL
+);
 
-CREATE TABLE calificacion_evento(
-    id_calificacion INT AUTO_INCREMENT PRIMARY KEY,
+-- Tabla calificación de eventos
+CREATE TABLE calificacion_evento (
+    id_calificacion INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     id_evento INT NOT NULL,
     id_usuario INT NOT NULL,
     calificacion INT NOT NULL,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario),  -- Relación con la tabla de usuarios
-    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento)  -- Relación con la tabla de eventos
-
-)
-
-CREATE TABLE tarjetas (
-
-    id_tarjeta INT AUTO_INCREMENT PRIMARY KEY,
-
-    id_usuario INT NOT NULL,
-
-    nombre_titular VARCHAR(100) NOT NULL,
-
-    apellido_titular VARCHAR(100) NOT NULL,
-
-    numero_tarjeta VARCHAR(16) NOT NULL,  -- Número de tarjeta (16 dígitos)
-
-    fecha_emision VARCHAR(5) NOT NULL,  -- Fecha de emisión (MM/AA)
-
-    fecha_expiracion VARCHAR(5) NOT NULL,  -- Fecha de expiración (MM/AA)
-
-    codigo_seguridad VARCHAR(100) NOT NULL,  -- Código de seguridad
-
-    tipo_tarjeta ENUM('Crédito', 'Débito') NOT NULL,
-
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario)  -- Relación con la tabla de usuarios
-
+    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento) ON DELETE CASCADE,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
 );
 
-CREATE TABLE categorias_eventos(
-    id_categoria INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    nombre_categoria VARCHAR(50),
-    estado ENUM('activo', 'inactivo') NOT NULL -- Borrado logico
+-- Tabla tarjetas
+CREATE TABLE tarjetas (
+    id_tarjeta INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    nombre_titular VARCHAR(100) NOT NULL,
+    apellido_titular VARCHAR(100) NOT NULL,
+    numero_tarjeta VARCHAR(16) NOT NULL,
+    fecha_emision VARCHAR(5) NOT NULL,
+    fecha_expiracion VARCHAR(5) NOT NULL,
+    codigo_seguridad VARCHAR(100) NOT NULL,
+    tipo_tarjeta ENUM('Crédito', 'Débito') NOT NULL,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
+);
 
-)
-
---Algunos inserts
-INSERT INTO `permisos`( `nombre`) VALUES ('Crear evento'),('Comprar entradas'),('Agregar administrador');
-INSERT INTO `roles`( `nombre`) VALUES ('administrador de eventos'),('administrador de sistemas'),('cliente');
-INSERT INTO `roles_permisos` ( `id_rol`, `id_permiso`) VALUES ( '1', '1'), ( '2', '3'), ( '3', '2');
-
-INSERT INTO `categorias_eventos`( `nombre_categoria`) VALUES ('Musical'),
-('Deportivo'),('Arte'),('Ciencia'),('Cine');
-
-INSERT INTO `provincias` (`id_provincia`, `nombre`) VALUES (NULL, 'Buenos Aires'), 
-(NULL, 'CABA'), (NULL, 'Santa Fé'), (NULL, 'Córdoba');
-
-INSERT INTO `ciudades` (`id_ciudad`, `nombre`, `id_provincia`) VALUES (NULL, 'Merlo', '1'), 
-(NULL, 'La plata', '1'), (NULL, 'Ezeiza', '1'), (NULL, 'Rio cuarto', '4'), 
-(NULL, 'Córdoba', '4'), (NULL, 'Palermo', '2'), (NULL, 'Flores', '2'), 
-(NULL, 'Santa Fé', '3'), (NULL, 'Rosario', '3');
-
-UPDATE `eventos` SET `evento_discapacitados` = '1', `fecha_inicio` = '2024-10-14 22:16:54', `fecha_fin` = '2024-10-14 00:16:54', `fecha_registro` = '2024-10-25 22:16:54' WHERE `eventos`.`id_evento` = 2;
-INSERT INTO `eventos`(`id_categoria_evento`, `nombre_evento`, `nombre_recinto`, `evento_mayores`, `evento_discapacitados`, `fecha_inicio`, `fecha_fin`, `id_provincia`, `ciudad`, `direccion`, `total_localidades`, `id_admin_evento`, `fecha_registro`) 
-VALUES ('1','Taylor swift Argentina 2024','Estadio River Plate','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','Buenos Aires','Caba','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
-('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
-('1','Kiss End of the World tour','Campo de polo','1','1','2023-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-
-INSERT INTO `imgs_eventos` ( `id_evento`, `nombre_img`, `url_img`) VALUES ( '6', 'kiss.png', 'imgs/kiss.png'),( '4', 'showimg.jpg', 'imgs/showimg.jpg'),( '5', 'luismiguel.jpg', 'imgs/luismiguel.jpg');
-INSERT INTO `tipos_entradas`( `nombre_tipo`) VALUES ('General'),('anticipada'),('Campo vip'),('campo de pie'),('Platea'),('Pullman'),('Palco');
-INSERT INTO `tipos_entradas_evento`(`id_tipo_entrada`, `id_evento`, `precio`, `cantidad_por_tipo`, `estan_numeradas`) VALUES ('1','4','30000','500','no'), ('2','4','50000','200','no'),
-('2','4','25000','300','si'),('1','5','25000','1000','no'),('1','6','25000','600','no'),('3','6','45000','400','no')
---estas como estan numeradas hay insertar en la tabla entradas_numeradas
-INSERT INTO `entradas_numeradas`( `numeracion_entrada`, `id_tipo_entrada`, `estado`) VALUES ('11','3','disponible'),
-('10','3','disponible'),('9','3','vendida'),('18','3','disponible'),('17','3','disponible'),('6','3','vendida')
-
-
-INSERT INTO `preguntas_frecuentes` (`id_pregunta`, `pregunta`, `contenido`, `estado`) VALUES (NULL, 'Medios de pago', 'Aceptamos todos los medios de pago', 'activa');
-
-INSERT INTO `usuarios` (`id_usuario`, `nombre_usuario`, `genero`, `email`, `telefono`, `contrasena`, `estado`) VALUES (NULL, 'bartsimpson', NULL, 'bartsimpson@gmail.com', NULL, '$2y$10$q7WDjEWLM0ofTRUZXdmg8uwpMQqR4.Teu.5yR7t.xZ6UO8SaUh9aC', ''), (NULL, 'lisasimpson', NULL, 'lisasimpson@gmail.com', NULL, '$2y$10$WJNoz4/37FDIoZAUvaLL3ONb8.PO3VpCMhdDJQDy/qkkHi1ExoBM2', 'activo'), (NULL, 'magui', NULL, 'magui@gmail.com', NULL, '$2y$10$L1Cwu8AN0EgccTqy/6wNPe2qs0hBjN/g9ZYFiXe4P.8/x3gw5G5ey', 'activo'), (NULL, 'homero',  NULL, 'homero@gmail.com', NULL, '$2y$10$ZdyKGKBrxpQsDU17R9WOMOoIH1AMXv3w2TRB0ohzOpcyyo.ToKtoK', 'activo'), (NULL, 'boladenieve', NULL, 'boladenieve@gmail.com', NULL, '$2y$10$7g21w6G/8gVUE7drdIaAZ.RS3khMnJzArXNdQ/wbHVL7WBA.fsXVC', 'activo'), (NULL, 'ayudantedesanta', NULL, 'ayudantedesanta@gmail.com', NULL, '$2y$10$SZ0idgm9Vr0iZBD1KJpZTeMZkJOmJD8LPEtFzaCudXC9Rp.XRKnPu', '')
-INSERT INTO `permisos` (`id`, `nombre`) VALUES (NULL, 'ver_panel_admi_sistema'), (NULL, 'ver_administradores_eventos'), (NULL, 'ver_tipo_entradas'), (NULL, 'ver_preguntas_frecuentes'), (NULL, 'generar_reporte_de_ventas'), (NULL, 'crear_admi_eventos'), (NULL, 'ver_panel_admi_eventos'), (NULL, 'eliminar_admi_eventos'), (NULL, 'administrar_categorias')
-INSERT INTO `roles_permisos` (`id`, `id_rol`, `id_permiso`) VALUES (NULL, '2', '1'), (NULL, '2', '5'), (NULL, '2', '7'), (NULL, '2', '8'), (NULL, '2', '9'), (NULL, '2', '10'), (NULL, '1', '11'), (NULL, '2', '12'), (NULL, '2', '13')
-INSERT INTO `roles_usuarios` (`id`, `id_rol`, `id_usuario`) VALUES (NULL, '2', '1'), (NULL, '1', '2'), (NULL, '1', '3'), (NULL, '1', '4'), (NULL, '1', '5'), (NULL, '1', '6')
+-- Aquí puedes añadir los INSERT con datos si los necesitas

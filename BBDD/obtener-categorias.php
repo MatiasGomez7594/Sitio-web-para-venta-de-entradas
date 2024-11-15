@@ -12,4 +12,4 @@ $sql = "SELECT * FROM categorias_eventos ";
 
 
 
-   $conn =null ;
+   

@@ -2,9 +2,10 @@
 session_start();
 require("../componentes/conexion.php");
 // Verifica que el usuario esté logueado
-if (!isset($_SESSION['id_usuario'])) {
-  header("Location: ../login.php");
+if (!isset($_SESSION['id_usuario']) ||  $_SESSION['rol_usuario'] !== 'cliente') {
+  header("Location: ../inicio.php");
   exit();
+
 }
 
 $id_evento = $_POST['id_evento'] ?? null;

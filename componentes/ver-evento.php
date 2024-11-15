@@ -2,12 +2,6 @@
 session_start();
 require("../componentes/conexion.php");
 
-// Verificar si el usuario está logueado
-if (!isset($_SESSION['id_usuario'])) {
-    header("Location: ../login.php");
-    exit();
-}
-
 $id_evento = $_GET['id'] ?? null;
 $nombre = $_GET['nombre'] ?? null;
 
@@ -43,7 +37,7 @@ $sql_entradas = "SELECT te.id_tipo_x_evento, t.nombre_tipo, te.precio, te.estado
                  FROM tipos_entradas_evento te
                  JOIN tipos_entradas t ON te.id_tipo_entrada = t.id_tipo
                  LEFT JOIN compra_items ce ON te.id_tipo_entrada = ce.id_tipo_entrada
-                 WHERE te.id_evento = :id_evento
+                 WHERE te.id_evento = :id_evento AND te.estado = 'activo'
                  GROUP BY te.id_tipo_x_evento, t.nombre_tipo, te.precio, te.estado, te.cantidad_por_tipo";
 $stmt_entradas = $conn->prepare($sql_entradas);
 $stmt_entradas->bindParam(':id_evento', $id_evento, PDO::PARAM_INT);
@@ -93,6 +87,9 @@ $entradas = $stmt_entradas->fetchAll(PDO::FETCH_ASSOC);
                 <strong>Hora de inicio:</strong> <?php echo $evento['hora_inicio']; ?> |
                 <strong>Hora de finalización:</strong> <?php echo $evento['hora_fin']; ?>
             </p>
+        </div>
+        <div class="div">
+            <img src="" alt="">
         </div>
 
         <!-- Sección de Entradas -->

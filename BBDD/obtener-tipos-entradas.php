@@ -12,4 +12,3 @@ $sql = "SELECT * FROM tipos_entradas ";
 
 
 
-   //$conn =null ;

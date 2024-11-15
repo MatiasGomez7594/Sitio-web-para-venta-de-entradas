@@ -27,6 +27,8 @@ function ValidarFechaEvento(){
   let resultado = true
   if (fechaInicio >= fechaFin) {
       errorFecha.classList.remove("oculto")
+      errorFecha.classList.add("text-danger")
+
       resultado = false
   } else{
       errorFecha.classList.add("oculto")
@@ -103,7 +105,7 @@ function validarEvento(){
 
   if (formularioValido && fechaValida==true && entradasEvento) {
       // Limpiar todas las clases de error y mensajes al enviar el formulario
-      document.querySelectorAll('.text-danger').forEach(el => el.classList.remove('text-danger'));
+      //document.querySelectorAll('.text-danger').forEach(el => el.classList.remove('text-danger'));
       document.querySelectorAll('.mensaje-error').forEach(el => el.remove());
 
       // Aquí puedes proceder a enviar el formulario
