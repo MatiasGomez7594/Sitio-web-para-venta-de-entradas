@@ -27,7 +27,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'cliente') {
         <h1 class="pt-5 mb-3"><?php echo "Bienvenido, " . $_SESSION['nombre_usuario'];?>
         </h1>
         <p class="mb-5">Desde tu perfil podrás administrar tus datos y tarjetas además revisar tus entradas compradas</p>
-        <a href="mis-compras.php" class="btn btn-primary btn-lg " tabindex="-1" role="button" >Mis compras</a>
+        <a href="historial-compras.php" class="btn btn-primary btn-lg " tabindex="-1" role="button" >Mis compras</a>
         <a href="editar-datos.php" class="btn btn-primary btn-lg " tabindex="-1" role="button" >Datos personales</a>
         <a href="cambiar-contraseña.php" class="btn btn-primary btn-lg " tabindex="-1" role="button" >Cambiar contraseña</a>
         <a href="mis-tarjetas.php" class="btn btn-primary btn-lg " tabindex="-1" role="button" >Mis tarjetas</a>
