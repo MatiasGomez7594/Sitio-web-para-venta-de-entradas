@@ -132,7 +132,7 @@ DOCTYPE html>
             </div>
             <div class="col">
                 <label for="email" class="form-label">Email</label>
-              <input type="text"  id="email" name="email" placeholder="Email@ejemplo.com" aria-label="Last name"class="form-control <?php if(!empty($emailerror)){echo 'is-invalid';} ?>">
+              <input type="text" value="" id="email" name="email" placeholder="Email@ejemplo.com" aria-label="Last name"class="form-control <?php if(!empty($emailerror)){echo 'is-invalid';} ?>">
         <div class="invalid-feedback">
                     <?php   
                      echo $emailerror;

@@ -20,29 +20,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrado
     <title>Document</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark  w-100 " style="z-index: 1;">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="../inicio.php">MisEntradas.com</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item dropdown">
-                <a class="nav-link active dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Mi cuenta
-                </a>
-                <ul class="dropdown-menu bg-dark">
-                  <li><a class="dropdown-item bg-dark text-light" href="interfaz-admin-eventos.php">Mi cuenta</a></li>
-                  <li><a class="dropdown-item bg-dark text-light" href="editar-datos.html">Datos personales</a></li>
-                  <li><a class="dropdown-item bg-dark text-light" href="cambiar-contraseña.html">Cambiar contraseña</a></li>
-                  <li><a class="dropdown-item bg-dark text-light" href="#">Cerrar sesión</a></li>
-                </ul>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
+  <?php include_once("nav-admin-eventos.php");?>
     <form class="w-50 mx-auto pt-5" id="formEvento" enctype="multipart/form-data">
         <input type="hidden" name="id_admin_eventos" id="idAdmin" value="<?php echo $_SESSION['id_usuario'];?>">
         <h2>Crea un nuevo evento</h2>
