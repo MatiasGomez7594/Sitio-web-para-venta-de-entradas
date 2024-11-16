@@ -3,7 +3,7 @@ include '../componentes/conexion.php';
 
 //devuelve todas las categorias para la tabla 
 
-$sql = "SELECT * FROM categorias_eventos ";
+$sql = "SELECT id_categoria,nombre_categoria,estado FROM categorias_eventos;";
     $stmt = $conn->prepare($sql);
     $stmt->execute();
     $categorias = $stmt->fetchAll(PDO::FETCH_ASSOC);

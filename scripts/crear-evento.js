@@ -1,8 +1,101 @@
+document.addEventListener("DOMContentLoaded", function() {
+  CargarCategorias()
+  CargarProvincias();
+  CargarCiudades()
+  CargarTiposEntradas();
+
+});
+
+function  CargarCategorias() {
+  fetch('../BBDD/obtener-categorias.php')
+      .then(response => response.json())
+      .then(data => {
+          MostrarCategorias(data);
+      })
+      .catch(error => console.error('Error al obtener los datos:', error));
+}
+
+
+function  CargarProvincias() {
+  fetch('../BBDD/obtener-provincias.php')
+      .then(response => response.json())
+      .then(data => {
+          MostrarProvincias(data);
+      })
+      .catch(error => console.error('Error al obtener los datos:', error));
+}
+
+function  CargarCiudades() {
+  fetch('../BBDD/obtener-ciudades.php')
+      .then(response => response.json())
+      .then(data => {
+          MostrarCiudades(data);
+      })
+      .catch(error => console.error('Error al obtener los datos:', error));
+}
+function  CargarTiposEntradas() {
+  fetch('../BBDD/obtener-tipos-entradas.php')
+      .then(response => response.json())
+      .then(data => {
+          MostrarTiposEntradas(data);
+      })
+      .catch(error => console.error('Error al obtener los datos:', error));
+}
+function MostrarTiposEntradas(datos) {
+  const tipoEntradaSelect = document.getElementById('tipoEntrada');
+  tipoEntradaSelect.innerHTML = ''; // Limpiar contenido previo
+  tipoEntradaSelect.innerHTML='<option selected value="0">Tipo</option>'
+  datos.forEach(registro => {
+      let tipoEntrada =`
+          <option value="${registro.id_tipo}">${registro.nombre_tipo}</option> `
+      tipoEntradaSelect.innerHTML += tipoEntrada;
+
+  });
+}
+
+
+function MostrarProvincias(datos) {
+  const provinciasSelect = document.getElementById('provincias');
+  provinciasSelect.innerHTML = ''; // Limpiar contenido previo
+  provinciasSelect.innerHTML='<option selected value="0">Provincia</option>'
+  datos.forEach(registro => {
+      let provincia =`
+          <option value="${registro.id_provincia}">${registro.nombre}</option> `
+      provinciasSelect.innerHTML += provincia;
+
+  });
+}
+
+function MostrarCiudades(datos) {
+  const ciudadSelect = document.getElementById('ciudades');
+  ciudadSelect.innerHTML = ''; // Limpiar contenido previo
+  ciudadSelect.innerHTML='<option  selected value="0">Ciudad</option>'
+  datos.forEach(registro => {
+      let ciudad =`
+          <option data-provincia=${registro.id_provincia} value="${registro.id_ciudad}">${registro.nombre}</option> `
+      ciudadSelect.innerHTML += ciudad;
+
+  });
+}
+
+function MostrarCategorias(datos) {
+  const categoriaSelect = document.getElementById('categoria');
+  categoriaSelect.innerHTML = ''; // Limpiar contenido previo
+  categoriaSelect.innerHTML='<option selected value="0">Categoría</option>'
+  datos.forEach(registro => {
+      let categoria =`
+          <option value="${registro.id_categoria}">${registro.nombre_categoria}</option> `
+      categoriaSelect.innerHTML += categoria;
+
+  });
+}
+
+
 function VerCiudades(opcion){
     let ciudades = document.getElementById('ciudades')
     if(opcion){
         for(i=1; i<ciudades.length;i++){
-            if(ciudades.options[i].value==opcion){
+            if(ciudades.options[i].getAttribute('data-provincia')==opcion){
                 ciudades.options[i].classList.remove("oculto")
             }else{
                 ciudades.options[i].classList.add("oculto")

@@ -1,5 +1,5 @@
 <?php
-include "/../componentes/conexion.php";
+include "../componentes/conexion.php";
 
 // devuelve la info de la categoria que se selecciono para editar 
 $id_categoria = $_GET['id'] ?? null;

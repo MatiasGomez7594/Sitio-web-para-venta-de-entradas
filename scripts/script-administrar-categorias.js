@@ -4,7 +4,7 @@ const tablacategorias = document.getElementById('tablacategorias');
 document.addEventListener('DOMContentLoaded', cargarcategorias);
 
 function cargarcategorias() {
-    fetch('obtener-categorias.php')
+    fetch('../BBDD/obtener-categorias.php')
         .then(response => {
             if (!response.ok) throw new Error("Error al cargar las categorías");
             return response.json();
@@ -73,7 +73,7 @@ function agregarcategoria() {
     const formData = new FormData(document.getElementById("formcategorias"));
     formData.append('action', 'add');
 
-    fetch('ABMcategorias.php', {
+    fetch('../BBDD/AMBcategorias.php', {
         method: 'POST',
         body: formData
     })
@@ -103,7 +103,7 @@ tablacategorias.addEventListener('click', function(e) {
 
 // Eliminar categoría
 function eliminarCategoria(idcategoria) {
-    fetch('ABMcategorias.php', {
+    fetch('../BBDD/AMBcategorias.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: new URLSearchParams({ action: 'delete', id_categoria: idcategoria })
@@ -120,7 +120,7 @@ function eliminarCategoria(idcategoria) {
 
 // Editar categoría  muestra los datos en el modal 
 function editarCategoria(idCategoria) {
-    fetch(`obtener-categoria.php?id=${idCategoria}`)
+    fetch(`../BBDD/obtener-categoria.php?id=${idCategoria}`)
         .then(response => response.json())
         .then(data => {
             document.getElementById('editIdCategoria').value = data.id_categoria;
@@ -154,7 +154,7 @@ function actualizarCategoria() {
     const formData = new FormData(document.getElementById('formEditarCategoria'));
     formData.append('action', 'edit');
 
-    fetch('ABMcategorias.php', {
+    fetch('../BBDD/AMBcategorias.php', {
         method: 'POST',
         body: formData
     })

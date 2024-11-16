@@ -74,13 +74,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrado
                                 <label class="form-check-label" for="eventoDiscapacitados">
                                           Seleccione la categoría del evento
                                 </label>
-                                <select id="categoria" name="categoria" class="form-select" aria-label="Default select example" name="categoria">
-                                    <option selected value="0">Categoría</option>
-                                    <option value="1">Musical</option>
-                                    <option value="2">Deportivo</option>
-                                    <option value="3">Artístico</option>
-                                    <option value="4">Historia</option>
-                                    <option value="5">Otra</option>
+                                <select id="categoria"  class="form-select" aria-label="Default select example" name="categoria">
                                 </select>
                             </div>
                             <div class="container w-100 mb-3">
@@ -101,11 +95,6 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrado
                                 <div class="mb-3 col-lg-6">
                                     <label for="provincia" class="form-label">Seleccione la provinvia</label>
                                       <select class="form-select" id="provincias"  name="provincias" aria-label="Default select example">
-                                          <option selected value="0">Provincia</option>
-                                          <option value="1"> Buenos Aires</option>
-                                          <option value="3">Córdoba</option>
-                                          <option value="5">Santa Fe</option>
-                                          <option value="6">Otra</option>
                                         </select>
                                         <div id="provinciaError" class="form-text text-danger provinciaError fs-6 oculto">
                                           Seleccione una provincia.
@@ -114,14 +103,6 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrado
                                   <div class="mb-3 col-lg-6 ciudad" id="contenedorciudad">
                                     <label for="ciudad" class="form-label ">Selecciona la ciudad</label>
                                       <select class="form-select "  id="ciudades" name="ciudades" aria-label="Default select example" >
-                                          <option selected value="0">ciudad</option>
-                                          <option class="oculto" value="1">Ezeiza</option>
-                                          <option class="oculto" value="1">Merlo</option>
-                                          <option class="oculto" value="2">CABA</option>
-                                          <option class="oculto" value="3"> Córdoba</option>
-                                          <option class="oculto" value="3"> Rio cuarto</option>
-                                          <option class="oculto" value="5"> Santa fe</option>
-                                          <option class="oculto" value="6"> Otra</option>
                                         </select>
                                         <div id="ciudadError" class="form-text text-danger ciudadError fs-6 oculto">
                                           Seleccione un ciudad.
@@ -139,12 +120,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrado
                                     <div class="mb-3 col-lg-6">
                                       <label for="#">Seleccione el tipo de entradas</label>
                                       <select class="form-select" aria-label="Default select example" id="tipoEntrada">
-                                        <option selected value="0">Tipo</option>
-                                        <option value="1">General</option>
-                                        <option value="2">Platea</option>
-                                        <option value="3">Campo Vip</option>
-                                        <option value="4">Campo de pie</option>
-                                        <option value="5">Otra</option>
+             
                                       </select>
                                     </div>
                                     <div class="mb-3 col-lg-6">

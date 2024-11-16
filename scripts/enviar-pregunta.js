@@ -1,4 +1,39 @@
+document.addEventListener("DOMContentLoaded", function() {
+    CargarPreguntas();
+});
 
+function CargarPreguntas() {
+    fetch('../BBDD/cargar-preguntas-frecuentes.php')
+        .then(response => response.json())
+        .then(data => {
+            MostrarPreguntas(data);
+        })
+        .catch(error => console.error('Error al obtener los datos:', error));
+}
+
+function MostrarPreguntas(datos) {
+    const preguntas = document.getElementById('accordionPreguntas');
+    preguntas.innerHTML = ''; // Limpiar contenido previo
+    datos.forEach(registro => {
+        console.log(registro.pregunta)
+        let pregunta =`
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse${registro.id_pregunta}" aria-expanded="false" aria-controls="collapseTwo">
+                  ${registro.pregunta}
+                  </button>
+                </h2>
+                <div id="collapse${registro.id_pregunta}" class="accordion-collapse collapse" data-bs-parent="#accordionPreguntas">
+                  <div class="accordion-body"> 
+                    ${registro.contenido}      
+                  </div>
+                </div>
+              </div>
+             `
+        preguntas.innerHTML += pregunta;
+  
+    });
+  }
 
 
 function ValidarFormulario() {

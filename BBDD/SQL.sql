@@ -276,3 +276,40 @@ VALUES
 ( '3', '14');
 
 INSERT INTO roles_usuarios (id_rol, id_usuario) VALUES ( '1', '1'), ( '2', '2'), ( '3', '3'); 
+
+INSERT INTO preguntas_frecuentes (pregunta, contenido, estado) 
+VALUES ('Nuestros servicios', 'Entregamos soluciones para empresas, comercios, eventos, festivales, 
+fiestas, clubs, restaurants, consumo masivo, entre otros. 
+Tenemos soporte remoto y en línea las 24 horas del día.       
+Podrás comprar  de manera rápida, 
+segura y eficiente. ¿El objetivo? Evitar las largas filas que hay en comercios, eventos, 
+festivales y conciertos.  ', 'activa'),
+('Métodos de pago',' En MisEntradas.com podes abonar con tarjetas de débido
+y crédito de los principales bancos del mundo. 
+ Además, podes abonar en efectivo y retirar tus entradas al momento de pagar.','activa'),
+('Seguridad de la Plataforma','Nuestra plataforma opera bajo los últimos estándares 
+de seguridad para vender entradas de tus eventos favoritos. ','activa'),
+('Información personal','Nunca compartimos tus datos con nadie.            
+Si usas nuestro servicio para efectuar compras  recopilamos información 
+sobre dicha compra o transacción. 
+Esto incluye información de pago, como el número de tu tarjeta de crédito o
+ débito y otra información sobre la tarjeta; otra 
+información sobre la cuenta y la autenticación; y detalles de facturación, 
+envío y contacto
+Usamos la información que tenemos para enviarte mensajes de marketing, 
+comunicarnos contigo sobre nuestros Productos 
+e informarte acerca de nuestras políticas y condiciones. 
+También usamos tu información para responderte cuando te pones en contacto con nosotros.','activa'),
+('¿Cómo cancelo mi cuenta?','Para cancelar tu cuenta tenés que iniciar una solicitud de cancelación, podrás cancelar tu cuenta de inmediato.
+Una vez que confirmemos tu cancelación, podrás volver 
+a crear una cuenta cuando quieras con el mismo e-mail que usas ahora.','activa'),
+('¿Cómo cancelo una compra?','Para realizar una cancelación, dirigite al 
+historial de compras en la pestaña "Mis compras" .
+En el menú de la compra que ya no quieres recibir, 
+elige la opción "Cancelar compra", recibirás el reembolso total de tu dinero. 
+Después de la cancelación de la compra, 
+el tiempo que tarda en acreditarse el reembolso depende del medio
+ de pago donde recibas el dinero. 
+Por lo general, hacemos los reembolsos al mismo medio de pago que usaste para comprar. 
+Recuerda que sólo puedes cancelar la compra hasta 24 hs antes de que se realize el evento
+del que hayas adquirido las entradas.','activa');

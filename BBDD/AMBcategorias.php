@@ -1,14 +1,10 @@
 <?php
-require "/../conexion.php";
+require "../componentes/conexion.php";
 header('Content-Type: application/json');
 
 // maneja la eliminacion , edicion y agregacion de las categorias 
 $action = $_POST['action'] ?? null;
-
 switch ($action) {
-    
-
-
     case 'add': 
         $nombrecategoriaerror = $estadocategoriaerror ="";
         $formValid = true;
@@ -55,7 +51,7 @@ switch ($action) {
            
         case 'delete': 
                     $idcategoria = $_POST['id_categoria'];
-                    $sql = "DELETE FROM categorias_eventos WHERE id_categoria =:id_categoria";
+                    $sql = "UPDATE categorias_eventos set estado ='inactiva' WHERE id_categoria =:id_categoria";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':id_categoria', $idcategoria, PDO::PARAM_INT);
                     $stmt->execute();
@@ -113,5 +109,4 @@ switch ($action) {
    
    
    
-   $conn=null;
  }

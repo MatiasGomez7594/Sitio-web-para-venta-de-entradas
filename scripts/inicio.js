@@ -1,6 +1,9 @@
 
 document.addEventListener("DOMContentLoaded", function() {
   cargarDatos();
+  CargarProvincias();
+  CargarCiudades()
+  CargarCategorias()
 });
 
 function cargarDatos() {
@@ -11,8 +14,33 @@ function cargarDatos() {
       })
       .catch(error => console.error('Error al obtener los datos:', error));
 }
+function  CargarCategorias() {
+  fetch('BBDD/obtener-categorias.php')
+      .then(response => response.json())
+      .then(data => {
+          MostrarCategorias(data);
+      })
+      .catch(error => console.error('Error al obtener los datos:', error));
+}
 
 
+function  CargarProvincias() {
+  fetch('BBDD/obtener-provincias.php')
+      .then(response => response.json())
+      .then(data => {
+          MostrarProvincias(data);
+      })
+      .catch(error => console.error('Error al obtener los datos:', error));
+}
+
+function  CargarCiudades() {
+  fetch('BBDD/obtener-ciudades.php')
+      .then(response => response.json())
+      .then(data => {
+          MostrarCiudades(data);
+      })
+      .catch(error => console.error('Error al obtener los datos:', error));
+}
 //funcion para cambiar el formato de la fecha
 function cambiarFormatoFecha(fechaOriginal) {
   let partesFechaHora = fechaOriginal.split(" "); // Dividir la fecha y la hora
@@ -44,7 +72,7 @@ function mostrarDatos(datos) {
       let evento =`  
       <a class=" link-dark link-underline-opacity-0 evento" data-ciudad="${registro.ciudad_nombre}" data-provincia="${registro.provincia_nombre}" 
           data-precio="${registro.precio_minimo}" data-fecha="${registro.fecha_inicio}" 
-          data-nombre=">${registro.nombre_evento}" 
+          data-nombre="${registro.nombre_evento}" 
           data-categoria="${registro.categoria}"            
           href="componentes/ver-evento.php?id=${registro.id_evento}&nombre=${encodeURIComponent(registro.nombre_evento)}">
         <div class="card mb-3 " style="width: 14rem;">
@@ -93,6 +121,9 @@ function filtrarEventos() {
     console.log(evento)
     const provinciaEvento = evento.getAttribute('data-provincia');
     const ciudadEvento = evento.getAttribute('data-ciudad');
+    //const ciudadEvento = evento.getAttribute('data-ciudad').trim().toLowerCase();
+
+
     const precioEvento = parseFloat(evento.getAttribute('data-precio')); 
     const fechaEvento = new Date(evento.getAttribute('data-fecha'));
     const categoriaEvento = evento.getAttribute('data-categoria');
@@ -102,10 +133,13 @@ function filtrarEventos() {
     // Filtrar por provincia
     if (provinciaSeleccionada !== 'Buscar por provincia' && provinciaEvento !== provinciaSeleccionada) {
       mostrarEvento = false;
+      console.log(provinciaSeleccionada+provinciaEvento)
+
     }
 
     if (categoriaSeleccionada !== 'Buscar por categoría' && categoriaEvento !== categoriaSeleccionada) {
       mostrarEvento = false;
+
     }
     
     // Filtrar por ciudad
@@ -115,6 +149,7 @@ function filtrarEventos() {
       }
     } else if (ciudadSeleccionada !== 'Buscar por ciudad' && ciudadEvento !== ciudadSeleccionada) {
       mostrarEvento = false;
+      console.log(ciudadSeleccionada+ciudadEvento)
     }
 
     // Mostrar u ocultar evento basado en los filtros de ciudad/provincia
@@ -171,4 +206,41 @@ selectCategoria.addEventListener('change', filtrarEventos);
 
 // Añadir el evento click al botón de buscar
 botonBuscarEvento.addEventListener('click', buscarEventoPorNombre);
+}
+
+function MostrarCategorias(datos) {
+  const categoriaSelect = document.getElementById('buscarCategoria');
+  categoriaSelect.innerHTML = ''; // Limpiar contenido previo
+  categoriaSelect.innerHTML='<option selected >Buscar por categoría</option>'
+  datos.forEach(registro => {
+      let categoria =`
+          <option value="${registro.nombre_categoria}">${registro.nombre_categoria}</option> `
+      categoriaSelect.innerHTML += categoria;
+
+  });
+}
+
+
+function MostrarProvincias(datos) {
+  const provinciasSelect = document.getElementById('buscarProv');
+  provinciasSelect.innerHTML = ''; // Limpiar contenido previo
+  provinciasSelect.innerHTML='<option selected >Buscar por provincia</option>'
+  datos.forEach(registro => {
+      let provincia =`
+          <option value="${registro.nombre}">${registro.nombre}</option> `
+      provinciasSelect.innerHTML += provincia;
+
+  });
+}
+
+function MostrarCiudades(datos) {
+  const ciudadSelect = document.getElementById('buscarCiudad');
+  ciudadSelect.innerHTML = ''; // Limpiar contenido previo
+  ciudadSelect.innerHTML='<option selected >Buscar por ciudad</option>'
+  datos.forEach(registro => {
+      let ciudad =`
+          <option value="${registro.nombre}">${registro.nombre}</option> `
+      ciudadSelect.innerHTML += ciudad;
+
+  });
 }

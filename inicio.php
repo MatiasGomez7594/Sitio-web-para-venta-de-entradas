@@ -53,12 +53,7 @@
           <option value="mayor">Mayor precio</option>
         </select>
         <select class="form-select navbar-nav me-auto mb-2 mb-lg-0" aria-label="Default select example" id="buscarCategoria">
-          <option selected>Buscar por categoría</option>
-          <option value="Concierto">Concierto</option>
-          <option value="Festival">Festival</option>
-          <option value="Otro">Otro</option>
-      </select>
-      
+        </select>
         <select class="form-select navbar-nav me-auto mb-2 mb-lg-0" aria-label="Default select example" id="buscarFecha">
           <option selected>Filtrar por fecha</option>
           <option value="masCercana">Fecha más cercana</option>
@@ -66,20 +61,9 @@
         </select>
         
         <select class="form-select navbar-nav  me-auto mb-2 mb-lg-0" aria-label="Default select example" id="buscarProv">
-          <option selected >Buscar por provincia</option>
-          <option value="Buenos Aires">Buenos Aires</option>
-          <option value="Santa Fé">Santa Fé</option>
-          <option value="Córdoba">Córdoba</option>
-          <option value="Otra">Otra</option>
+
         </select>
         <select class="form-select navbar-nav  me-auto mb-2 mb-lg-0" aria-label="Default select example" id="buscarCiudad">
-          <option selected >Buscar por ciudad</option>
-          <option value="CABA">CABA</option>
-          <option value="Merlo">Merlo</option>
-          <option value="Ezeiza">Ezeiza</option>
-          <option value="Córdoba">Córdoba</option>
-          <option value="Rosario">Rosario</option>
-          <option value="Otra">Otra</option>
         </select>
         <form class="d-flex" role="search">
           <input class="form-control me-2 " type="search" id="buscarEvent" placeholder="Buscar" aria-label="Search">
