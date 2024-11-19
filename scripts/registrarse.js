@@ -24,7 +24,7 @@ function validarFormularioRegistro() {
     //valido el nombre
     if (!/^[A-Za-z0-9]{3,}$/.test(nombre)){
         
-        nombreError.textContent = 'Por favor, el nombre debe ser mayor a 4 caracteres, puede incluir letras y numeros';
+        nombreError.textContent = 'Por favor, el nombre debe ser mayor a 2 caracteres, puede incluir letras y numeros';
 
         validado = false;
     }

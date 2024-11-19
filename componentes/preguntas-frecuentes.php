@@ -11,29 +11,7 @@
 <title>Mis entradas</title>
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark position-fixed  w-100 " style="z-index: 1;">
-        <div class="container-fluid">
-          <a class="navbar-brand" href="../inicio.php">MisEntradas.com</a>
-          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="iniciar-sesion.html">Ingresar</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="registrarse.html">Registrarse</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link active" href="mi-cuenta.html">Tu perfil</a>
-              </li>
-            </ul>
-
-          </div>
-        </div>
-      </nav>
+    <?php require_once('nav-sitio-2.php');?>
     <div class="container pt-5 w-100">
         <h1 class="mt-5">Preguntas frecuentes</h1>
         <div class="accordion mt-5" id="accordionPreguntas">

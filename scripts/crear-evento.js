@@ -225,14 +225,6 @@ document.getElementById("btnCrear").addEventListener("click",function(){
      
 
 
-
-
-
-
-
-
-
-
 function gestionarEntradas() {
     let totalEntradas = 0;  // Guardar el total de entradas disponibles
     let entradasAgregadas = [];  // Guardar los tipos de entradas agregadas
@@ -267,12 +259,13 @@ function gestionarEntradas() {
 
     // Función para agregar un tipo de entrada
     function agregarTipoEntrada() {
-      let tipoEntrada = document.getElementById('tipoEntrada').value;
+      let tipoEntrada = document.getElementById('tipoEntrada')
+      var nombreEntrada = tipoEntrada.options[tipoEntrada.selectedIndex].text;
       let totalPorTipo = parseInt(document.getElementById('totalEntradaTipo').value);
       let precioEntrada= parseInt(document.getElementById('precioEntrada').value);
 
 
-      if (!tipoEntrada || tipoEntrada == "0" || totalPorTipo <= 0 || precioEntrada <=0) {
+      if (!tipoEntrada.value || tipoEntrada.value == "0" || totalPorTipo <= 0 || precioEntrada <=0) {
         return;
       }
 
@@ -282,7 +275,7 @@ function gestionarEntradas() {
       if (!validarEntradasDisponibles(totalPorTipo)) return;
 
       // Agregar el tipo de entrada al listado
-      entradasAgregadas.push({ tipo: tipoEntrada, total: totalPorTipo , precio: precioEntrada});
+      entradasAgregadas.push({ tipo: tipoEntrada.value, nombre:nombreEntrada, total: totalPorTipo , precio: precioEntrada});
 
       mostrarEntradasAgregadas();
     }
@@ -296,7 +289,8 @@ function gestionarEntradas() {
        let div = document.createElement('div');
         div.classList.add('entradaItem','col-lg-12', 'mb-1');
         div.innerHTML = `
-          <input type="text" class="edicionDeshabilitada" class="tipoEntrada" value="${entrada.tipo}">
+          <input type="email" class="edicionDeshabilitada" class="nombreEntrada" value="${entrada.nombre}">
+          <input type="text" class="edicionDeshabilitada d-none" class="tipoEntrada" value="${entrada.tipo}">
           <input type="text" class="edicionDeshabilitada" class="cantidad" value="${entrada.total}">
           <input type="text" class="edicionDeshabilitada" class="precioEntrada" value="${entrada.precio}">
 

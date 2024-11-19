@@ -74,7 +74,7 @@ function mostrarDatos(datos) {
           data-precio="${registro.precio_minimo}" data-fecha="${registro.fecha_inicio}" 
           data-nombre="${registro.nombre_evento}" 
           data-categoria="${registro.categoria}"            
-          href="componentes/ver-evento.php?id=${registro.id_evento}&nombre=${encodeURIComponent(registro.nombre_evento)}">
+          href="componentes/ver-evento.php?id_evento=${registro.id_evento}">
         <div class="card mb-3 " style="width: 14rem;">
             <img src="${flyerEvento}" class="card-img-top" alt="...">
             <div class="card-body">

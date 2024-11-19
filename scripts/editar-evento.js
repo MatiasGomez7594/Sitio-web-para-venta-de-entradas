@@ -100,6 +100,8 @@ function GuardarCambios(){
     let nombreRecintoAntes = document.getElementById("recinto"+inputIDEvento).innerText = nombreRecinto.value; 
     let fechEventoAntes = document.getElementById("fechaEvento"+inputIDEvento).innerText = fechaInicio
 }
+
+
 function gestionarEntradas() {
     let totalEntradas = 0;  // Guardar el total de entradas disponibles
     let entradasAgregadas = [];  // Guardar los tipos de entradas agregadas
@@ -134,10 +136,13 @@ function gestionarEntradas() {
 
     // Función para agregar un tipo de entrada
     function agregarTipoEntrada() {
-      let tipoEntrada = document.getElementById('tipoEntrada').value;
+      let tipoEntrada = document.getElementById('tipoEntrada')
+      let nombreEntrada = tipoEntrada.options[tipoEntrada.selectedIndex].text;
       let totalPorTipo = parseInt(document.getElementById('totalEntradaTipo').value);
+      let precioEntrada= parseInt(document.getElementById('precioEntrada').value);
 
-      if (!tipoEntrada || tipoEntrada == "0" || totalPorTipo <= 0) {
+
+      if (!tipoEntrada.value || tipoEntrada.value == "0" || totalPorTipo <= 0 || precioEntrada <=0) {
         return;
       }
 
@@ -147,7 +152,7 @@ function gestionarEntradas() {
       if (!validarEntradasDisponibles(totalPorTipo)) return;
 
       // Agregar el tipo de entrada al listado
-      entradasAgregadas.push({ tipo: tipoEntrada, total: totalPorTipo });
+      entradasAgregadas.push({ tipo: tipoEntrada.value, nombre:nombreEntrada, total: totalPorTipo , precio: precioEntrada});
 
       mostrarEntradasAgregadas();
     }
@@ -156,14 +161,24 @@ function gestionarEntradas() {
     function mostrarEntradasAgregadas() {
      let listadoTipoEntradas = document.getElementById('listadoTipoEntradas');
       listadoTipoEntradas.innerHTML = ''; // Limpiar la lista
-
       entradasAgregadas.forEach((entrada, index) => {
+        console.log(entrada.tipo)
+
        let div = document.createElement('div');
         div.classList.add('entradaItem','col-lg-12', 'mb-1');
         div.innerHTML = `
-          <p>${entrada.tipo}: ${entrada.total} entradas</p>
-          <button class="btn btn-primary btn-sm" type="button" onclick="controlador.eliminarEntrada(${index})">Eliminar</button>
-        `;
+          <input type="email" class="edicionDeshabilitada" class="nombreEntrada" value="${entrada.nombre}">
+          <input type="text" class="edicionDeshabilitada d-none" class="tipoEntrada" value="${entrada.tipo}">
+          <input type="text" class="edicionDeshabilitada" class="cantidad" value="${entrada.total}">
+          <input type="text" class="edicionDeshabilitada" class="precioEntrada" value="${entrada.precio}">
+          <div class="form-check">
+          <input class="form-check-input" type="checkbox" value="${entrada.tipo}" id="estanNumeradas">
+            <label class="form-check-label" for="flexCheckDefault">
+              ¿Están numeradas?
+              </label>
+          </div>
+          <button class="btn btn-primary btn-sm mt-1" type="button" onclick="controlador.eliminarEntrada(${index})">Eliminar</button>
+          `;
         listadoTipoEntradas.appendChild(div);
       });
     }
@@ -194,6 +209,91 @@ document.getElementById("btnAgregarEntrada").addEventListener("click",function()
 
 });
 
+/*
+function gestionarEntradas() {
+  let entradasAgregadas = []; // Almacena los tipos de entradas
+
+  // Función para validar entradas antes de agregar
+  function validarEntrada(nombre, cantidad, precio) {
+      const errores = [];
+      if (!nombre || nombre.trim() === "") errores.push("El nombre de la entrada es obligatorio.");
+      if (!cantidad || cantidad <= 0) errores.push("La cantidad debe ser mayor a 0.");
+      if (!precio || precio <= 0) errores.push("El precio debe ser mayor a 0.");
+      return errores;
+  }
+
+  // Mostrar errores en un contenedor
+  function mostrarErrores(errores) {
+      const contenedorErrores = document.getElementById("erroresEntradas");
+      contenedorErrores.innerHTML = errores.map(error => `<div class="text-danger">${error}</div>`).join("");
+  }
+
+  // Función para agregar un tipo de entrada
+  function agregarTipoEntrada() {
+      const nombreEntrada = document.getElementById("nombreTipoEntrada").value.trim();
+      const cantidadEntrada = parseInt(document.getElementById("cantidadEntrada").value);
+      const precioEntrada = parseFloat(document.getElementById("precioEntrada").value);
+
+      // Validar datos de entrada
+      const errores = validarEntrada(nombreEntrada, cantidadEntrada, precioEntrada);
+      if (errores.length > 0) {
+          mostrarErrores(errores);
+          return;
+      }
+
+      // Limpiar errores si los datos son válidos
+      mostrarErrores([]);
+
+      // Agregar entrada al array
+      entradasAgregadas.push({
+          nombre: nombreEntrada,
+          cantidad: cantidadEntrada,
+          precio: precioEntrada,
+      });
+
+      mostrarEntradasAgregadas();
+  }
+
+  // Función para mostrar las entradas agregadas
+  function mostrarEntradasAgregadas() {
+      const contenedorEntradas = document.getElementById("listadoEntradas");
+      contenedorEntradas.innerHTML = ""; // Limpiar listado
+
+      entradasAgregadas.forEach((entrada, index) => {
+          const entradaDiv = document.createElement("div");
+          entradaDiv.className = "row mb-2 align-items-center";
+          entradaDiv.innerHTML = `
+              <div class="col-4">${entrada.nombre}</div>
+              <div class="col-3">${entrada.cantidad}</div>
+              <div class="col-3">$${entrada.precio.toFixed(2)}</div>
+              <div class="col-2">
+                  <button class="btn btn-danger btn-sm" onclick="controlador.eliminarEntrada(${index})">Eliminar</button>
+              </div>
+          `;
+          contenedorEntradas.appendChild(entradaDiv);
+      });
+  }
+
+  // Función para eliminar una entrada
+  function eliminarEntrada(index) {
+      entradasAgregadas.splice(index, 1);
+      mostrarEntradasAgregadas();
+  }
+
+  return {
+      agregarTipoEntrada,
+      eliminarEntrada,
+  };
+}
+
+// Instancia del controlador de entradas
+const controlador = gestionarEntradas();
+
+// Agregar evento al botón de agregar entrada
+document.getElementById("btnAgregarEntrada").addEventListener("click", controlador.agregarTipoEntrada);
+
+
+*/
 
 function validarEvento(){
   let formularioValido = true;

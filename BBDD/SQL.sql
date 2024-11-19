@@ -192,16 +192,18 @@ CREATE TABLE tarjetas (
 INSERT INTO provincias (nombre) 
 VALUES 
 ('Buenos Aires'),
+('CABA')
 ('Córdoba'),
 ('Santa Fe');
 INSERT INTO ciudades (nombre, id_provincia) 
-VALUES ('La Plata', 1),
-('Córdoba', 2),
+VALUES ('Flores', 2)
+('La Plata', 1),
+('Córdoba', 3),
 ('Palermo', 1),
-('Rosario', 3),
+('Rosario', 4),
 ('Ezeiza', 1),
 ('Merlo', 1),
-('Liniers', 1);
+('Liniers', 2);
 
 
 INSERT INTO categorias_eventos (nombre_categoria, estado) 

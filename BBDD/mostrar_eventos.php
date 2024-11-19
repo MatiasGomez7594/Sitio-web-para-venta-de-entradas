@@ -40,7 +40,7 @@ LEFT JOIN provincias p ON e.id_provincia = p.id_provincia
 LEFT JOIN ciudades c ON e.id_ciudad = c.id_ciudad
 LEFT JOIN tipos_entradas_evento te ON e.id_evento = te.id_evento
 LEFT JOIN entradas_numeradas en ON te.id_tipo_x_evento = en.id_tipo_entrada
-WHERE e.estado = 'activo'
+WHERE e.estado = 'activo' AND te.estado = 'activo'
 GROUP BY e.id_evento, e.nombre_evento, e.nombre_recinto, 
 e.fecha_inicio, e.direccion, categoria,provincia_nombre, ciudad_nombre
 ORDER BY e.fecha_registro ASC;

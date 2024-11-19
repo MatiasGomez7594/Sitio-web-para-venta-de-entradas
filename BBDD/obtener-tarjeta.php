@@ -5,7 +5,7 @@ include '../componentes/conexion.php';
 $id_tarjeta = $_GET['id'] ?? null;
 
 if ($id_tarjeta) {
-    $sql = "SELECT id_tarjeta, nombre_titular,apellido_titular,numero_tarjeta,fecha_expiracion,tipo_tarjeta FROM tarjetas WHERE id_tarjeta = :id_tarjeta";
+    $sql = "SELECT id_tarjeta, nombre_titular,apellido_titular,numero_tarjeta,fecha_expiracion,fecha_emision,tipo_tarjeta FROM tarjetas WHERE id_tarjeta = :id_tarjeta";
     $stmt = $conn->prepare($sql);
     $stmt->bindParam(':id_tarjeta', $id_tarjeta, PDO::PARAM_INT);
     $stmt->execute();
