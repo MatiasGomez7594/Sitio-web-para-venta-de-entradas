@@ -4,7 +4,7 @@ require(__DIR__.'/conexion.php');
 
 // Verificamos si el cliente inicio sesion
 if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'cliente') {
-    header("Location: ../inicio.php");
+    header("Location: ../index.php");
     exit;
 }
 

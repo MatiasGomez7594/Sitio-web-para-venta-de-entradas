@@ -1,4 +1,7 @@
-
+<?php
+require(__DIR__.'/../includes/globals.php');
+require(__DIR__.'/conexion.php');
+?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -20,7 +23,9 @@
         <p id="fechaInicio"></p>
         <p id="direccion"></p>
         <div id="imagenes"></div>
-        <div id="tiposEntradas" class="mt-5 mb-5"></div>
+        <div id="tiposEntradas" class="mt-5 mb-5">
+          <div id="error-mensaje" class="text-danger"></div>
+        </div>
         <h3>Entradas Seleccionadas</h3>
         <!-- Botón para finalizar la compra -->
     </div>

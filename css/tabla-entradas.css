@@ -1,37 +1,8 @@
-/* Ajusta la tabla en pantallas pequeñas */
-@media (max-width: 768px) {
-    .table-responsive {
-        width: 100% !important; /* La tabla ocupa el 100% en pantallas pequeñas */
-    }
+#rating-stars .fa-star {
+    color: gray;
+    cursor: pointer;
+}
 
-    /* Cambia el estilo de las filas para que se vean en bloque */
-    .table thead {
-        display: none; /* Oculta el encabezado en pantallas pequeñas */
-    }
-
-    .table tbody, .table tr {
-        display: block;
-        width: 100%;
-    }
-
-    .table td {
-        display: flex;
-        justify-content: space-between;
-        padding: 0.75rem;
-        border-top: 1px solid #dee2e6;
-        position: relative;
-    }
-
-    /* Estilo para mostrar el nombre de la columna como etiqueta en pantallas pequeñas */
-    .table td::before {
-        content: attr(data-label); /* Utiliza data-label como el nombre de la columna */
-        font-weight: bold;
-        width: 50%;
-        text-align: left;
-    }
-
-    /* Espaciado y alineación en móviles */
-    .tipo-entrada {
-        margin-bottom: 1rem;
-    }
+#rating-stars .fa-star.checked {
+    color: gold;
 }

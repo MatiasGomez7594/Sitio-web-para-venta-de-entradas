@@ -18,13 +18,24 @@
       <div id="carouselExampleSlidesOnly" class="carousel slide   pt-5" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img src="imgs/slide-1.jpg" class="d-block w-100" alt="...">
+            <a href="componentes/ver-evento.php?id_evento=1">
+              <img src="imgs/oasis.jpg" class="d-block w-100" alt="...">
+            </a>
           </div>
           <div class="carousel-item">
-            <img src="imgs/slide-2.jpg" class="d-block w-100" alt="...">
+            <a href="componentes/ver-evento.php?id_evento=4">
+              <img src="imgs/iron_maiden_2024.jpg" class="d-block w-100" alt="...">
+            </a>          
           </div>
           <div class="carousel-item">
-            <img src="imgs/slide-3.jpg" class="d-block w-100" alt="...">
+            <a href="componentes/ver-evento.php?id_evento=1">
+              <img src="imgs/wasp-tour.png" class="d-block w-100" alt="...">
+            </a>          
+          </div>
+          <div class="carousel-item">
+            <a href="componentes/ver-evento.php?id_evento=1">
+              <img src="imgs/loola-2025.png" class="d-block w-100" alt="...">
+            </a>          
           </div>
         </div>
       </div>
@@ -44,13 +55,12 @@
             <div class="col-md-4">
               <h5>Enlaces</h5>
               <ul class="list-unstyled">
-                <li><a href="inicio.php" class="text-white text-decoration-none">Inicio</a></li>
+                <li><a href="index.php" class="text-white text-decoration-none">Inicio</a></li>
                 <?php if(!isset($_SESSION['id_usuario'])){?>
                   <li><a href="./componentes/iniciar-sesion.html" class="text-white text-decoration-none">Ingresar</a></li>
                   <li><a href="./componentes/registrarse.php" class="text-white text-decoration-none">Registrarse</a></li>
                 <?php
                 };?>
-                <li><a href="./componentes/mi-cuenta.php" class="text-white text-decoration-none">Tu perfil</a></li>
               </ul>
             </div>
             <div class="col-md-4">

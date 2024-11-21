@@ -29,8 +29,9 @@ function FormatearFecha(fechaStr) {
 }
 
 document.addEventListener("DOMContentLoaded", function () {
-    const urlParams = new URLSearchParams(window.location.search);
-    const idEvento = urlParams.get("id_evento");
+    let urlParams = new URLSearchParams(window.location.search);
+    let idEvento = urlParams.get("id_evento");
+    
 
     if (idEvento) {
         fetch(`../BBDD/ver_info_evento.php?id_evento=${idEvento}`)
@@ -124,6 +125,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 tabla += `</tbody></table>`;
                 formItemsCompra.innerHTML = tabla;
+                let errorMensaje = document.getElementById("error-mensaje")
 
                 const contenedorEntradasSeleccionadas = document.getElementById("detalleEntradasSeleccionadas").querySelector(".list-group");
 
@@ -161,12 +163,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             valor = select.value;
 
                             if (!valor) {
-                                alert("Por favor, selecciona una numeración válida.");
+                                errorMensaje.textContent ='Por favor, selecciona una numeración válida.'
                                 return;
                             }
 
                             if (entradasSeleccionadas.some(e => e.id === idTipo && e.valor === valor)) {
-                                alert("Esta numeración ya está seleccionada.");
+                                errorMensaje.textContent ="Esta numeración ya está seleccionada."
                                 return;
                             }
 
@@ -177,13 +179,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             const input = document.getElementById(`cantidadNoNumerada${idTipo}`);
                             cantidad = parseInt(input.value);
                             if (entradasSeleccionadas.some(e => e.id === idTipo)) {
-                                
-                                alert("Esta entrada ya está seleccionada.");
+                                 errorMensaje.textContent ="Esta entrada ya está seleccionada."
                                 return;
                             }
 
                             if (isNaN(cantidad) || cantidad < 1 || cantidad > parseInt(input.max)) {
-                                alert("Por favor, ingresa una cantidad válida.");
+                                errorMensaje.textContent ='Por favor, selecciona una cantidad válida.'
                                 return;
                             }
 
@@ -227,7 +228,7 @@ document.addEventListener("DOMContentLoaded", function () {
                                 } else {
                                     // Si está autenticado y hay entradas seleccionadas
                                     if (entradasSeleccionadas.length === 0) {
-                                        alert("Debes seleccionar al menos una entrada.");
+                                        errorMensaje.textContent ='Debes seleccionar al menos una entrada.'
                                         return;
                                     }
     
@@ -258,7 +259,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                     });    
                                     // Agregar el formulario al body y enviarlo
                                     document.body.appendChild(form);
+                                    errorMensaje.textContent =''
                                     form.submit();  // Enviar el formulario
+
                                 }
                             });
                     });

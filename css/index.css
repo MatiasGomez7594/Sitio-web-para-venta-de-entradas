@@ -8,7 +8,15 @@
 }
 
 
+.carousel-item{
+    width: 1500px;
+    max-height:380px;
+}
+.carousel-item a img{
+    object-fit: cover; /* Asegura que la imagen se ajuste */
+    height: 380px; /* Altura fija para todas las imágenes */
 
+}
 .galeria-eventos{
     padding-top: 70px;
     margin: auto;

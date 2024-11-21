@@ -28,14 +28,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $id_compra = $conn->lastInsertId();
 
         // Insertar las entradas asociadas.
-        $stmt_item = $conn->prepare("INSERT INTO compra_items (id_compra, id_tipo_entrada, cantidad) 
-        VALUES (:id_compra, :id_tipo_entrada, :cantidad)");
+        $stmt_item = $conn->prepare("INSERT INTO compra_items (id_compra, id_tipo_entrada, cantidad,numeracion_entrada) 
+        VALUES (:id_compra, :id_tipo_entrada, :cantidad,:numeracion_entrada)");
 
         foreach ($entradas as $entrada) {
+          // Asegurar que numeracion tiene un valor predeterminado
+          $numeracion = isset($entrada['numeracion']) && $entrada['numeracion'] !== 'no numerada' 
+          ? $entrada['numeracion'] 
+          : 0; // Usa NULL si lo prefieres
           $result_item = $stmt_item->execute([
             ':id_compra' => $id_compra,
             ':id_tipo_entrada' => $entrada['id'],
-            ':cantidad' => $entrada['cantidad']
+            ':cantidad' => $entrada['cantidad'],
+            ':numeracion_entrada' => $numeracion
+
             ]);
             // Restar las entradas compradas del stock
             $sql_actualizar_stock = "UPDATE tipos_entradas_evento 

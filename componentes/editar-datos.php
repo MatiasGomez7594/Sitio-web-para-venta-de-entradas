@@ -2,7 +2,7 @@
   session_start();
   if (!isset($_SESSION['id_usuario'])) {
     // mandar a inicio si no inicio session
-    header("Location: ../inicio.php");
+    header("Location: ../index.php");
     exit(); 
 }
   include 'conexion.php';
@@ -21,7 +21,7 @@
     if (empty($nombre_usuario) ){
           $nameusererror = "El nombre completo es obligatorio.";
           $formValid=false;
-      }else if ( !preg_match("/^[A-Za-z0-9]{5,}$/", $nombre_usuario)) {
+      }else if ( !preg_match("/^[A-Za-z0-9]{3,}$/", $nombre_usuario)) {
            $nameusererror= "Por favor, el nombre debe ser mayor a 4 caracteres, puede incluir letras y numeros";
            $formValid=false;
       }
@@ -74,22 +74,9 @@
                $msgSuccess="no se pudo realizar la edicion";
               }
             }
-    
-    
-
-
-
-
-
-
 }
-
-
 ?>
-
-
-<!
-DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -97,7 +84,10 @@ DOCTYPE html>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <title>Editar Datos</title>
-    <script src="../scripts/editar-datos.js" defer></script>
+<!--
+    <script src="../scripts/editar-datos.js" defer></script>-->
+    <script src="../scripts/datos-usuario.js" defer></script>
+
 </head>
 <body>
 <?php 

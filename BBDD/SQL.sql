@@ -143,6 +143,7 @@ CREATE TABLE compra_items (
     id_compra INT NOT NULL,
     id_tipo_entrada INT NOT NULL,
     cantidad INT NOT NULL,
+    numeracion_entrada INT NULL,
     FOREIGN KEY (id_compra) REFERENCES compras(id_compra) ON DELETE CASCADE,
     FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_x_evento) ON DELETE CASCADE
 );
@@ -198,12 +199,19 @@ VALUES
 INSERT INTO ciudades (nombre, id_provincia) 
 VALUES ('Flores', 2)
 ('La Plata', 1),
+('San Isidro', 1),
 ('Córdoba', 3),
-('Palermo', 1),
+('Palermo', 2),
 ('Rosario', 4),
 ('Ezeiza', 1),
 ('Merlo', 1),
 ('Liniers', 2);
+('Flores', 2);
+('Palermo', 2);
+('Microcentro', 2);
+
+
+
 
 
 INSERT INTO categorias_eventos (nombre_categoria, estado) 
@@ -215,7 +223,10 @@ VALUES
 
 INSERT INTO tipos_entradas( nombre_tipo) 
 VALUES ('General'),('Anticipada'),('Campo vip'),
-('Campo de pie'),('Platea'),('Pullman'),('Palco');
+('Campo de pie'),('Platea'),('Pullman'),('Palco'),
+('Platea alta'),('Plate alta'),('Plate baja'),('Campo sentado'),('Campo parado'),
+('Campo delantero'),('Campo trasero'),
+('Popular'),('Preferencial');
 
 INSERT INTO usuarios ( nombre_usuario, genero, email, telefono, contrasena, estado) VALUES 
 ('el cliente', NULL, 'cliente@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo'), 
@@ -225,27 +236,73 @@ INSERT INTO usuarios ( nombre_usuario, genero, email, telefono, contrasena, esta
 
 
 INSERT INTO eventos(id_categoria_evento, nombre_evento, nombre_recinto, evento_mayores, evento_discapacitados, fecha_inicio, fecha_fin, id_provincia, id_ciudad, direccion, total_localidades, id_admin_evento, fecha_registro) 
-VALUES ('1','Taylor swift Argentina 2024','Estadio River Plate','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
+VALUES 
+('1','Taylor swift Argentina 2024','Estadio River Plate','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
 ('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
 ('1','Kiss End of the World tour','Campo de polo','1','1','2023-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('1','Iron Maiden 2024','Estadio huracan','0','1','2024-12-01 21:00:00','2024-12-03 23:30:00','2','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('1','Oasis 2025','Estadio River Plate','1','1','2025-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('1','Loola Palooza 2025','Hipódromo de San Isidro','1','1','2025-10-10 12:00:00','2025-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('1','WASP Argentina 2025','Teatro flores','1','1','2025-10-10 22:00:00','2025-10-10 23:00:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('1','Venom Latin American Tour','Groove','1','1','2023-10-10 21:15:00','2023-10-10 23:30:00','2','5','Santa fé 3500','1000','3','2023-01-25 22:16:54');
+('1','Tungsteno en flores','Campo de polo','1','1','2023-10-10 21:30:00','2023-10-10 23:00:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('1','Obituary 2025','Teatro Gran Rex','1','1','2025-10-10 21:00:00','2025-10-10 23:00:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('1','Fonseca','Campo de polo','1','1','2024-10-10 22:00:00','2024-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('1','Leny Kravitz','Movistar Arena','1','1','2024-10-10 21:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('2','Lelzar gira mundial','Campo de polo','1','1','2024-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('2','Cha-Cha-Cha','Teatro metropolitan','1','0','2024-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
 
 INSERT INTO imgs_eventos ( id_evento, nombre_img, url_img)
- VALUES ( '1', 'showimg.jpg', 'imgs/showimg.jpg'),
- ( '2', 'luismiguel.jpg', 'imgs/luismiguel.jpg'),
- ( '3', 'kiss.png', 'imgs/kiss.png');
+ VALUES ( '1', 'flyer', 'imgs/showimg.jpg'),
+ ( '2', 'flyer', 'imgs/luismiguel.jpg'),
+ ( '3', 'flyer', 'imgs/kiss.png'),
+ ( '4', 'flyer', 'imgs/ironmaiden.jpg'),
+ ( '5', 'flyer', 'imgs/oasis-en-argentina-2025.jpg'),
+ ( '6', 'flyer', 'imgs/loola2025flyer.png'),
+ ( '7', 'flyer', 'imgs/wasp.jpg'),
+ ( '8', 'flyer', 'imgs/tungsteno.jpg'),
+ ( '9', 'flyer', 'imgs/obituary.jpg'),
+ ( '10', 'flyer', 'imgs/fonseca.jpg'),
+ ( '11', 'flyer', 'imgs/lenykravitz.jpg'),
+ ( '12', 'flyer', 'imgs/lelzar.jpg'),
+ ( '13', 'flyer', 'imgs/cha-cha-cha.jpg'),
+ ( '5', 'mapa', 'imgs/ubicaciones3.jpg'),
+ ( '4', 'mapa', 'imgs/ironubica.jpg');
+  ( '11', 'mapa', 'imgs/lenyubicaciones.jpg');
+
+
 INSERT INTO tipos_entradas_evento(id_tipo_entrada, id_evento, precio, cantidad_por_tipo, estan_numeradas) 
-VALUES ('1','1','30000','500','no'), 
+VALUES 
+('1','1','30000','500','no'), 
 ('2','1','50000','200','no'),
 ('2','2','25000','300','no'),
 ('1','2','25000','1000','no'),
 ('1','3','25000','600','no'),
 ('3','3','45000','400','no');
+('1','4','45000','400','no');
+('1','4','45000','400','no');
+('1','4','45000','400','no');
+('1','4','45000','400','no');
+('1','4','45000','400','no');
+('1','4','45000','400','no');
+('1','4','45000','400','no');
+('1','7','75000','400','no');
+('1','7','70000','400','no');
+('1','7','95000','400','no');
+('1','7','110000','400','no');
+('1','7','130000','400','no');
+('1','7','140000','400','no');
+('1','7','150000','400','no');
+('2','13','6000','5','si');
+('1','13','8000','5','si');
+('1','14','8000','5','si');
 
 
 
 
-INSERT INTO preguntas_frecuentes (id_pregunta, pregunta, contenido, estado) 
-VALUES (NULL, 'Medios de pago', 'Aceptamos todos los medios de pago', 'activa');
+
+
+
 
 
 INSERT INTO `roles` ( `nombre`) 

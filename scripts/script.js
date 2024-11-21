@@ -86,6 +86,8 @@ function ValidarFormularioContacto(){
 
 }
     
+
+/*añadir nuevo administrador de eventos
 //eliminar un elemento
 document.getElementById('formulario').addEventListener('click', function(event) {
   if (event.target.classList.contains('row')) {
@@ -94,7 +96,6 @@ document.getElementById('formulario').addEventListener('click', function(event) 
   }
 });
 
-/*añadir nuevo administrador de eventos
 (function() {
     // Referencias locales a los elementos
     const btnMostrar = document.getElementById('btnMostrar');

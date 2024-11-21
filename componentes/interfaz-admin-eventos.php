@@ -3,7 +3,7 @@ require(__DIR__.'/../includes/globals.php');
 require(__DIR__.'/conexion.php');
 // Verificamos si el administrador de eventos inicio sesio
 if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrador de eventos') {
-    header("Location: ../inicio.php");
+    header("Location: ../index.php");
     exit;
 }
 

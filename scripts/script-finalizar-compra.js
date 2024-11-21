@@ -39,7 +39,7 @@ function GuardarCompra() {
           modal.show();
           // Escuchar el evento cuando el modal se oculta
           modalElement.addEventListener('hidden.bs.modal', function () {
-              window.location.href = 'mis-compras.php'; // redirige a las compras del usuario
+              window.location.href = 'historial-compras.php'; // redirige a las compras del usuario
           });
         } else {
             alert('Ocurrió un error al registrar la compra.');

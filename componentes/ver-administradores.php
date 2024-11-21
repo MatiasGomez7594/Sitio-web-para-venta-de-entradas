@@ -105,6 +105,7 @@ $query = "SELECT u.id_usuario, u.nombre_usuario, u.email, u.estado
                  </form>
                 </div>
             </div>
+            <!--
             <div class="mt-3 d-flex justify-content-end">
             <?php if ($puedeEliminarAdmi): ?>
                 <form action="../eliminar_admin_eventos.php" method="post" class="eliminar-form">
@@ -113,6 +114,7 @@ $query = "SELECT u.id_usuario, u.nombre_usuario, u.email, u.estado
                 </form>
                 <?php endif; ?>
             </div>
+            -->
         </div>
     </div>
 <?php endforeach; ?>

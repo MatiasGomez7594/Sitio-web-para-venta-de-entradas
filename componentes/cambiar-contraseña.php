@@ -4,7 +4,7 @@ require 'conexion.php';
 
 // Verifica si el usuario está logueado y tiene un ID de usuario
 if (!isset($_SESSION['id_usuario'])) {
-    header("Location: login.php");
+    header("Location: ../index.php");
     exit;
 }
 
