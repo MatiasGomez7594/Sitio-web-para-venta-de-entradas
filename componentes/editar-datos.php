@@ -21,7 +21,7 @@
     if (empty($nombre_usuario) ){
           $nameusererror = "El nombre completo es obligatorio.";
           $formValid=false;
-      }else if ( !preg_match("/^[A-Za-z0-9]{3,}$/", $nombre_usuario)) {
+      }else if ( !preg_match("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ ]{3,}$/", $nombre_usuario)) {
            $nameusererror= "Por favor, el nombre debe ser mayor a 4 caracteres, puede incluir letras y numeros";
            $formValid=false;
       }
@@ -34,21 +34,13 @@
           $emailerror="El formato del email es inválido.";
           $formValid=false;
       }
-  
-     if(empty($telefono)){
-          $telefonoerror="El telefono es obligatorio";
-          $formValid=false;
-
-       }else if (!preg_match('/^\d{10}$/', $telefono)) {
+       if(!empty($telefono)){
+       if (!preg_match('/^\d{10}$/', $telefono)) {
              $telefonoerror = "El teléfono solo puede contener maximo 10 digitos.";
             $formValid=false;
        }
       
-       if (empty($genero)) {
-        $generoerror = "El género es obligatorio.";
-        $formValid = false;
-       }
-
+      }
 
     if($formValid){// Prepara la consulta para actualizar los datos del usuario
       

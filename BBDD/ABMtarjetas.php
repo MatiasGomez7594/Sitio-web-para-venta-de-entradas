@@ -124,7 +124,7 @@ switch ($action) {
 
     case 'delete':
         $idTarjeta = $_POST['id_tarjeta'];
-        $sql = "DELETE FROM tarjetas WHERE id_tarjeta = :id_tarjeta";
+        $sql = "DELETE FROM tarjetas  WHERE id_tarjeta = :id_tarjeta";
         $stmt = $conn->prepare($sql);
         $stmt->bindParam(':id_tarjeta', $idTarjeta, PDO::PARAM_INT);
         $stmt->execute();

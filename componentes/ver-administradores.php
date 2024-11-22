@@ -47,10 +47,10 @@ $query = "SELECT u.id_usuario, u.nombre_usuario, u.email, u.estado
         $nuevo_estado = $_POST['estado'];
         $id_usuario = $_POST['id_usuario'];  //recibe el ID de usuario desde el formulario
     
-        // Consulta para actualizar el estado
-        $updateQuery = "UPDATE usuarios SET estado = :estado WHERE id_usuario = :id_usuario";
+      
+        $updateQuery = "UPDATE usuarios SET estado =:estado WHERE id_usuario = :id_usuario";
         $stmtestado = $conn->prepare($updateQuery);
-        $stmtestado->bindParam(':estado', $nuevo_estado, PDO::PARAM_INT);
+        $stmtestado->bindParam(':estado', $nuevo_estado, PDO::PARAM_STR);
         $stmtestado->bindParam(':id_usuario', $id_usuario, PDO::PARAM_INT);
         $stmtestado->execute();
     
@@ -99,8 +99,8 @@ $query = "SELECT u.id_usuario, u.nombre_usuario, u.email, u.estado
                     <label class="form-label">Estado</label>
                     <input type="hidden" name="id_usuario" value="<?php echo $admin['id_usuario']; ?>">
                     <select name="estado" class="form-select" onchange="this.form.submit()">
-                        <option value="1" <?php echo $admin['estado'] ? 'selected' : ''; ?>>Activo</option>
-                        <option value="0" <?php echo !$admin['estado'] ? 'selected' : ''; ?>>Inactivo</option>
+                        <option value="activo" <?php echo $admin['estado']  === 'activo' ? 'selected' : ''; ?>>Activo</option>
+                        <option value="inactivo" <?php echo $admin['estado']  === 'inactivo' ? 'selected' : ''; ?>>Inactivo</option>
                     </select>
                  </form>
                 </div>

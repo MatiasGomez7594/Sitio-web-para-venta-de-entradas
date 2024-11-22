@@ -15,6 +15,7 @@
                   <li> <a href="ver-administradores.php" class="dropdown-item bg-dark text-light"  >Ver administradores</a></li>
                   <li> <a href="ver-tipo-entradas.php" class="dropdown-item bg-dark text-light"  >Ver tipos de entradas</a></li>
                   <li> <a href="ver-preguntas-frecuentes.php" class="dropdown-item bg-dark text-light"  >Ver preguntas frecuentes</a></li>
+                  <li> <a href="administrar-categorias.php" class="dropdown-item bg-dark text-light"  >Administrar las categorias</a></li>
                   <li> <a href="reporte-de-ventas.php" class="dropdown-item bg-dark text-light"  >Generar reporte de ventas</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="cambiar-contraseña.php">Cambiar contraseña</a></li>
                   <li><a class="dropdown-item bg-dark text-light" href="editar-datos.php">Editar datos</a></li>

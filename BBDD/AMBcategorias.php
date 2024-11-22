@@ -51,11 +51,12 @@ switch ($action) {
            
         case 'delete': 
                     $idcategoria = $_POST['id_categoria'];
-                    $sql = "UPDATE categorias_eventos set estado ='inactiva' WHERE id_categoria =:id_categoria";
+                    $sql = "UPDATE categorias_eventos set estado ='inactivo' WHERE id_categoria =:id_categoria";
                     $stmt = $conn->prepare($sql);
                     $stmt->bindParam(':id_categoria', $idcategoria, PDO::PARAM_INT);
                     $stmt->execute();
                     echo json_encode(['success' => 'categoria eliminada correctamente']);
+                   
                     break;
 
 

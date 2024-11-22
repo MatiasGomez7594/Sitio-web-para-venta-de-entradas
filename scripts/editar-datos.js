@@ -47,19 +47,13 @@ function validarFormulario() {
 
         // Validación del teléfono )
         const regexTelefono = /^\d{10}$/;
-        if(telefono.value === ""){
-            mostrarError(telefono,"Debe ingresar el telefono por favor");
-            isValid=false;
-        }
-         else if  (!regexTelefono.test(telefono.value)) {
+       
+        if  (!regexTelefono.test(telefono.value)) {
                     mostrarError( telefono,"El teléfono debe contener solo numeros y hasta 10 digitos ");
                     isValid = false;
         }
 
-        if(genero.value=== ""){
-            mostrarError(generoerror,"Debe seleccionar un genero por favor ");
-            isValid = false;
-        }
+        
 
                     if (isValid) {
                         document.getElementById("formeditardatos").submit();
