@@ -1,6 +1,8 @@
 <?php
 require(__DIR__.'/../includes/globals.php');
 require(__DIR__.'/conexion.php');
+
+
 // Verifica si el formulario fue enviado
 $contrasena_incorrecta = '';
 $usuario_incorrecto = '';
@@ -12,17 +14,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST'){
   $stmt = $conn->prepare("SELECT u.id_usuario, u.nombre_usuario, u.email, u.contrasena, 
   r.nombre AS rol_usuario
   FROM usuarios u JOIN roles_usuarios ru ON u.id_usuario = ru.id_usuario 
-  JOIN roles r ON ru.id_rol = r.id_rol WHERE u.email = :email");
+  JOIN roles r ON ru.id_rol = r.id_rol WHERE u.email = :email AND u.estado ='activo' ");
   $stmt->execute([':email' => $email]);
   $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
-
 //print_r($usuario);
-
 //print_r($usuario['contrasena']); // Hash guardado en la base de datos
-
 //print_r($password); 
-
-
 if ($usuario) {
   $hash = $usuario['contrasena'];
   if (password_verify($password, $hash)) {
@@ -30,17 +27,29 @@ if ($usuario) {
     $_SESSION['nombre_usuario'] = $usuario['nombre_usuario'];
     $_SESSION['rol_usuario'] = $usuario["rol_usuario"];
 
-      require(__DIR__.'/../includes/permisos.php'); 
-          
+    require(__DIR__.'/../includes/permisos.php'); 
+    // Obtén la URL base del proyecto dinámicamente
+      $baseURL = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http') . 
+      "://{$_SERVER['HTTP_HOST']}" . dirname($_SERVER['PHP_SELF']);
+      
     // Comprueba el permiso del usuario
       if (permisos::tienePermiso('ver_panel_admi_sistema', $_SESSION['id_usuario'])) {
-        header('Location:/Sitio-web-para-venta-de-entradas/componentes/interfaz-admin-sistemas.php');
+        // Agrega el archivo de destino
+        $redirectURL = $baseURL . '/interfaz-admin-sistemas.php';
+        // Realiza la redirección
+        header('Location: ' . $redirectURL);
         exit;
       } elseif (permisos::tienePermiso('ver_panel_admi_eventos', $_SESSION['id_usuario'])) {
-        header('Location:/Sitio-web-para-venta-de-entradas/componentes/interfaz-admin-eventos.php');
+        // Agrega el archivo de destino
+        $redirectURL = $baseURL . '/interfaz-admin-eventos.php';
+        // Realiza la redirección
+        header('Location: ' . $redirectURL);
         exit;
       } elseif(permisos::tienePermiso('comprar_entrada', $_SESSION['id_usuario'])) {
-        header('Location:/Sitio-web-para-venta-de-entradas/componentes/mi-cuenta.php');
+        // Agrega el archivo de destino
+        $redirectURL = $baseURL . '/mi-cuenta.php';
+        // Realiza la redirección
+        header('Location: ' . $redirectURL);
         exit;
       }else{
         echo "Usted no posee permisos";

@@ -18,7 +18,7 @@ $query = "
         e.nombre_evento, 
         e.id_evento, 
         e.fecha_inicio, 
-        GROUP_CONCAT(CONCAT(te.nombre_tipo, ' x ', ci.cantidad, ' (', tee.precio, ' USD)') SEPARATOR '|') AS items,
+        GROUP_CONCAT(CONCAT(te.nombre_tipo, ' x ', ci.cantidad, ' (', tee.precio, ')') SEPARATOR '|') AS items,
         SUM(ci.cantidad * tee.precio) AS total_compra
     FROM compras c
     INNER JOIN compra_items ci ON c.id_compra = ci.id_compra

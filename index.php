@@ -18,7 +18,7 @@
       <div id="carouselExampleSlidesOnly" class="carousel slide   pt-5" data-bs-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <a href="componentes/ver-evento.php?id_evento=1">
+            <a href="componentes/ver-evento.php?id_evento=5">
               <img src="imgs/oasis.jpg" class="d-block w-100" alt="...">
             </a>
           </div>
@@ -28,12 +28,12 @@
             </a>          
           </div>
           <div class="carousel-item">
-            <a href="componentes/ver-evento.php?id_evento=1">
+            <a href="componentes/ver-evento.php?id_evento=7">
               <img src="imgs/wasp-tour.png" class="d-block w-100" alt="...">
             </a>          
           </div>
           <div class="carousel-item">
-            <a href="componentes/ver-evento.php?id_evento=1">
+            <a href="componentes/ver-evento.php?id_evento=6">
               <img src="imgs/loola-2025.png" class="d-block w-100" alt="...">
             </a>          
           </div>
@@ -57,7 +57,7 @@
               <ul class="list-unstyled">
                 <li><a href="index.php" class="text-white text-decoration-none">Inicio</a></li>
                 <?php if(!isset($_SESSION['id_usuario'])){?>
-                  <li><a href="./componentes/iniciar-sesion.html" class="text-white text-decoration-none">Ingresar</a></li>
+                  <li><a href="./componentes/iniciar-sesion.php" class="text-white text-decoration-none">Ingresar</a></li>
                   <li><a href="./componentes/registrarse.php" class="text-white text-decoration-none">Registrarse</a></li>
                 <?php
                 };?>

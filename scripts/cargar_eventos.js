@@ -235,28 +235,47 @@ function gestionarEntradas() {
   function validarEntradasDisponibles(totalPorTipo) {
     const entradasDisponibles = totalEntradas - entradasAsignadas();
     let errorEntradas = document.getElementById("errorCantidadEntradas")
+    if (!totalPorTipo || totalPorTipo <= 0){
+          errorEntradas.innerText ="La cantidad debe ser mayor a 0.";
+          return false
+    } 
 
-    if (totalPorTipo > entradasDisponibles) {
-      errorEntradas.classList.remove("oculto")
+    else if (totalPorTipo > entradasDisponibles) {
       errorEntradas.innerText =`No hay la suficiente cantidad de entradas. Quedan ${entradasDisponibles} entradas disponibles.`
-     // alert(`Quedan ${entradasDisponibles} entradas disponibles.`);
       return false;
     }else{
-      errorEntradas.classList.add("oculto")
+      errorEntradas.innerText=''
       return true;
 
 
     }
   }
+    // Función para validar entradas antes de agregar
+    function ValidarPrecio(precio) {
+      let errorEntradas = document.getElementById("errorPrecioEntradas")
+
+      if (!precio || precio <= 0){
+        errorEntradas.innerText='El precio debe ser mayor a 0.'
+        return false
+      }else{
+        errorEntradas.innerText=''
+        return true
+
+      }
+  }
+
+
 
   // Función para agregar un tipo de entrada
   function agregarTipoEntrada() {
-    let tipoEntrada = document.getElementById('tipoEntrada').value;
+    let tipoEntrada = document.getElementById('tipoEntrada');
     let totalPorTipo = parseInt(document.getElementById('totalEntradaTipo').value);
     let precioEntrada= parseInt(document.getElementById('precioEntrada').value);
+    let nombreEntrada = tipoEntrada.options[tipoEntrada.selectedIndex].text;
 
 
-    if (!tipoEntrada || tipoEntrada == "0" || totalPorTipo <= 0 || precioEntrada <=0) {
+
+    if (!tipoEntrada.value || tipoEntrada.value == "0" || totalPorTipo <= 0 || precioEntrada <=0) {
       return;
     }
 
@@ -264,9 +283,11 @@ function gestionarEntradas() {
     totalEntradas = obtenerTotalEntradas();
 
     if (!validarEntradasDisponibles(totalPorTipo)) return;
+    if (!ValidarPrecio(precioEntrada)) return;
+
 
     // Agregar el tipo de entrada al listado
-    entradasAgregadas.push({ tipo: tipoEntrada, total: totalPorTipo , precio: precioEntrada});
+    entradasAgregadas.push({ tipo: tipoEntrada.value, nombre:nombreEntrada,total: totalPorTipo , precio: precioEntrada});
 
     mostrarEntradasAgregadas();
   }
@@ -280,9 +301,10 @@ function gestionarEntradas() {
      let div = document.createElement('div');
       div.classList.add('entradaItem','col-lg-12', 'mb-1');
       div.innerHTML = `
-        <input type="text" class="edicionDeshabilitada" class="tipoEntrada" value="${entrada.tipo}">
-        <input type="text" class="edicionDeshabilitada" class="cantidad" value="${entrada.total}">
-        <input type="text" class="edicionDeshabilitada" class="precioEntrada" value="${entrada.precio}">
+        <input type="text" class="edicionDeshabilitada d-none" name="tipoEntrada" value="${entrada.tipo}">
+        <input type="email" class="edicionDeshabilitada" name="nombreEntrada" value="${entrada.nombre}">
+        <input type="text" class="edicionDeshabilitada" name="cantidad" value="${entrada.total}">
+        <input type="text" class="edicionDeshabilitada" name="precioEntrada" value="${entrada.precio}">
 
         <div class="form-check">
         <input class="form-check-input" type="checkbox" value="${entrada.tipo}" id="estanNumeradas">

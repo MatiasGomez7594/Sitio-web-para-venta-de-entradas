@@ -239,24 +239,39 @@ function gestionarEntradas() {
       return entradasAgregadas.reduce((total, entrada) => total + entrada.total, 0);
     }
 
-    // Función para validar las entradas por agregar
-    function validarEntradasDisponibles(totalPorTipo) {
-      const entradasDisponibles = totalEntradas - entradasAsignadas();
-      let errorEntradas = document.getElementById("errorCantidadEntradas")
+  // Función para validar las entradas por agregar
+  function validarEntradasDisponibles(totalPorTipo) {
+    const entradasDisponibles = totalEntradas - entradasAsignadas();
+    let errorEntradas = document.getElementById("errorCantidadEntradas")
+    if (!totalPorTipo || totalPorTipo <= 0){
+          errorEntradas.innerText ="La cantidad debe ser mayor a 0.";
+          return false
+    } 
 
-      if (totalPorTipo > entradasDisponibles) {
-        errorEntradas.classList.remove("oculto")
-        errorEntradas.innerText =`No hay la suficiente cantidad de entradas. Quedan ${entradasDisponibles} entradas disponibles.`
-       // alert(`Quedan ${entradasDisponibles} entradas disponibles.`);
-        return false;
-      }else{
-        errorEntradas.classList.add("oculto")
-        return true;
+    else if (totalPorTipo > entradasDisponibles) {
+      errorEntradas.innerText =`No hay la suficiente cantidad de entradas. Quedan ${entradasDisponibles} entradas disponibles.`
+      return false;
+    }else{
+      errorEntradas.innerText=''
+      return true;
 
 
-      }
     }
-
+  }
+      // Función para validar entradas antes de agregar
+      function ValidarPrecio(precio) {
+        let errorEntradas = document.getElementById("errorPrecioEntradas")
+  
+        if (!precio || precio <= 0){
+          errorEntradas.innerText='El precio debe ser mayor a 0.'
+          return false
+        }else{
+          errorEntradas.innerText=''
+          return true
+  
+        }
+    }
+  
     // Función para agregar un tipo de entrada
     function agregarTipoEntrada() {
       let tipoEntrada = document.getElementById('tipoEntrada')
@@ -273,7 +288,7 @@ function gestionarEntradas() {
       totalEntradas = obtenerTotalEntradas();
 
       if (!validarEntradasDisponibles(totalPorTipo)) return;
-
+      if (!ValidarPrecio(precioEntrada)) return;
       // Agregar el tipo de entrada al listado
       entradasAgregadas.push({ tipo: tipoEntrada.value, nombre:nombreEntrada, total: totalPorTipo , precio: precioEntrada});
 

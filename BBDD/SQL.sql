@@ -1,4 +1,6 @@
+DROP DATABASE  mis_entradas;
 -- Crear la base de datos
+
 CREATE DATABASE IF NOT EXISTS mis_entradas;
 USE mis_entradas;
 
@@ -125,6 +127,11 @@ CREATE TABLE entradas_numeradas (
     FOREIGN KEY (id_tipo_entrada) REFERENCES tipos_entradas_evento(id_tipo_x_evento) ON DELETE CASCADE
 );
 
+
+
+
+
+
 -- Tabla compras
 CREATE TABLE compras (
     id_compra INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -193,22 +200,29 @@ CREATE TABLE tarjetas (
 INSERT INTO provincias (nombre) 
 VALUES 
 ('Buenos Aires'),
-('CABA')
+('CABA'),
 ('Córdoba'),
 ('Santa Fe');
 INSERT INTO ciudades (nombre, id_provincia) 
-VALUES ('Flores', 2)
+VALUES 
 ('La Plata', 1),
+('Quilmes', 1),
+('Lomas de zamora', 1),
+('Lanús', 1),
 ('San Isidro', 1),
-('Córdoba', 3),
-('Palermo', 2),
-('Rosario', 4),
 ('Ezeiza', 1),
 ('Merlo', 1),
-('Liniers', 2);
-('Flores', 2);
-('Palermo', 2);
-('Microcentro', 2);
+('Avellaneda', 1),
+('Flores', 2),
+('Microcentro', 2),
+('Palermo', 2),
+('Liniers', 2),
+('Nuñez', 2),
+('Córdoba', 3),
+('Carlos paz', 3),
+('Rio Cuarto', 3),
+('Santa fé', 4),
+('Rosario', 4);
 
 
 
@@ -222,11 +236,28 @@ VALUES
 ('Tecnológico', 'activo');
 
 INSERT INTO tipos_entradas( nombre_tipo) 
-VALUES ('General'),('Anticipada'),('Campo vip'),
-('Campo de pie'),('Platea'),('Pullman'),('Palco'),
-('Platea alta'),('Plate alta'),('Plate baja'),('Campo sentado'),('Campo parado'),
-('Campo delantero'),('Campo trasero'),
-('Popular'),('Preferencial');
+VALUES 
+('General'),
+('Anticipada'),
+('Campo vip'),
+('Campo de pie'),
+('Platea'),
+('Pullman'),
+('Palco'),
+('Platea alta'),
+('Platea alta central'),
+('Platea baja'),
+('Campo sentado'),
+('Campo parado'),
+('Campo delantero'),
+('Campo trasero'),
+('Popular'),
+('Preferencial'),
+('campo'),
+('Platea central'),
+('popular');
+
+
 
 INSERT INTO usuarios ( nombre_usuario, genero, email, telefono, contrasena, estado) VALUES 
 ('el cliente', NULL, 'cliente@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo'), 
@@ -237,20 +268,21 @@ INSERT INTO usuarios ( nombre_usuario, genero, email, telefono, contrasena, esta
 
 INSERT INTO eventos(id_categoria_evento, nombre_evento, nombre_recinto, evento_mayores, evento_discapacitados, fecha_inicio, fecha_fin, id_provincia, id_ciudad, direccion, total_localidades, id_admin_evento, fecha_registro) 
 VALUES 
-('1','Taylor swift Argentina 2024','Estadio River Plate','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
-('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
-('1','Kiss End of the World tour','Campo de polo','1','1','2023-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-('1','Iron Maiden 2024','Estadio huracan','0','1','2024-12-01 21:00:00','2024-12-03 23:30:00','2','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-('1','Oasis 2025','Estadio River Plate','1','1','2025-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-('1','Loola Palooza 2025','Hipódromo de San Isidro','1','1','2025-10-10 12:00:00','2025-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-('1','WASP Argentina 2025','Teatro flores','1','1','2025-10-10 22:00:00','2025-10-10 23:00:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-('1','Venom Latin American Tour','Groove','1','1','2023-10-10 21:15:00','2023-10-10 23:30:00','2','5','Santa fé 3500','1000','3','2023-01-25 22:16:54');
-('1','Tungsteno en flores','Campo de polo','1','1','2023-10-10 21:30:00','2023-10-10 23:00:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-('1','Obituary 2025','Teatro Gran Rex','1','1','2025-10-10 21:00:00','2025-10-10 23:00:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-('1','Fonseca','Campo de polo','1','1','2024-10-10 22:00:00','2024-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-('1','Leny Kravitz','Movistar Arena','1','1','2024-10-10 21:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-('2','Lelzar gira mundial','Campo de polo','1','1','2024-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
-('2','Cha-Cha-Cha','Teatro metropolitan','1','0','2024-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54');
+('1','Taylor swift Argentina 2024','Estadio Unico de la Plata','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
+('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','2','13','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
+('1','Kiss End of the World tour','Campo de polo','1','1','2023-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54'),
+('1','Iron Maiden 2024','Estadio huracan','0','1','2024-12-01 21:00:00','2024-12-03 23:30:00','2','1','Jujuy 233','2400','3','2023-01-25 22:16:54'),
+('1','Oasis 2025','Estadio River Plate','1','1','2025-11-15 22:00:00','2025-11-16 23:55:00','2','13','Jujuy 233','2400','3','2023-01-25 22:16:54'),
+('1','Loola Palooza 2025','Hipódromo de San Isidro','1','1','2025-03-10 12:00:00','2025-03-10 23:55:00','1','5','Jujuy 233','1000','3','2023-01-25 22:16:54'),
+('1','WASP Argentina 2025','Teatro Flores','1','1','2025-05-02 22:00:00','2025-05-02 23:00:00','2','9','Rivadavia 7500','1000','3','2023-01-25 22:16:54'),
+('1','Venom Latin American Tour','Groove','1','1','2024-11-30 21:15:00','2023-11-30 23:30:00','2','11','Santa fé 3500','1000','3','2023-01-25 22:16:54'),
+('1','Tungsteno en flores','Teatro Flores','1','1','2024-12-08 21:30:00','2024-12-08 23:00:00','2','9','Rivadavia 7500','1000','3','2023-01-25 22:16:54'),
+('1','Obituary 2025','El teatrito','1','1','2025-02-19 21:00:00','2025-02-19 23:00:00','2','10','Sarmiento 1750','1000','3','2023-01-25 22:16:54'),
+('1','Fonseca','Teatro Gran Rex','1','1','2024-12-10 22:00:00','2024-12-10 23:55:00','2','10','Corrientes 200','700','3','2023-01-25 22:16:54'),
+('1','Leny Kravitz','Movistar Arena','1','1','2024-12-01 21:00:00','2024-12-01 23:55:00','2','1','Holmberg 200','4900','3','2023-01-25 22:16:54'),
+('2','Lelzar gira mundial','Teatrito','1','1','2024-11-30 22:00:00','2024-11-30 23:55:00','4','1','Jujuy 233','10','3','2023-01-25 22:16:54'),
+('2','Cha-Cha-Cha','Teatro metropolitan','1','0','2024-12-20 22:00:00','2024-12-20 23:55:00','2','10','Jujuy 233','10','3','2023-01-25 22:16:54'),
+('2','Miguel y Chino','Un Teatro','1','0','2025-12-20 22:00:00','2025-12-20 23:55:00','4','18','Jujuy 233','10','3','2023-01-25 22:16:54');
 
 INSERT INTO imgs_eventos ( id_evento, nombre_img, url_img)
  VALUES ( '1', 'flyer', 'imgs/showimg.jpg'),
@@ -260,42 +292,98 @@ INSERT INTO imgs_eventos ( id_evento, nombre_img, url_img)
  ( '5', 'flyer', 'imgs/oasis-en-argentina-2025.jpg'),
  ( '6', 'flyer', 'imgs/loola2025flyer.png'),
  ( '7', 'flyer', 'imgs/wasp.jpg'),
- ( '8', 'flyer', 'imgs/tungsteno.jpg'),
- ( '9', 'flyer', 'imgs/obituary.jpg'),
- ( '10', 'flyer', 'imgs/fonseca.jpg'),
- ( '11', 'flyer', 'imgs/lenykravitz.jpg'),
- ( '12', 'flyer', 'imgs/lelzar.jpg'),
- ( '13', 'flyer', 'imgs/cha-cha-cha.jpg'),
+( '8', 'flyer', 'imgs/venom-latin_america-2024.jpg'),
+ ( '9', 'flyer', 'imgs/tungsteno.jpg'),
+ ( '10', 'flyer', 'imgs/obituary.jpg'),
+ ( '11', 'flyer', 'imgs/fonseca.jpg'),
+ ( '12', 'flyer', 'imgs/lenykravitz.jpg'),
+ ( '13', 'flyer', 'imgs/lelzar.jpg'),
+ ( '14', 'flyer', 'imgs/cha-cha-cha.jpg'),
+  ( '15', 'flyer', 'imgs/midachi.jpg'),
  ( '5', 'mapa', 'imgs/ubicaciones3.jpg'),
- ( '4', 'mapa', 'imgs/ironubica.jpg');
-  ( '11', 'mapa', 'imgs/lenyubicaciones.jpg');
+ ( '4', 'mapa', 'imgs/ironubica.jpg'),
+  ( '12', 'mapa', 'imgs/lenyubicaciones.jpg');
 
 
 INSERT INTO tipos_entradas_evento(id_tipo_entrada, id_evento, precio, cantidad_por_tipo, estan_numeradas) 
 VALUES 
-('1','1','30000','500','no'), 
-('2','1','50000','200','no'),
-('2','2','25000','300','no'),
-('1','2','25000','1000','no'),
-('1','3','25000','600','no'),
-('3','3','45000','400','no');
-('1','4','45000','400','no');
-('1','4','45000','400','no');
-('1','4','45000','400','no');
-('1','4','45000','400','no');
-('1','4','45000','400','no');
-('1','4','45000','400','no');
-('1','4','45000','400','no');
-('1','7','75000','400','no');
-('1','7','70000','400','no');
-('1','7','95000','400','no');
-('1','7','110000','400','no');
-('1','7','130000','400','no');
-('1','7','140000','400','no');
-('1','7','150000','400','no');
-('2','13','6000','5','si');
-('1','13','8000','5','si');
-('1','14','8000','5','si');
+('2','1','30000','500','no'),
+('1','1','50000','500','no'), 
+('2','2','25000','500','no'),
+('1','2','35000','500','no'),
+('1','3','25000','500','no'),
+('3','3','45000','500','no'),
+
+('16','4','195000','400','no'),
+('18','4','180000','400','no'),
+('10','4','165000','400','no'),
+('17','4','95000','400','no'),
+('10','4','82000','400','no'),
+('9','4','50000','400','no'),
+
+
+('8','5','75000','400','no'),
+('10','5','70000','400','no'),
+('11','5','95000','400','no'),
+('12','5','110000','400','no'),
+('16','5','130000','400','no'),
+('19','5','140000','400','no'),
+
+('1','6','350000','1000','no'),
+
+('1','7','60000','1000','no'),
+('1','8','60000','1000','no'),
+('1','9','10000','1000','no'),
+('1','10','65000','1000','no'),
+('1','11','65000','700','no'),
+
+('8','12','70000','700','no'),
+('14','12','75000','700','no'),
+('8','12','95000','700','no'),
+('10','12','110000','700','no'),
+('10','12','130000','700','no'),
+('13','12','140000','700','no'),
+('10','12','150000','700','no'),
+
+
+
+('1','13','6000','10','si'),
+('1','14','8000','10','si'),
+('1','15','8500','10','si');
+
+
+INSERT INTO entradas_numeradas(id_tipo_entrada,numeracion_entrada,estado)
+VALUES
+(32,1,'disponible'),
+(32,2,'disponible'),
+(32,3,'disponible'),
+(32,4,'disponible'),
+(32,5,'disponible'),
+(32,6,'disponible'),
+(32,7,'disponible'),
+(32,8,'disponible'),
+(32,9,'disponible'),
+(32,10,'disponible'),
+(33,1,'disponible'),
+(33,2,'disponible'),
+(33,3,'disponible'),
+(33,4,'disponible'),
+(33,5,'disponible'),
+(33,6,'disponible'),
+(33,7,'disponible'),
+(33,8,'disponible'),
+(33,9,'disponible'),
+(33,10,'disponible'),
+(34,1,'disponible'),
+(34,2,'disponible'),
+(34,3,'disponible'),
+(34,4,'disponible'),
+(34,5,'disponible'),
+(34,6,'disponible'),
+(34,7,'disponible'),
+(34,8,'disponible'),
+(34,9,'disponible'),
+(34,10,'disponible');
 
 
 

@@ -2,7 +2,7 @@
  session_start();
  if (!isset($_SESSION['id_usuario'])) {
     // mandar a inicio si no inicio session
-    header("Location: ../inicio.php");
+    header("Location: ../index.php");
     exit(); 
  }
 

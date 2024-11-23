@@ -108,10 +108,12 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrado
                 <div class="mb-3 col-lg-6">
                   <div class="container">
                     <input placeholder="Ingrese total por el tipo" type="number" id="totalEntradaTipo"  min="1" required class="form-control ">
-                     <p  class="text-danger oculto" id="errorCantidadEntradas"></p>
+                     <p  class="text-danger" id="errorCantidadEntradas"></p>
                   </div>
                   <div class="container"> 
                     <input placeholder="Ingrese el precio" type="number" id="precioEntrada"  min="1" required class="form-control mt-3">
+                    <p  class="text-danger" id="errorPrecioEntradas"></p>
+
                   </div>
                   <button class="btn btn-primary btn-sm mt-1" type="button" id="btnAgregarEntrada" >Agregar Tipo de Entrada</button>
               </div>
