@@ -15,8 +15,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $contrasena_actual = $_POST['contrasena_actual'];
     $nueva_contrasena = $_POST['nueva_contrasena'];
     $confirmar_contrasena = $_POST['confirmar_contrasena'];
-
-    if ($nueva_contrasena === $confirmar_contrasena) {
+    
+    if ($nueva_contrasena === $confirmar_contrasena ) {
         // Verifica la contraseña actual
         $consulta = $conn->prepare("SELECT contrasena FROM usuarios WHERE id_usuario = :id_usuario");
         $consulta->bindParam(":id_usuario", $id_usuario, PDO::PARAM_INT);
@@ -52,6 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Cambiar Contraseña</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>     
+    <script src="../scripts/cambiar-contraseña.js" defer></script>
+
 </head>
 <body>
 <?php 
@@ -77,18 +79,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <div class="col-md-6">
             <h2 class="text-center m-4">Cambiar Contraseña</h2>
             <?= $mensaje ?>
-            <form action="cambiar-contraseña.php" method="POST">
+            <p class="text-danger" id="error"></p>
+            <form action="cambiar-contraseña.php" method="POST" id="cambiarContraseñaForm">
                 <div class="form-group">
                     <label for="contrasena_actual">Contraseña Actual</label>
                     <input type="password" class="form-control" id="contrasena_actual" name="contrasena_actual" required>
+            <p class="text-danger" id="errorContrasenaActual"></p>
                 </div>
                 <div class="form-group">
                     <label for="nueva_contrasena">Nueva Contraseña</label>
                     <input type="password" class="form-control" id="nueva_contrasena" name="nueva_contrasena" required>
+                <p class="text-danger" id="errorContrasenaNueva"></p>
                 </div>
                 <div class="form-group">
                     <label for="confirmar_contrasena">Confirmar Nueva Contraseña</label>
                     <input type="password" class="form-control" id="confirmar_contrasena" name="confirmar_contrasena" required>
+                    <p class="text-danger" id="errorConfirmarContrasena"></p>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block">Actualizar Contraseña</button>
             </form>

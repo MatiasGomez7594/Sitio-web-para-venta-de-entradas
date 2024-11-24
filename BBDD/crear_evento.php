@@ -23,33 +23,40 @@ try {
     id_provincia, id_ciudad,direccion,total_localidades, id_admin_evento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ? ,? ,? ,?)");
     $stmt->execute([$id_categoria,$nombre_evento, $recinto,$evento_mayores,$evento_discapacitados,$fecha_inicio,$fecha_fin, 
     $provincia,$ciudad,$direccion, $total_localidades,$id_admin]);
-    $stmt = $conn->prepare("SELECT id_evento FROM eventos WHERE id_admin_evento = $id_admin ORDER BY id_evento DESC LIMIT 1 ");
-    $stmt->execute();
-    // Obtener el último ID
+
+    $stmt = $conn->prepare("SELECT id_evento FROM eventos WHERE id_admin_evento = $id_admin ORDER BY id_evento DESC LIMIT 1");
+    $stmt->execute();  
+      // Obtener el último ID
     $ultimoEvento = $stmt->fetchColumn();
-    // Verifica si hay archivos de imagen y guárdalos
+      
+      // Verifica si hay archivos de imagen y guárdalos
     $uploadDirectory = __DIR__ . '/../imgs/';
     $uploadedFiles = [];
-    foreach (['flyerEvento', 'mapaUbicaciones'] as $img) {
-        if (!empty($_FILES[$img]['tmp_name'])) {
-            $fileName = basename($_FILES[$img]['name']);
-            $filePath = $uploadDirectory . $fileName;
-            if (move_uploaded_file($_FILES[$img]['tmp_name'], $filePath)) {
-                $uploadedFiles[] = [
-                    'name' => $fileName,
-                    'path' => 'imgs/' . $fileName,
-                ];
-            }
-        }
+      
+    foreach (['flyerEvento' => 'flyer', 'mapaUbicaciones' => 'mapaUbicaciones'] as $imgKey => $imgName) {
+          if (!empty($_FILES[$imgKey]['tmp_name'])) {
+              $originalName = basename($_FILES[$imgKey]['name']); // Nombre original del archivo
+              $filePath = $uploadDirectory . $originalName; // Ruta completa del archivo recibido
+      
+              if (move_uploaded_file($_FILES[$imgKey]['tmp_name'], $filePath)) {
+                  $uploadedFiles[] = [
+                      'name' => $imgName, // Nombre estático: flyer o mapaUbicaciones
+                      'path' => 'imgs/' . $originalName, // Ruta que proviene del archivo recibido
+                  ];
+              }
+          }
     }
-    $stmt = $conn->prepare("INSERT INTO imgs_eventos (id_evento, nombre_img, url_img) VALUES (:id_evento,:nombre, :ruta)");
-    foreach ($uploadedFiles as $file) {
-        $stmt->execute([
-            ':id_evento'=> $ultimoEvento,
-            ':nombre' => $file['name'],
-            ':ruta' => $file['path']
-        ]);
-    }
+      
+      $stmt = $conn->prepare("INSERT INTO imgs_eventos (id_evento, nombre_img, url_img) VALUES (:id_evento, :nombre, :ruta)");
+      foreach ($uploadedFiles as $file) {
+          $stmt->execute([
+              ':id_evento' => $ultimoEvento,
+              ':nombre' => $file['name'], // Nombre estático: flyer o mapaUbicaciones
+              ':ruta' => $file['path'],   // Ruta del archivo recibido
+          ]);
+      }
+      
+       
     if ($entradas) {
         // Decodificar el JSON a un array asociativo
         $entries = json_decode($entradas, true);

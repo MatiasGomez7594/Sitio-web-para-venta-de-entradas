@@ -15,7 +15,7 @@ require(__DIR__.'/conexion.php');
 </head>
 <body>
   <?php require_once('nav-sitio-2.php');?>
-  <div class="infoEvento container-fluid pt-5 row" id="infoEvento">
+  <div class="infoEvento container-fluid pt-5 row bg-body-secondary mx-auto" id="infoEvento">
 
   </div>
     <div class="container w-75 mx-auto pt-5" id="entradasSeleccionadas">

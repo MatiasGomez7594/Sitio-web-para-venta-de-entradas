@@ -95,7 +95,7 @@ function Registrarse() {
             
                       // Escuchar el evento cuando el modal se oculta
                       modalElement.addEventListener('hidden.bs.modal', function () {
-                        window.location.href = '../inicio.php'; // Cambia 'index.html' por la URL de tu página de inicio
+                        window.location.href = '../index.php'; // Cambia 'index.php' por la URL de tu página de inicio
                     });
         
                 }

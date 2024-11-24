@@ -92,6 +92,12 @@
     max-height: 100%; /* Ajusta la altura según el contenedor */
     object-fit: cover; /* Cubre el contenedor sin deformarse */
 }
+.mapa img {
+    max-width: 300px; /* Ocupa el 100% del ancho del contenedor */
+    height: auto; /* Mantiene la relación de aspecto */
+    max-height: 300px; /* Ajusta la altura según el contenedor */
+    object-fit: cover; /* Cubre el contenedor sin deformarse */
+}
 
 
 

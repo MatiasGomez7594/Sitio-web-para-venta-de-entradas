@@ -71,29 +71,31 @@ try {
         ':total_localidades' => $total_localidades,
         ':id_evento' => $id_evento
     ]);
+      // Verifica si hay archivos de imagen y guárdalos
+      $uploadDirectory = __DIR__ . '/../imgs/';
+      $uploadedFiles = [];
+      
+      foreach (['flyerEvento' => 'flyer', 'mapaUbicaciones' => 'mapaUbicaciones'] as $imgKey => $imgName) {
+          if (!empty($_FILES[$imgKey]['tmp_name'])) {
+              $originalName = basename($_FILES[$imgKey]['name']); // Nombre original del archivo
+              $filePath = $uploadDirectory . $originalName; // Ruta completa del archivo recibido
+      
+              if (move_uploaded_file($_FILES[$imgKey]['tmp_name'], $filePath)) {
+                  $uploadedFiles[] = [
+                      'name' => $imgName, // Nombre estático: flyer o mapaUbicaciones
+                      'path' => 'imgs/' . $originalName, // Ruta que proviene del archivo recibido
+                  ];
+              }
+          }
+      }
 
-    // Subida de imágenes
-    $uploadDirectory = __DIR__ . '/../imgs/';
-    $uploadedFiles = [];
-    foreach (['flyerEvento', 'mapaUbicaciones'] as $img) {
-        if (!empty($_FILES[$img]['tmp_name'])) {
-            $fileName = basename($_FILES[$img]['name']);
-            $filePath = $uploadDirectory . $fileName;
-            if (move_uploaded_file($_FILES[$img]['tmp_name'], $filePath)) {
-                $uploadedFiles[] = [
-                    'name' => $fileName,
-                    'path' => 'imgs/' . $fileName,
-                ];
-            }
-        }
-    }
-    $stmt = $conn->prepare("UPDATE imgs_eventos SET nombre_img = :nombre, url_img = :ruta WHERE id_evento = :id_evento");
+    $stmt = $conn->prepare("UPDATE imgs_eventos SET url_img = :ruta WHERE id_evento = :id_evento");
     foreach ($uploadedFiles as $file) {
         $stmt->execute([
-            ':nombre' => $file['name'],
             ':ruta' => $file['path'],
             ':id_evento' => $id_evento,
         ]);
+
     }
 
     // Inserción de nuevos tipos de entradas

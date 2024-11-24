@@ -73,12 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     document.getElementById('btnCerrar').addEventListener("click",function(){
-        console.log('cerrado')
         new bootstrap.Modal(document.getElementById('calificarModal')).hide();
 
     })
     document.getElementById('btnCerrarCancelar').addEventListener("click",function(){
-        console.log('cerrado222')
         new bootstrap.Modal(document.getElementById('cancelarModal')).hide();
 
     })
@@ -124,10 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
             .then(data => {
                 console.log(data+ 'compra exitosa')
                 //document.getElementById("error-cancelar").innerText=data.success || data.error
-                var modalElement = document.getElementById('cancelarModal');
-                console.log('Modal visibility before:', modalElement.style.display); // Verificar visibilidad antes de cerrar
-                var modal = new bootstrap.Modal(modalElement);
-                modal.hide();  // Cierra el modal
+                window.location.href = '../componentes/historial-compras.php';
+            
                 // Recargar compras
                 fetch('../BBDD/cargar-compras.php')
                     .then(response => response.json())

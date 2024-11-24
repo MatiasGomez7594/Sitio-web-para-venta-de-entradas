@@ -63,7 +63,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnGuardarEditar').addEventListener('click', () => {
         const titulo = document.getElementById('tituloEditar').value;
         const contenido = document.getElementById('contenidoEditar').value;
-        console.log(preguntaId,titulo,contenido)
         fetch('../BBDD/editar_pregunta.php', {
             method: 'POST',
             headers: {

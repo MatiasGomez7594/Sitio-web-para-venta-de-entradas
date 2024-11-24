@@ -122,6 +122,7 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'administrado
                                       <select class="form-select" aria-label="Default select example" id="tipoEntrada">
              
                                       </select>
+                                      <p  class="text-danger" id="errorTipoEntrada"></p>
                                     </div>
                                     <div class="mb-3 col-lg-6">
                                       <div class="container">

@@ -11,10 +11,10 @@ if (isset($_GET['id_evento'])) {
     e.direccion,
     p.nombre AS provincia_nombre,
     c.nombre AS ciudad_nombre,
-    (SELECT GROUP_CONCAT(url_img ORDER BY id_img SEPARATOR ', ')
-     FROM imgs_eventos i
-     WHERE i.id_evento = e.id_evento
-     LIMIT 2) AS imagenes,
+  (SELECT GROUP_CONCAT(CONCAT(nombre_img, ':', url_img) ORDER BY id_img SEPARATOR ', ') 
+    FROM imgs_eventos i
+    WHERE i.id_evento = :id_evento
+    LIMIT 2) AS imagenes,
     GROUP_CONCAT(
         JSON_OBJECT(
             'id_tipo_x_evento', te.id_tipo_x_evento,

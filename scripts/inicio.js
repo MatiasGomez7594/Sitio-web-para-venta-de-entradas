@@ -133,7 +133,6 @@ function filtrarEventos() {
     // Filtrar por provincia
     if (provinciaSeleccionada !== 'Buscar por provincia' && provinciaEvento !== provinciaSeleccionada) {
       mostrarEvento = false;
-      console.log(provinciaSeleccionada+provinciaEvento)
 
     }
 
@@ -149,7 +148,6 @@ function filtrarEventos() {
       }
     } else if (ciudadSeleccionada !== 'Buscar por ciudad' && ciudadEvento !== ciudadSeleccionada) {
       mostrarEvento = false;
-      console.log(ciudadSeleccionada+ciudadEvento)
     }
 
     // Mostrar u ocultar evento basado en los filtros de ciudad/provincia

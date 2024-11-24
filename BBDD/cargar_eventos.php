@@ -34,6 +34,9 @@ try {
             'id_tipo_x_evento', te.id_tipo_x_evento,
             'precio', te.precio,
             'cantidad_por_tipo', te.cantidad_por_tipo,
+            'nombre_tipo', t.nombre_tipo,
+            'id_tipo_entrada', t.id_tipo,
+
             'estan_numeradas', te.estan_numeradas
         ) ORDER BY te.id_tipo_x_evento
     ) AS tipos_entradas,
@@ -46,8 +49,9 @@ try {
     ) AS entradas_numeradas
 FROM eventos e
 LEFT JOIN tipos_entradas_evento te ON e.id_evento = te.id_evento
+LEFT JOIN tipos_entradas t ON te.id_tipo_entrada = t.id_tipo
 LEFT JOIN entradas_numeradas en ON te.id_tipo_x_evento = en.id_tipo_entrada
-WHERE e.id_admin_evento = :id_admin_evento AND e.estado = 'activo'
+WHERE e.id_admin_evento = :id_admin_evento AND e.estado = 'activo' AND te.estado='activo' AND e.fecha_fin > NOW()
 GROUP BY e.id_evento
 ORDER BY e.fecha_registro ASC;
 

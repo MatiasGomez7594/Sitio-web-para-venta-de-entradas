@@ -50,7 +50,8 @@ function mostrarDatos(datos) {
                     <p class="bg-body-tertiary p-3">${registro.contenido_consulta}</p>
                 </div>
                 <div class="mb-3">
-                    <textarea required minlength="10" class="form-control" placeholder="Mensaje" style="height: 100px"></textarea>
+                    <textarea id="mensaje${registro.id_consulta}" required minlength="10" class="form-control" placeholder="Mensaje" style="height: 100px"></textarea>
+                    <div id="errorM${registro.id_consulta}" class="text-danger"></div>
                 </div>
                 <button type="button" class="btn btn-primary responder" data-id="${registro.id_consulta}">Responder</button>
              </div>
@@ -72,7 +73,14 @@ function mostrarDatos(datos) {
 document.getElementById('consultas').addEventListener('click', function(event) {
     if (event.target.classList.contains('responder')) {
         const idConsulta = event.target.getAttribute('data-id');
-        eliminarRegistro(idConsulta);
+        const mensaje = document.getElementById("mensaje"+idConsulta)
+        let erroMensaje = document.getElementById("errorM"+idConsulta)
+
+        if(mensaje.value.length>0){
+            eliminarRegistro(idConsulta);
+
+        }else{
+            erroMensaje.innerHTML='Debes escribir una respuesta al usuario.'        }
     }
 });
 
@@ -88,14 +96,13 @@ function eliminarRegistro(id) {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            console.log('ID eliminado:', id);
-            let consulta = document.getElementById("formulario" + id)
-            consulta.classList.add("oculto");
-
             // Mostrar modal de éxito
             var modalElement = document.getElementById('successModal');
             var modal = new bootstrap.Modal(modalElement);
-            modal.show();
+            modal.show()
+            modalElement.addEventListener('hidden.bs.modal', function () {
+                cargarDatos();
+            });
         } else {
             console.error('Error al eliminar:', data.message);
         }

@@ -15,7 +15,6 @@ function MostrarPreguntas(datos) {
     const preguntas = document.getElementById('accordionPreguntas');
     preguntas.innerHTML = ''; // Limpiar contenido previo
     datos.forEach(registro => {
-        console.log(registro.pregunta)
         let pregunta =`
             <div class="accordion-item">
                 <h2 class="accordion-header">

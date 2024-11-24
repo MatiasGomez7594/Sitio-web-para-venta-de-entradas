@@ -43,32 +43,54 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 // Mostrar datos del evento
-                let flyer = "img-no-disponible.jpg";
+                let flyer = 'imgs/img-no-disponible.jpg';
+                let mapa =''
                 if(data.imagenes){
+                    console.log(data.imagenes)
                     let imagenes = data.imagenes.split(","); // obtener el flyer y el mapa del evento
                     console.log(imagenes[0],imagenes[1])
-                    flyer = imagenes[0]
+                    let nombreArchivo1 = imagenes[0].split(':')
+                    let nombreArchivo2 = imagenes[1] ? imagenes[1].split(':'):''
+
+
+                   if(nombreArchivo1[0]==="flyer"){
+                        flyer = nombreArchivo1[1]
+                        mapa = nombreArchivo2[1]
+                   }else if(nombreArchivo1[0]==="mapa"){
+                        mapa = nombreArchivo1[1]
+                        flyer = nombreArchivo1[2]
+                   }  
+                    console.log(flyer,mapa)
                 }
-
-
+                
                 const eventoDescripcion = document.getElementById('infoEvento');
                 eventoDescripcion.innerHTML = `
                     <hr class="divider">
                     <div class="p-5 mb-2 bg-body-secondary col-lg-2 col-md-12 flyer">
                         <img src="../${flyer}" class="img-fluid" style="height: 100%; object-fit: cover;" alt="Flyer">
                     </div>
+                    
                     <div class="p-5 mb-2 bg-body-secondary col-lg-8 col-md-12">
                         <h4 class="mt-3 mb-3">${data.nombre_evento}</h4>
                         <h5 class="mb-3 text-warning">${FormatearFecha(data.fecha_inicio)}</h5>
                     </div>
-                    <div class="col col-lg-2 col-md-12 ubicacionEvento"> 
+                    <div class="col col-lg-2 col-md-12 ubicacionEvento mt-5"> 
                         <i class="fas fa-map-marker-alt text-warning globo fa-lg fa-2x mb-3"></i>
                         <h5>${data.nombre_recinto}</h5>
                         <h5>${data.direccion}</h5>
                         <h5>${data.ciudad_nombre}, ${data.provincia_nombre}</h5>
-                    </div>
-                    <hr class="divider">
-                `;
+                    </div> `;
+                    let verMapa = mapa ? ` <hr class="divider">
+                    <h2 class="mt-5 mb-5 bg-body-secondary">Mapa de ubicaciones</h2>
+                     <div class="p-5 mb-2 bg-body-secondary col-lg-6 col-md-12 mapa ">
+                        <img src="../${mapa}" class="img-fluid"  object-fit: cover;" alt="Flyer">
+                    </div>` :`<h2 class="mt-5 mb-5">No hay mapa de ubicaciones</h2>`
+                    eventoDescripcion.innerHTML+=verMapa
+
+                   
+               
+
+               
 
                 // Mostrar tipos de entradas
                 const formItemsCompra = document.getElementById("formItemsCompra");

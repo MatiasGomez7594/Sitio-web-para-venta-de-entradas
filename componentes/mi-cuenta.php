@@ -27,10 +27,21 @@ if (!isset($_SESSION['id_usuario']) || $_SESSION['rol_usuario'] != 'cliente') {
         <h1 class="pt-5 mb-3"><?php echo "Bienvenido, " . $_SESSION['nombre_usuario'];?>
         </h1>
         <p class="mb-5">Desde tu perfil podrás administrar tus datos y tarjetas además revisar tus entradas compradas</p>
-        <a href="historial-compras.php" class="btn btn-primary btn-lg " tabindex="-1" role="button" >Mis compras</a>
-        <a href="editar-datos.php" class="btn btn-primary btn-lg " tabindex="-1" role="button" >Datos personales</a>
-        <a href="cambiar-contraseña.php" class="btn btn-primary btn-lg " tabindex="-1" role="button" >Cambiar contraseña</a>
-        <a href="mis-tarjetas.php" class="btn btn-primary btn-lg " tabindex="-1" role="button" >Mis tarjetas</a>
+        <div class="container mt-5 row ">
+            <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
+                <a href="historial-compras.php" class="btn btn-primary btn-lg  " tabindex="-1" role="button" >Mis compras</a>
+            </div>
+            <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
+                <a href="editar-datos.php" class="btn btn-primary btn-lg  " tabindex="-1" role="button" >Datos personales</a>
+            </div>
+            <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
+                <a href="cambiar-contraseña.php" class="btn btn-primary btn-lg  " tabindex="-1" role="button" >Cambiar contraseña</a>
+            </div>
+            <div class="mb-3 col-lg-3 col-md-6 col-sm-12">
+                <a href="mis-tarjetas.php" class="btn btn-primary btn-lg  " tabindex="-1" role="button" >Mis tarjetas</a>
+            </div>
+        </div>
+
     </div>
 </body>
 </html>

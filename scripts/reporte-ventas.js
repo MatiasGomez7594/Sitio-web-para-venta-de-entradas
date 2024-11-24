@@ -1,4 +1,4 @@
-
+/*
 document.addEventListener("DOMContentLoaded", function () {
   CargarDatos();
 });
@@ -7,6 +7,7 @@ function CargarDatos() {
   fetch('../BBDD/reporte-ventas.php')
       .then(response => response.json())
       .then(data => {
+        console.log(data)
           listaEventos = data.map(evento => ({
               nombreEvento: evento.nombre_evento,
               fecha: evento.fecha_inicio,
@@ -18,6 +19,29 @@ function CargarDatos() {
           console.log("Datos cargados en listaEventos:", listaEventos);
       })
       .catch(error => console.error('Error al obtener los datos:', error));
+}
+*/
+document.addEventListener("DOMContentLoaded", async function () {
+  await CargarDatos(); // Espera a que los datos se carguen completamente
+});
+
+async function CargarDatos() {
+  try {
+      const response = await fetch('../BBDD/reporte-ventas.php');
+      const data = await response.json();
+      console.log(data);
+      listaEventos = data.map(evento => ({
+          nombreEvento: evento.nombre_evento,
+          fecha: evento.fecha_inicio,
+          totalEntradas: evento.total_localidades,
+          totalEntradasVendidas: parseInt(evento.total_entradas_vendidas) || 0,
+          totalRecaudado: parseFloat(evento.total_recaudado) || 0,
+          calificacion: parseFloat(evento.calificacion_promedio) || 0,
+      }));
+      console.log("Datos cargados en listaEventos:", listaEventos);
+  } catch (error) {
+      console.error('Error al obtener los datos:', error);
+  }
 }
 
 let listaEventos = [];
@@ -35,6 +59,7 @@ function ReporteAnual() {
 function ReporteMensual(mes) {
   const año = new Date().getFullYear();
   return listaEventos.filter(evento => {
+    console.log(evento.fecha)
       const [dia, mesEvento, añoEvento] = evento.fecha.split('/'); // Desestructurar la fecha
       return mesEvento == String(mes) && añoEvento == String(año); // Filtrar por mes y año
   });
@@ -79,6 +104,7 @@ function generarReporte(eventos) {
       // Listado de eventos ordenados por calificación
       resultados.innerHTML += `<h2>Eventos Ordenados por Calificación (Descendente):</h2>`;
       eventosOrdenadosPorCalificacion.forEach(evento => {
+        console.log(evento.nombreEvento)
           resultados.innerHTML += `<p>${evento.nombreEvento} - Calificación: ${evento.calificacion}</p>`;
       });
 
@@ -99,3 +125,5 @@ document.getElementById('btnReporte').addEventListener('click', function () {
   }
   generarReporte(eventos);
 });
+
+

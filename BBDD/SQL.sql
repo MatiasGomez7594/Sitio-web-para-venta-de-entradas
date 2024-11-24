@@ -1,4 +1,4 @@
-DROP DATABASE  mis_entradas;
+DROP DATABASE IF EXISTS mis_entradas;
 -- Crear la base de datos
 
 CREATE DATABASE IF NOT EXISTS mis_entradas;
@@ -270,8 +270,8 @@ INSERT INTO eventos(id_categoria_evento, nombre_evento, nombre_recinto, evento_m
 VALUES 
 ('1','Taylor swift Argentina 2024','Estadio Unico de la Plata','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
 ('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','2','13','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
-('1','Kiss End of the World tour','Campo de polo','1','1','2023-10-10 22:00:00','2023-10-10 23:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54'),
-('1','Iron Maiden 2024','Estadio huracan','0','1','2024-12-01 21:00:00','2024-12-03 23:30:00','2','1','Jujuy 233','2400','3','2023-01-25 22:16:54'),
+('1','Kiss End of the World tour','Campo de polo','1','1','2024-10-10 22:00:00','2024-10-10 24:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54'),
+('1','Iron Maiden 2024','Estadio huracan','0','1','2024-12-01 21:00:00','2024-12-03 23:30:00','2','12','Jujuy 233','2400','3','2023-01-25 22:16:54'),
 ('1','Oasis 2025','Estadio River Plate','1','1','2025-11-15 22:00:00','2025-11-16 23:55:00','2','13','Jujuy 233','2400','3','2023-01-25 22:16:54'),
 ('1','Loola Palooza 2025','Hipódromo de San Isidro','1','1','2025-03-10 12:00:00','2025-03-10 23:55:00','1','5','Jujuy 233','1000','3','2023-01-25 22:16:54'),
 ('1','WASP Argentina 2025','Teatro Flores','1','1','2025-05-02 22:00:00','2025-05-02 23:00:00','2','9','Rivadavia 7500','1000','3','2023-01-25 22:16:54'),
@@ -307,11 +307,11 @@ INSERT INTO imgs_eventos ( id_evento, nombre_img, url_img)
 
 INSERT INTO tipos_entradas_evento(id_tipo_entrada, id_evento, precio, cantidad_por_tipo, estan_numeradas) 
 VALUES 
-('2','1','30000','500','no'),
+('2','1','30000','490','no'),
 ('1','1','50000','500','no'), 
-('2','2','25000','500','no'),
+('2','2','25000','492','no'),
 ('1','2','35000','500','no'),
-('1','3','25000','500','no'),
+('1','3','25000','475','no'),
 ('3','3','45000','500','no'),
 
 ('16','4','195000','400','no'),
@@ -423,6 +423,26 @@ VALUES
 ( '3', '14');
 
 INSERT INTO roles_usuarios (id_rol, id_usuario) VALUES ( '1', '1'), ( '2', '2'), ( '3', '3'); 
+
+INSERT INTO compras (
+    id_usuario,
+    nombre_comprador,
+    email,
+    dni,
+    telefono,
+    metodo_pago)VALUES('1','Cliente','cliente@email.com','12345678','1234567890','efectivo'),
+    ('1','Cliente','cliente@email.com','12345678','1234567890','efectivo'),
+    ('1','Cliente','cliente@email.com','12345678','1234567890','efectivo');
+
+INSERT INTO compra_items (
+    id_compra, 
+    id_tipo_entrada,
+    cantidad,
+    numeracion_entrada 
+) VALUES('1','1','10','0'),('2','3','8','0'),('3','5','25','0');
+
+INSERT INTO calificacion_evento (id_evento, id_usuario,calificacion ) 
+    VALUES('1','1','4'),('2','1','3'),('3','1','5');
 
 INSERT INTO preguntas_frecuentes (pregunta, contenido, estado) 
 VALUES ('Nuestros servicios', 'Entregamos soluciones para empresas, comercios, eventos, festivales, 

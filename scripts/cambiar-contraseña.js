@@ -1,32 +1,48 @@
 
     const form = document.getElementById('cambiarContraseñaForm');
-    const mensajeDiv = document.getElementById('mensaje');
-    console.log("prueba")
 
 
-    form.addEventListener('click', (event) => {
+    form.addEventListener('submit', (event) => {
         event.preventDefault(); // Prevenir el envío del formulario
+        const contraseñaActual = document.getElementById('contrasena_actual').value;
+        const nuevaContraseña = document.getElementById('nueva_contrasena').value;
+        const repetirContraseña = document.getElementById('confirmar_contrasena').value;
 
-        const nuevaContraseña = document.getElementById('nuevaContraseña').value;
-        const repetirContraseña = document.getElementById('repetirContraseña').value;
-
-        const mensaje = validarContraseña(nuevaContraseña, repetirContraseña);
-        mensajeDiv.textContent = mensaje; // Mostrar el mensaje en la pantalla
+        let validacion = ValidarContrasena(contraseñaActual, nuevaContraseña, repetirContraseña);
+        if (validacion == true) { // Llama a la validación y permite el envío solo si retorna true
+            form.submit(); // Envía el formulario
+        }
 
     });
 
-    function validarContraseña(nueva, repetir) {
-        if (nueva.length < 8) {
-            return 'La contraseña debe tener al menos 8 caracteres.';
+    function ValidarContrasena(actual, nueva, repetir) {
+        // Regex para validar la contraseña
+        let error = document.getElementById("error")
+        let error1 = document.getElementById("errorContrasenaActual")
+        let error2 = document.getElementById("errorContrasenaNueva")
+        let error3 = document.getElementById("errorConfirmarContrasena")
+        let validado = true
+        if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(actual)) {
+            // Si la contraseña no cumple con los requisitos
+            error1.textContent = "La contraseña no cumple con los requisitos.Al menos 8 caracteres de longitud, una letra minúscula (a-z), una letra mayúscula (A-Z), un número (0-9), un carácter especial.";
+            validado = false;
         }
-        if (!/[A-Z]/.test(nueva)) {
-            return 'La contraseña debe contener al menos una letra mayúscula.';
+        else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(nueva)) {
+            // Si la contraseña no cumple con los requisitos
+            error2.textContent = "La contraseña no cumple con los requisitos.Al menos 8 caracteres de longitud, una letra minúscula (a-z), una letra mayúscula (A-Z), un número (0-9), un carácter especial.";
+            validado = false;
         }
-        if (!/[0-9]/.test(nueva)) {
-            return 'La contraseña debe contener al menos un número.';
+        else if (!/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(repetir)) {
+            // Si la contraseña no cumple con los requisitos
+            error3.textContent = "La contraseña no cumple con los requisitos.Al menos 8 caracteres de longitud, una letra minúscula (a-z), una letra mayúscula (A-Z), un número (0-9), un carácter especial.";
+            validado = false;
         }
-        if (nueva !== repetir) {
-            return 'Las contraseñas no coinciden.';
+        else if (nueva !== repetir) {
+            error.textContent="Las contraseñas no coinciden."
+            validado = false;
         }
-        return ''; // No hay errores
+
+
+        return validado // No hay errores
     }
+
