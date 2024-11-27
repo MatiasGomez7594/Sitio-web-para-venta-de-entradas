@@ -16,27 +16,7 @@
 <body>
   <?php require_once('./componentes/nav-sitio.php');?>
       <div id="carouselExampleSlidesOnly" class="carousel slide   pt-5" data-bs-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <a href="componentes/ver-evento.php?id_evento=5">
-              <img src="imgs/oasis.jpg" class="d-block w-100" alt="...">
-            </a>
-          </div>
-          <div class="carousel-item">
-            <a href="componentes/ver-evento.php?id_evento=4">
-              <img src="imgs/iron_maiden_2024.jpg" class="d-block w-100" alt="...">
-            </a>          
-          </div>
-          <div class="carousel-item">
-            <a href="componentes/ver-evento.php?id_evento=7">
-              <img src="imgs/wasp-tour.png" class="d-block w-100" alt="...">
-            </a>          
-          </div>
-          <div class="carousel-item">
-            <a href="componentes/ver-evento.php?id_evento=6">
-              <img src="imgs/loola-2025.png" class="d-block w-100" alt="...">
-            </a>          
-          </div>
+        <div class="carousel-inner" id="carouselInner">
         </div>
       </div>
       <div class="galeria-eventos bg-dark" id="galeriaEventos">

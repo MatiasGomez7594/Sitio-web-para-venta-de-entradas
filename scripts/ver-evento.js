@@ -46,9 +46,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 let flyer = 'imgs/img-no-disponible.jpg';
                 let mapa =''
                 if(data.imagenes){
-                    console.log(data.imagenes)
+                    //console.log(data.imagenes)
                     let imagenes = data.imagenes.split(","); // obtener el flyer y el mapa del evento
-                    console.log(imagenes[0],imagenes[1])
                     let nombreArchivo1 = imagenes[0].split(':')
                     let nombreArchivo2 = imagenes[1] ? imagenes[1].split(':'):''
 
@@ -56,11 +55,12 @@ document.addEventListener("DOMContentLoaded", function () {
                    if(nombreArchivo1[0]==="flyer"){
                         flyer = nombreArchivo1[1]
                         mapa = nombreArchivo2[1]
+
+                        
                    }else if(nombreArchivo1[0]==="mapa"){
                         mapa = nombreArchivo1[1]
                         flyer = nombreArchivo1[2]
                    }  
-                    console.log(flyer,mapa)
                 }
                 
                 const eventoDescripcion = document.getElementById('infoEvento');

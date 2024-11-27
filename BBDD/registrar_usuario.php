@@ -9,7 +9,7 @@ try {
     $email = $_POST['email'] ?? null;
     $contrasena = $_POST['contrasena'] ?? null;
     // Verificar si el email ya está registrado
-    $buscar_usuario = $conn->prepare("SELECT email FROM usuarios WHERE email = :email");
+    $buscar_usuario = $conn->prepare("SELECT email FROM usuarios WHERE email = :email AND estado='activo'");
     $buscar_usuario->bindParam(':email', $email);
     $buscar_usuario->execute();
     if ($buscar_usuario->fetch()) {

@@ -18,13 +18,10 @@
     $telefono = $_POST['telefono'];
     $genero = $_POST['genero'];
 
-    if (empty($nombre_usuario) ){
-          $nameusererror = "El nombre completo es obligatorio.";
-          $formValid=false;
-      }else if ( !preg_match("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ ]{3,}$/", $nombre_usuario)) {
-           $nameusererror= "Por favor, el nombre debe ser mayor a 4 caracteres, puede incluir letras y numeros";
+   if (!preg_match("/^[A-Za-z0-9áéíóúÁÉÍÓÚñÑ ]{3,}$/", $nombre_usuario)) {
+           $nameusererror= "Por favor, el nombre debe ser mayor a 2 caracteres, puede incluir letras y numeros";
            $formValid=false;
-      }
+    }
 
 //validar email
     if(empty($email)){
@@ -59,7 +56,6 @@
               $resultadoQuery->bindParam(':idUsuario', $usuario);
             
               if($resultadoQuery->execute()) {
-        
                 $msgSuccess="Se editaron tus datos correctamente";
         
               }else {

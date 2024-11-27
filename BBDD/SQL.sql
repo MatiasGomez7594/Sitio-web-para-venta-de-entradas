@@ -197,6 +197,14 @@ CREATE TABLE tarjetas (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id_usuario) ON DELETE CASCADE
 );
 
+CREATE TABLE imgs_carousel (
+    id_img INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+    id_evento INT NOT NULL,
+    nombre_img VARCHAR(255),
+    url_img VARCHAR(255),
+    FOREIGN KEY (id_evento) REFERENCES eventos(id_evento) ON DELETE CASCADE
+);
+
 INSERT INTO provincias (nombre) 
 VALUES 
 ('Buenos Aires'),
@@ -260,9 +268,9 @@ VALUES
 
 
 INSERT INTO usuarios ( nombre_usuario, genero, email, telefono, contrasena, estado) VALUES 
-('el cliente', NULL, 'cliente@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo'), 
-('admin sistemas', NULL, 'sistemas@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo'), 
-('admin eventos', NULL, 'eventos@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo');
+('elcliente11', NULL, 'cliente@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo'), 
+('adminsistemas1', NULL, 'sistemas@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo'), 
+('admineventos1', NULL, 'eventos@email.com', NULL, '$2y$10$dgtNbiHiPrZNLG8uPStk8e10z2mD7a48Iyr3ZMd5ce.onCLagCC.K', 'activo');
 
 
 
@@ -271,7 +279,7 @@ VALUES
 ('1','Taylor swift Argentina 2024','Estadio Unico de la Plata','0','1','2024-10-12 22:00:00','2024-10-12 23:45:00','1','1','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
 ('1','Luis Miguel tour','Estadio River Plate','0','1','2024-11-12 22:00:00','2024-11-12 23:45:00','2','13','Calle falsa 123','1000','3','2024-10-25 22:16:54'),
 ('1','Kiss End of the World tour','Campo de polo','1','1','2024-10-10 22:00:00','2024-10-10 24:55:00','1','1','Jujuy 233','1000','3','2023-01-25 22:16:54'),
-('1','Iron Maiden 2024','Estadio huracan','0','1','2024-12-01 21:00:00','2024-12-03 23:30:00','2','12','Jujuy 233','2400','3','2023-01-25 22:16:54'),
+('1','Iron Maiden 2024','Estadio huracan','0','1','2024-12-02 21:00:00','2024-12-02 23:30:00','2','12','Jujuy 233','2400','3','2023-01-25 22:16:54'),
 ('1','Oasis 2025','Estadio River Plate','1','1','2025-11-15 22:00:00','2025-11-16 23:55:00','2','13','Jujuy 233','2400','3','2023-01-25 22:16:54'),
 ('1','Loola Palooza 2025','Hipódromo de San Isidro','1','1','2025-03-10 12:00:00','2025-03-10 23:55:00','1','5','Jujuy 233','1000','3','2023-01-25 22:16:54'),
 ('1','WASP Argentina 2025','Teatro Flores','1','1','2025-05-02 22:00:00','2025-05-02 23:00:00','2','9','Rivadavia 7500','1000','3','2023-01-25 22:16:54'),
@@ -303,6 +311,13 @@ INSERT INTO imgs_eventos ( id_evento, nombre_img, url_img)
  ( '5', 'mapa', 'imgs/ubicaciones3.jpg'),
  ( '4', 'mapa', 'imgs/ironubica.jpg'),
   ( '12', 'mapa', 'imgs/lenyubicaciones.jpg');
+
+  INSERT INTO imgs_carousel ( id_evento, nombre_img, url_img)
+ VALUES ( '7', 'item', 'imgs/wasp-tour.png'),
+ ( '5', 'item', 'imgs/oasis.jpg'),
+ ( '6', 'item', 'imgs/loola-2025.png'),
+ ( '4', 'item', 'imgs/iron_maiden_2024.jpg');
+
 
 
 INSERT INTO tipos_entradas_evento(id_tipo_entrada, id_evento, precio, cantidad_por_tipo, estan_numeradas) 

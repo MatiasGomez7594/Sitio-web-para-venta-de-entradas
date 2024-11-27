@@ -20,7 +20,6 @@ function GuardarCompra() {
         form: Object.fromEntries(formData.entries()),
         entradas: entradas
     };
-    console.log(entradas)
     // Enviar los datos con fetch.
     fetch('../BBDD/guardar_compra.php', {
         method: 'POST',
@@ -32,7 +31,6 @@ function GuardarCompra() {
     .then(response => response.json())
     .then(data => {
         if (data.success) {
-            console.log('Compra registrada correctamente.');
           document.getElementById("formCompra").reset()
           var modalElement = document.getElementById('successModal');
           var modal = new bootstrap.Modal(modalElement);

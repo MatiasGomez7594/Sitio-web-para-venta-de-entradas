@@ -1,10 +1,20 @@
 
 document.addEventListener("DOMContentLoaded", function() {
+  CargarCarousel();
   cargarDatos();
   CargarProvincias();
   CargarCiudades()
   CargarCategorias()
 });
+
+function CargarCarousel() {
+  fetch('BBDD/imgs_carousel.php')
+      .then(response => response.json())
+      .then(data => {
+          Carousel(data);
+      })
+      .catch(error => console.error('Error al obtener los datos:', error));
+}
 
 function cargarDatos() {
   fetch('BBDD/mostrar_eventos.php')
@@ -118,7 +128,6 @@ function filtrarEventos() {
   
 
   eventos.forEach(evento => {
-    console.log(evento)
     const provinciaEvento = evento.getAttribute('data-provincia');
     const ciudadEvento = evento.getAttribute('data-ciudad');
     //const ciudadEvento = evento.getAttribute('data-ciudad').trim().toLowerCase();
@@ -237,8 +246,45 @@ function MostrarCiudades(datos) {
   ciudadSelect.innerHTML='<option selected >Buscar por ciudad</option>'
   datos.forEach(registro => {
       let ciudad =`
-          <option value="${registro.nombre}">${registro.nombre}</option> `
+          <option data-idprov="${registro.nombre_provincia}" value="${registro.nombre}">${registro.nombre}</option> `
       ciudadSelect.innerHTML += ciudad;
 
   });
 }
+
+function Carousel(imgs) {
+  const carousel = document.getElementById('carouselInner');
+  carousel.innerHTML = ''; // Limpiar contenido previo
+  imgs.forEach(img => {
+      let item =`
+                <div class="carousel-item active">
+            <a href="componentes/ver-evento.php?id_evento=${img.id_evento}">
+              <img src="${img.url_img}" class="d-block w-100" alt="...">
+            </a>`
+      carousel.innerHTML += item;
+
+  });
+}
+
+function VerCiudades(opcion){
+  let ciudades = document.getElementById('buscarCiudad')
+  if(opcion){
+      for(i=1; i<ciudades.length;i++){
+          if(ciudades.options[i].getAttribute('data-idprov')==opcion){
+              ciudades.options[i].classList.remove("oculto")
+          }else{
+              ciudades.options[i].classList.add("oculto")
+  
+          }   
+      }
+  }else{
+      return false
+  }
+
+}
+//para ver las ciudades segun  la provincia seleccionada
+
+document.getElementById("buscarProv").addEventListener("change",function(event){
+  console.log(event.target.value)
+  VerCiudades(event.target.value)
+})

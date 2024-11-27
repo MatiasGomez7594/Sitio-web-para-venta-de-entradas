@@ -1,3 +1,7 @@
+<?php
+require(__DIR__.'/../includes/globals.php');
+require(__DIR__.'/conexion.php');
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>

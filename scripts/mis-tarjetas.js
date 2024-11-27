@@ -284,7 +284,7 @@ function mostrarTarjetas(tarjetas) {
                        isValid = false;
            
             }else if(fechaVencimientoDate < fechaActual){
-                     mostrarError(fechaVencimientoEditar,'La tarjeta se encuentra vencida.')
+                     mostrarError(fechaExpiracionEditar,'La tarjeta se encuentra vencida.')
                      isValid = false;
             }
             if(tipoTarjetaEditar.value  ===""){
